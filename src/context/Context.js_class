@@ -1,0 +1,26 @@
+import React from "react";
+
+export const Usercontext = React.createContext({});
+
+export const AuthContextConsumer = Usercontext.Consumer;
+
+// let { Provider, Consumer } = Usercontext;
+
+export class UserProvider extends React.Component {
+   
+    state = {
+        loggedIn: window.localStorage.getItem("loggedIn") || false,
+        authReady: false,
+        user: window.localStorage.getItem("nombre") || null,
+    }
+
+    render(){
+        const {
+            children,
+        } = this.props;
+
+        return <Usercontext.Provider value={{ ...this.state }}>{children}</Usercontext.Provider>;
+    }
+}
+
+// export { UserProvider, Consumer as UserConsumer, Usercontext };

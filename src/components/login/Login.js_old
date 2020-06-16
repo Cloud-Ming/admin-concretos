@@ -1,0 +1,131 @@
+import React, { useContext, Fragment, useState } from "react";
+import { Usercontext } from "../../context/Context";
+
+import { withRouter } from "react-router-dom";
+
+import { makeStyles, TextField, Button } from "@material-ui/core";
+
+function Login(props) {
+	const { user, login, logout } = useContext(Usercontext);
+
+	const { history } = props;
+
+	const [datos, setDatos] = useState({
+		email: "",
+		contrasena: "",
+	});
+
+	const useStyles = makeStyles((theme) => ({
+		root: {
+			"& > *": {
+				margin: theme.spacing(1),
+				width: "25ch",
+			},
+		},
+	}));
+
+	const classes = useStyles();
+
+	const handleChange = (event) => {
+		// console.log(event.target);
+		console.log(event.target.value);
+
+		setDatos({
+			...datos,
+			[event.target.name]: event.target.value,
+		});
+	};
+
+	const handleonSubmit = (event) => {
+		event.preventDefault();
+		event.target.reset();
+		// loginServer();
+		history.push('/admin')
+	};
+
+	//    const loginServer = async () =>{
+
+	// 	var formData = new FormData();
+	// 	formData.append('email', datos.email);
+	// 	formData.append('contrasena', datos.contrasena);
+
+	// 	const data = await  fetch("https://www.suenos40.org/backend/vista/Login.php", {
+	// 		method: 'POST',
+	// 		body: formData
+	// 	});
+
+	//  		const validate = await data.json();
+
+	//  		if (validate.length <= 1) {
+	//  			console.log(validate);
+	//  			history.push('/admin');
+	//  		} else {
+	//  			console.log(validate);
+	//  			console.log('No hay sesión');
+	//  			// history.push('/login');
+	//  		}
+	// }
+
+	function prew() {
+		login("Andrews filipes");
+	}
+
+	return (
+		<Fragment>
+			{user.loggedIn ? <h1>{user.name}</h1> : <h1>Inicia sesión</h1>}
+			{user.loggedIn ? (
+				<button onClick={logout}>Logout</button>
+			) : (
+				<button onClick={() => prew()}>Login</button>
+			)}
+
+			{/*<button onClick={()=> history.push('/admin') }>
+					History
+				</button>*/}
+
+			<form
+				onSubmit={handleonSubmit}
+				className={classes.root}
+				noValidate
+				autoComplete="off"
+			>
+				<TextField
+					id="nombre_input"
+					label="Email"
+					variant="outlined"
+					name="email"
+					onChange={handleChange}
+					required
+				/>
+
+				{/*<input type="text" name="nombre" placeholder="Nombre" onChange={handleChange} />*/}
+				<br />
+
+				<TextField
+					id="email_input"
+					label="Contraseña"
+					variant="outlined"
+					name="contrasena"
+					type="password"
+					onChange={handleChange}
+					required
+				/>
+
+				{/*<input type="email" name="email" placeholder="Email" onChange={handleChange} />*/}
+
+				<br />
+
+				<Button type="submit" variant="contained" color="primary">
+					Enviar
+				</Button>
+				{/*		<button>
+					Enviar
+					</button>*/}
+			</form>
+
+			<h3>{datos.email}</h3>
+			<h3>{datos.contrasena}</h3>
+		</Fragment>
+	);
+}
+export default withRouter(Login);
