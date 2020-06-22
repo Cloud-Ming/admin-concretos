@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { Usercontext } from "../../context/Context";
 
+import { Link, withRouter } from "react-router-dom";
 import { fade, makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
@@ -24,8 +25,6 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
-
-import { Usercontext } from "../../context/Context";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -125,9 +124,9 @@ function Nav({ history }) {
   };
 
   const logoutIng = () => {
+    handleMenuClose();
     logout();
     history.push("/");
-    handleMenuClose();
   };
 
   const handleMobileMenuOpen = (event) => {
@@ -208,12 +207,12 @@ function Nav({ history }) {
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <List>
-        {/*   <ListItem button component={Link} to="/">
+        <ListItem button component={Link} to="/clientes">
           <ListItemIcon>
             <InboxIcon />
           </ListItemIcon>
-          <ListItemText primary="Inicio" />
-        </ListItem>*/}
+          <ListItemText primary="Clientes" />
+        </ListItem>
 
         <ListItem button component={Link} to="/admin">
           <ListItemIcon>

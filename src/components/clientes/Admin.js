@@ -1,9 +1,8 @@
 import React, { Component, Fragment } from "react";
-// import TablaSorting from "./TablaSorting";
-// import Multiplechoice from "../formularios/Multiplechoice";
 import Loading from "../loading/Loading";
+import TablaClientes from "./TablaClientes";
 
-class Admin extends Component {
+class AdminClientes extends Component {
 	constructor(props) {
 		super(props);
 
@@ -12,7 +11,7 @@ class Admin extends Component {
 			data: null,
 			error: null,
 		};
-		
+
 		this.marcarComoImportante = this.marcarComoImportante.bind(this);
 	}
 
@@ -21,7 +20,7 @@ class Admin extends Component {
 
 		try {
 			const response = await fetch(
-				"https://jsonplaceholder.typicode.com/users/",
+				"https://botanicainternacionalamazonas.com/backend/vista/clientes/cargarClientes.php",
 				{
 					signal: this.abortController.signal,
 				}
@@ -46,7 +45,7 @@ class Admin extends Component {
 	}
 
 	render() {
-		const { error, loading } = this.state;
+		const { error, loading, data } = this.state;
 		// console.log(data);
 		if (!!error)
 			return (
@@ -65,19 +64,10 @@ class Admin extends Component {
 
 		return (
 			<Fragment>
-				{/*<Multiplechoice />*/}
-				<h1>
-					Admin
-				</h1>
-				
-			{/*	<TablaSorting
-					data={data}
-					marcarComoImportante={this.marcarComoImportante}
-				/>*/}
-
+				<TablaClientes data={data} />
 			</Fragment>
 		);
 	}
 }
 
-export default Admin;
+export default AdminClientes;

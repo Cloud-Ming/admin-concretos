@@ -1,9 +1,10 @@
 import React, { Component, Fragment } from "react";
-// import TablaSorting from "./TablaSorting";
-// import Multiplechoice from "../formularios/Multiplechoice";
-import Loading from "../loading/Loading";
+import { Link, withRouter } from "react-router-dom";
 
-class Admin extends Component {
+import Loading from "../../loading/Loading";
+import VerProyectosId from "./VerProyectosId";
+
+class AdminProyectosId extends Component {
 	constructor(props) {
 		super(props);
 
@@ -11,17 +12,25 @@ class Admin extends Component {
 			loading: true,
 			data: null,
 			error: null,
+			id_cliente: null,
 		};
-		
-		this.marcarComoImportante = this.marcarComoImportante.bind(this);
 	}
 
 	async componentDidMount() {
+		const { match } = this.props;
+		const id = match.params.id;
+
+		this.setState({
+			id_cliente: id,
+		});
+
+		console.log(id);
+
 		this.abortController = new AbortController();
 
 		try {
 			const response = await fetch(
-				"https://jsonplaceholder.typicode.com/users/",
+				`https://botanicainternacionalamazonas.com/backend/vista/clientes/cargarProyectosId.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}
@@ -41,13 +50,9 @@ class Admin extends Component {
 		this.abortController.abort();
 	}
 
-	marcarComoImportante(id) {
-		console.log(id);
-	}
-
 	render() {
-		const { error, loading } = this.state;
-		// console.log(data);
+		const { error, loading, data } = this.state;
+
 		if (!!error)
 			return (
 				<Fragment>
@@ -63,21 +68,23 @@ class Admin extends Component {
 				</Fragment>
 			);
 
+		// Si no hay proyectos ...
+		if (data === null)
+			return (
+				<Fragment>
+					<h1> No hay proyectos </h1>
+					<Link to={`/crear-proyecto/${this.state.id_cliente}`}>
+						Crear Poyecto
+					</Link>
+				</Fragment>
+			);
+
 		return (
 			<Fragment>
-				{/*<Multiplechoice />*/}
-				<h1>
-					Admin
-				</h1>
-				
-			{/*	<TablaSorting
-					data={data}
-					marcarComoImportante={this.marcarComoImportante}
-				/>*/}
-
+				<VerProyectosId data={data} />
 			</Fragment>
 		);
 	}
 }
 
-export default Admin;
+export default withRouter(AdminProyectosId);
