@@ -13,16 +13,14 @@ import {
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
-function CrearProyecto() {
-	
+function CrearInventario() {
 	const { id } = useParams();
 	console.log(id);
 
 	const [datos, setDatos] = useState({
 		id_cliente: id,
-		nombre: "",
-		descripcion: "",
 		fecha: "",
+		descripcion: "",
 	});
 
 	const [open, setOpen] = useState(false);
@@ -55,9 +53,8 @@ function CrearProyecto() {
 
 		if (
 			datos.id_cliente.length === 0 ||
-			datos.nombre.length === 0 ||
-			datos.descripcion.length === 0 ||
-			datos.fecha.length === 0
+			datos.fecha.length === 0 ||
+			datos.descripcion.length === 0
 		) {
 			setErrorLogin("Completa todo los campos");
 			handleClick();
@@ -69,12 +66,11 @@ function CrearProyecto() {
 
 		var formData = new FormData();
 		formData.append("id_cliente", datos.id_cliente);
-		formData.append("nombre", datos.nombre);
-		formData.append("descripcion", datos.descripcion);
 		formData.append("fecha", datos.fecha);
+		formData.append("descripcion", datos.descripcion);
 
 		fetch(
-			"https://botanicainternacionalamazonas.com/backend/vista/clientes/crearProyecto.php",
+			"https://botanicainternacionalamazonas.com/backend/vista/clientes/nuevoInventario.php",
 			{
 				method: "POST",
 				mode: "cors",
@@ -126,7 +122,7 @@ function CrearProyecto() {
 			>
 				{/*<Grid>*/}
 				<Typography variant="h4" component="h4">
-					Crear proyecto
+					Crear inventario
 				</Typography>
 
 				<form
@@ -137,12 +133,12 @@ function CrearProyecto() {
 				>
 					{/*<input type="hidden" name="id_cliente" value={id} />*/}
 
+					{/*label="Fecha"*/}
 					<TextField
-						id="nombre_input"
-						label="Nombre proyecto"
+						id="fecha_input"
 						variant="outlined"
-						name="nombre"
-						type="text"
+						name="fecha"
+						type="date"
 						onChange={handleChange}
 						required
 					/>
@@ -160,21 +156,9 @@ function CrearProyecto() {
 					/>
 
 					<br />
-					
-					{/*label="Fecha"*/}
-					<TextField
-						id="fecha_input"
-						variant="outlined"
-						name="fecha"
-						type="date"
-						onChange={handleChange}
-						required
-					/>
-
-					<br />
 
 					<Button type="submit" variant="contained" color="primary">
-						Crear proyecto
+						Crear inventario
 					</Button>
 				</form>
 
@@ -220,4 +204,4 @@ function CrearProyecto() {
 	);
 }
 
-export default CrearProyecto;
+export default CrearInventario;

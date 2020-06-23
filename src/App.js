@@ -9,10 +9,13 @@ import Login from "./components/login/Login";
 // import Admin from "./components/admin/Admin";
 
 // Clientes
+
 import AdminClientes from "./components/clientes/Admin";
 import RegistroClientes from "./components/clientes/Registro";
 import CrearProyecto from "./components/clientes/proyectos/CrearProyecto";
 import AdminProyectosId from "./components/clientes/proyectos/AdminProyectosId";
+import CrearInventario from "./components/clientes/inventarios/CrearInventario";
+
 // Clientes
 
 import Papelera from "./components/papelera/Papelera";
@@ -74,6 +77,22 @@ function App() {
 								meta={{ auth: true }}
 							>
 								<AdminProyectosId />
+							</GuardedRoute>
+
+
+							<GuardedRoute
+								path="/crear-inventario/:id"
+								meta={{ auth: true }}
+							>
+								<CrearInventario />
+							</GuardedRoute>
+
+
+							<GuardedRoute
+								path="/ver-inventarios/:id"
+								meta={{ auth: true }}
+							>
+								<h1>Ver inventario</h1>
 							</GuardedRoute>
 
 							{/*Clientes*/}

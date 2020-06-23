@@ -14,8 +14,12 @@ function VerProyecto(props) {
 					{proyecto.nombre_proyecto} &nbsp;
 					{proyecto.descripcion} &nbsp;
 					{proyecto.fecha} &nbsp;
-					<Link to={`/inventarios/${proyecto.id_cliente}`}>
-						Ver info
+					<Link to={`/crear-inventario/${proyecto.id_cliente}`}>
+						Crear inventario
+					</Link>
+					&nbsp;&nbsp;
+					<Link to={`/ver-inventarios/${proyecto.id_cliente}`}>
+						Ver inventarios
 					</Link>
 				</div>
 			))}
