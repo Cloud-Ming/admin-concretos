@@ -9,9 +9,6 @@ import {
 	Button,
 	Snackbar,
 	Divider,
-	FormControl,
-	InputLabel,
-	Select,
 } from "@material-ui/core";
 
 import IconButton from "@material-ui/core/IconButton";
@@ -201,8 +198,7 @@ function CrearInventario() {
 						</div>
 					))}
 
-					
- <FormControl variant="outlined" className={classes.formControl}>
+					{/* <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel htmlFor="outlined-age-native-simple">Servicio</InputLabel>
         <Select
           native
@@ -216,9 +212,9 @@ function CrearInventario() {
           <option value={`Bomba`}>Bomba</option>
           <option value={`Bomba estacionaria`}>Bomba estacionaria</option>
         </Select>
-      </FormControl>
+      </FormControl>*/}
 
-					{/*	<TextField
+					<TextField
 						id="descripcion_input"
 						label="Servicio"
 						variant="outlined"
@@ -226,7 +222,7 @@ function CrearInventario() {
 						name="service"
 						onChange={handleChangeServices}
 						required
-					/>*/}
+					/>
 					<br />
 					<TextField
 						id="descripcion_input"
@@ -257,12 +253,12 @@ function CrearInventario() {
 						Añadir
 					</Button>
 					<br />
-					{/*<button
+					<button
 						type="button"
 						onClick={() => console.log(servicesState)}
 					>
 						Contar estado servicios
-					</button>*/}
+					</button>
 
 					<Divider />
 

@@ -14,7 +14,6 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 function CrearProyecto() {
-	
 	const { id } = useParams();
 	console.log(id);
 
@@ -160,7 +159,7 @@ function CrearProyecto() {
 					/>
 
 					<br />
-					
+
 					{/*label="Fecha"*/}
 					<TextField
 						id="fecha_input"
