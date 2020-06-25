@@ -13,12 +13,21 @@ class AdminInventarios extends Component {
 			data: null,
 			error: null,
 			id_cliente: null,
+			nombre_proyecto: "",
 		};
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
 		const id = match.params.id;
+
+		const data = match.params.data;
+
+		// console.log(atob(data));
+
+		this.setState({
+			nombre_proyecto: atob(data)
+		})
 
 		this.setState({
 			id_cliente: id,
@@ -30,7 +39,7 @@ class AdminInventarios extends Component {
 
 		try {
 			const response = await fetch(
-				`https://botanicainternacionalamazonas.com/backend/vista/clientes/cargarInventariosId.php?id=${id}`,
+				`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventariosId.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}
@@ -51,7 +60,7 @@ class AdminInventarios extends Component {
 	}
 
 	render() {
-		const { error, loading, data } = this.state;
+		const { error, loading, data, nombre_proyecto } = this.state;
 
 		if (!!error)
 			return (
@@ -81,7 +90,7 @@ class AdminInventarios extends Component {
 
 		return (
 			<Fragment>
-				<VerInventariosId data={data} />
+				<VerInventariosId nombre_proyecto={nombre_proyecto} data={data} />
 			</Fragment>
 		);
 	}

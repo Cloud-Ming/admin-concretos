@@ -74,7 +74,7 @@ function CrearProyecto() {
 		formData.append("fecha", datos.fecha);
 
 		fetch(
-			"https://botanicainternacionalamazonas.com/backend/vista/clientes/crearProyecto.php",
+			"https://botanicainternacionalamazonas.com/backend/vista/clientes/proyectos/crearProyecto.php",
 			{
 				method: "POST",
 				mode: "cors",

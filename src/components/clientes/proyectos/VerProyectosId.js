@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 function VerProyecto(props) {
 	const proyectos = props.data;
-	console.log(proyectos);
-
+	// console.log(proyectos);
+	// console.log(btoa(proyectos[0].nombre_proyecto));
 	return (
 		<Fragment>
 			<h1>Proyectos: {proyectos[0].nombre_proyecto}</h1>
@@ -18,7 +18,7 @@ function VerProyecto(props) {
 						Crear inventario
 					</Link>
 					&nbsp;&nbsp;
-					<Link to={`/ver-inventarios/${proyecto.id}`}>
+					<Link to={`/ver-inventarios/${proyecto.id}/${btoa(proyectos[0].nombre_proyecto)}`}>
 						Ver inventarios
 					</Link>
 				</div>

@@ -16,7 +16,7 @@ import CrearProyecto from "./components/clientes/proyectos/CrearProyecto";
 import AdminProyectosId from "./components/clientes/proyectos/AdminProyectosId";
 import CrearInventario from "./components/clientes/inventarios/CrearInventario";
 import AdminInventariosId from "./components/clientes/inventarios/AdminInventariosId";
-
+import InventarioId from "./components/clientes/inventarios/inventario-id/InventarioId";
 // Clientes
 
 import Papelera from "./components/papelera/Papelera";
@@ -88,16 +88,20 @@ function App() {
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-inventarios/:id"
+								path="/ver-inventarios/:id/:data"
 								meta={{ auth: true }}
 							>
 								<AdminInventariosId />
 							</GuardedRoute>
 
-							{/*Clientes*/}
+							<GuardedRoute
+								path="/ver-inventario/"
+								meta={{ auth: true }}
+							>
+								<InventarioId />
+							</GuardedRoute>
 
 							<GuardedRoute path="/admin" meta={{ auth: true }}>
-								{/*<Admin />*/}
 								<h1>Admin</h1>
 							</GuardedRoute>
 

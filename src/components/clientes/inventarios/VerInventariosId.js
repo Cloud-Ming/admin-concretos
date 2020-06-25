@@ -7,16 +7,23 @@ import {
 	Button,
 	makeStyles,
 } from "@material-ui/core";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function VerProyecto(props) {
+	const nombre_proyecto = props.nombre_proyecto;
+	// console.log(nombre_proyecto);
+
 	const inventarios = props.data;
 	// console.log(inventarios);
 
 	const useStyles = makeStyles({
+		titlePrincipal: {
+			marginLeft: 15,
+		},
 		root: {
 			minWidth: 275,
 			marginBottom: 20,
+			backgroundColor: "#bee3e380",
 		},
 		bullet: {
 			display: "inline-block",
@@ -31,8 +38,8 @@ function VerProyecto(props) {
 		},
 		list: {
 			margin: 0,
-			padding: 10
-		}
+			padding: 10,
+		},
 	});
 
 	const classes = useStyles();
@@ -42,7 +49,7 @@ function VerProyecto(props) {
 
 		let result = [];
 
-		console.log(json);
+		// console.log(json);
 
 		for (var i = 0; i < json.length; i++) {
 			result.push(parseInt(json[i].price * json[i].count));
@@ -52,17 +59,20 @@ function VerProyecto(props) {
 		const reducer = (accumulator, currentValue) =>
 			accumulator + currentValue;
 		// console.log(result.reduce(reducer));
-		console.log(result);
+		// console.log(result);
 
 		return result.reduce(reducer);
 	};
 
 	return (
 		<Fragment>
-			<h1>Inventarios</h1>
+			<h1 className={classes.titlePrincipal}>
+				Inventarios: {nombre_proyecto}
+			</h1>
 			<div style={{ margin: "10px" }}>
 				{inventarios.map((inventario, key) => (
 					<Card key={key} className={classes.root}>
+						{console.log(inventario.id)}
 						<CardContent>
 							<Typography
 								className={classes.title}
@@ -79,14 +89,26 @@ function VerProyecto(props) {
 							<h2>Inventario: </h2>
 
 							{JSON.parse(inventario.inventario).map((data) => (
-								<ul key={key + data.service} className={classes.list}>
-									<li><b>Servicio:</b> {data.service}</li>
-									<li><b>Precio:</b> {data.price}</li>
-									<li><b>Cantidad:</b> {data.count}</li>
+								<ul
+									key={key + data.service}
+									className={classes.list}
+								>
+									<li>
+										<b>Servicio:</b> {data.service}
+									</li>
+									<li>
+										<b>Precio:</b> {data.price}
+									</li>
+									<li>
+										<b>Cantidad:</b> {data.count}
+									</li>
 								</ul>
 							))}
 
-							<h3>{reducerPrew(inventario.inventario, key)}</h3>
+							<h3>
+								Total: $
+								{reducerPrew(inventario.inventario, key)}
+							</h3>
 
 							{/*{JSON.parse(inventario.inventario).map((data) => {
 								return (
@@ -97,7 +119,11 @@ function VerProyecto(props) {
 							})}*/}
 
 							<CardActions>
-								<Button href="#" size="small">
+								<Button
+									component={Link}
+									to="/ver-inventario/"
+									size="small"
+								>
 									Ver inventario
 								</Button>
 							</CardActions>

@@ -9,6 +9,9 @@ import {
 	Button,
 	Snackbar,
 	Divider,
+	FormControl,
+	InputLabel,
+	Select,
 } from "@material-ui/core";
 
 import IconButton from "@material-ui/core/IconButton";
@@ -112,7 +115,7 @@ function CrearInventario() {
 		formData.append("descripcion", datos.descripcion);
 
 		fetch(
-			"https://botanicainternacionalamazonas.com/backend/vista/clientes/nuevoInventario.php",
+			"https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/nuevoInventario.php",
 			{
 				method: "POST",
 				mode: "cors",
@@ -198,7 +201,24 @@ function CrearInventario() {
 						</div>
 					))}
 
-					<TextField
+					
+ <FormControl variant="outlined" className={classes.formControl}>
+        <InputLabel htmlFor="outlined-age-native-simple">Servicio</InputLabel>
+        <Select
+          native
+          value={datosForm.service}
+          onChange={handleChange}
+          label="Servicio"
+          name="service"
+        >
+          <option aria-label="None" value="" />
+          <option value={`Concreto`}>Concreto</option>
+          <option value={`Bomba`}>Bomba</option>
+          <option value={`Bomba estacionaria`}>Bomba estacionaria</option>
+        </Select>
+      </FormControl>
+
+					{/*	<TextField
 						id="descripcion_input"
 						label="Servicio"
 						variant="outlined"
@@ -206,7 +226,7 @@ function CrearInventario() {
 						name="service"
 						onChange={handleChangeServices}
 						required
-					/>
+					/>*/}
 					<br />
 					<TextField
 						id="descripcion_input"
@@ -237,12 +257,12 @@ function CrearInventario() {
 						Añadir
 					</Button>
 					<br />
-					<button
+					{/*<button
 						type="button"
 						onClick={() => console.log(servicesState)}
 					>
 						Contar estado servicios
-					</button>
+					</button>*/}
 
 					<Divider />
 

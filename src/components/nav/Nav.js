@@ -98,7 +98,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Nav({ history }) {
   const { user, logout } = useContext(Usercontext);
-
+  // console.log('Nav se renderizo!!');
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);

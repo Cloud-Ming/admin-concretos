@@ -2,9 +2,9 @@ import React, { Component, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 import Loading from "../../loading/Loading";
-import VerProyectosId from "./VerProyectosId";
+import VerInventariosId from "./VerInventariosId";
 
-class AdminProyectosId extends Component {
+class AdminInventarios extends Component {
 	constructor(props) {
 		super(props);
 
@@ -13,12 +13,21 @@ class AdminProyectosId extends Component {
 			data: null,
 			error: null,
 			id_cliente: null,
+			nombre_proyecto: "",
 		};
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
 		const id = match.params.id;
+
+		const data = match.params.data;
+
+		// console.log(atob(data));
+
+		this.setState({
+			nombre_proyecto: atob(data)
+		})
 
 		this.setState({
 			id_cliente: id,
@@ -30,7 +39,7 @@ class AdminProyectosId extends Component {
 
 		try {
 			const response = await fetch(
-				`https://botanicainternacionalamazonas.com/backend/vista/clientes/proyectos/cargarProyectosId.php?id=${id}`,
+				`https://botanicainternacionalamazonas.com/backend/vista/clientes/cargarInventariosId.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}
@@ -51,7 +60,7 @@ class AdminProyectosId extends Component {
 	}
 
 	render() {
-		const { error, loading, data } = this.state;
+		const { error, loading, data, nombre_proyecto } = this.state;
 
 		if (!!error)
 			return (
@@ -72,19 +81,19 @@ class AdminProyectosId extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay proyectos </h1>
-					<Link to={`/crear-proyecto/${this.state.id_cliente}`}>
-						Crear Poyecto
+					<h1> No hay inventarios </h1>
+					<Link to={`/crear-inventario/${this.state.id_cliente}`}>
+						Crear inventario
 					</Link>
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-				<VerProyectosId data={data} />
+				<VerInventariosId nombre_proyecto={nombre_proyecto} data={data} />
 			</Fragment>
 		);
 	}
 }
 
-export default withRouter(AdminProyectosId);
+export default withRouter(AdminInventarios);
