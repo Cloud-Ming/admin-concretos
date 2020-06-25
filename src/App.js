@@ -15,6 +15,7 @@ import RegistroClientes from "./components/clientes/Registro";
 import CrearProyecto from "./components/clientes/proyectos/CrearProyecto";
 import AdminProyectosId from "./components/clientes/proyectos/AdminProyectosId";
 import CrearInventario from "./components/clientes/inventarios/CrearInventario";
+import AdminInventariosId from "./components/clientes/inventarios/AdminInventariosId";
 
 // Clientes
 
@@ -73,12 +74,11 @@ function App() {
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-proyecto/:id"
+								path="/ver-proyectos/:id"
 								meta={{ auth: true }}
 							>
 								<AdminProyectosId />
 							</GuardedRoute>
-
 
 							<GuardedRoute
 								path="/crear-inventario/:id"
@@ -87,12 +87,11 @@ function App() {
 								<CrearInventario />
 							</GuardedRoute>
 
-
 							<GuardedRoute
 								path="/ver-inventarios/:id"
 								meta={{ auth: true }}
 							>
-								<h1>Ver inventario</h1>
+								<AdminInventariosId />
 							</GuardedRoute>
 
 							{/*Clientes*/}

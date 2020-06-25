@@ -20,7 +20,7 @@ function TablaClientes(props) {
 						Crear proyecto
 					</Link>
 					&nbsp;&nbsp;
-					<Link to={`ver-proyecto/${cliente.id}`}>Ver proyectos</Link>
+					<Link to={`ver-proyectos/${cliente.id}`}>Ver proyectos</Link>
 					&nbsp; - &nbsp;
 					{cliente.nombre} &nbsp; - &nbsp;
 					{cliente.email} &nbsp; - &nbsp;

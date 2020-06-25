@@ -8,6 +8,7 @@ import {
 	TextField,
 	Button,
 	Snackbar,
+	Divider,
 } from "@material-ui/core";
 
 import IconButton from "@material-ui/core/IconButton";
@@ -18,10 +19,49 @@ function CrearInventario() {
 	console.log(id);
 
 	const [datos, setDatos] = useState({
-		id_cliente: id,
+		id_proyecto: id,
 		fecha: "",
 		descripcion: "",
 	});
+
+	const [servicesState, setServicesState] = useState([]);
+
+	const [datosForm, setDatosForm] = useState({
+		id: 1,
+		client: "",
+		service: "",
+		price: 0,
+		count: 0,
+	});
+
+	// CREACION SERVICIOS
+
+	const handleChangeServices = (event) => {
+		console.log(event.target.name, datosForm);
+		setDatosForm({
+			...datosForm,
+			[event.target.name]: event.target.value,
+		});
+	};
+
+	const addService = () => {
+		setServicesState((newList) => [
+			...newList,
+			{
+				id: datosForm.id++,
+				service: datosForm.service,
+				price: datosForm.price,
+				count: datosForm.count,
+			},
+		]);
+	};
+
+	const removeService = (id) => {
+		console.log(id);
+		const newList = servicesState.filter((item) => item.id !== id);
+		setServicesState(newList);
+	};
+	// CREACION SERVICIOS
 
 	const [open, setOpen] = useState(false);
 	const [errorLogin, setErrorLogin] = useState("A ocurrido un error");
@@ -48,12 +88,13 @@ function CrearInventario() {
 
 	const handleonSubmit = async (event) => {
 		event.preventDefault();
-		// event.target.reset();
+		//event.target.reset();
 		console.log(datos);
 
 		if (
-			datos.id_cliente.length === 0 ||
+			datos.id_proyecto.length === 0 ||
 			datos.fecha.length === 0 ||
+			servicesState.length === 0 ||
 			datos.descripcion.length === 0
 		) {
 			setErrorLogin("Completa todo los campos");
@@ -65,8 +106,9 @@ function CrearInventario() {
 		const abortController = new AbortController();
 
 		var formData = new FormData();
-		formData.append("id_cliente", datos.id_cliente);
+		formData.append("id_proyecto", datos.id_proyecto);
 		formData.append("fecha", datos.fecha);
+		formData.append("inventario", JSON.stringify(servicesState));
 		formData.append("descripcion", datos.descripcion);
 
 		fetch(
@@ -131,7 +173,7 @@ function CrearInventario() {
 					noValidate
 					autoComplete="off"
 				>
-					{/*<input type="hidden" name="id_cliente" value={id} />*/}
+					{/*<input type="hidden" name="id_proyecto" value={id} />*/}
 
 					{/*label="Fecha"*/}
 					<TextField
@@ -143,7 +185,66 @@ function CrearInventario() {
 						required
 					/>
 
+					<Divider />
+
+					{servicesState.map((el) => (
+						<div key={el.id} className="itemSevice">
+							{el.service} &nbsp; - &nbsp;
+							{el.price} &nbsp; - &nbsp;
+							{el.count} &nbsp; - &nbsp;
+							<button onClick={() => removeService(el.id)}>
+								x
+							</button>
+						</div>
+					))}
+
+					<TextField
+						id="descripcion_input"
+						label="Servicio"
+						variant="outlined"
+						type="text"
+						name="service"
+						onChange={handleChangeServices}
+						required
+					/>
 					<br />
+					<TextField
+						id="descripcion_input"
+						label="Precio"
+						variant="outlined"
+						type="text"
+						name="price"
+						onChange={handleChangeServices}
+						required
+					/>
+					<br />
+					<TextField
+						id="descripcion_input"
+						label="Cantidad"
+						variant="outlined"
+						type="text"
+						name="count"
+						onChange={handleChangeServices}
+						required
+					/>
+					<br />
+					<Button
+						type="button"
+						onClick={() => addService()}
+						variant="contained"
+						color="primary"
+					>
+						Añadir
+					</Button>
+					<br />
+					<button
+						type="button"
+						onClick={() => console.log(servicesState)}
+					>
+						Contar estado servicios
+					</button>
+
+					<Divider />
 
 					<TextField
 						id="descripcion_input"
