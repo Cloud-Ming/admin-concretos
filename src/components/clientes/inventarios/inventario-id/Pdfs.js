@@ -7,7 +7,7 @@ import {
 	makeStyles,
 } from "@material-ui/core";
 
-function GastosForm() {
+function Pdfs() {
 	const useStyles = makeStyles({
 		titlePrincipal: {
 			marginLeft: 15,
@@ -44,15 +44,29 @@ function GastosForm() {
 						color="textSecondary"
 						gutterBottom
 					>
-						Gastos adicionales
+						Subir preforma, cotizaciones y facturas
 					</Typography>
-					<Button variant="contained" color="primary">
-						Agregar
-					</Button>
+					<div>
+						<Button variant="contained" color="primary">
+							Crear preforma
+						</Button>
+					</div>
+					<br />
+					<div>
+						<Button variant="contained" color="primary">
+							Crear preformas
+						</Button>
+					</div>
+					<br />
+					<div>
+						<Button variant="contained" color="primary">
+							Subir facturas
+						</Button>
+					</div>
 				</CardContent>
 			</Card>
 		</Fragment>
 	);
 }
 
-export default GastosForm;
+export default Pdfs;

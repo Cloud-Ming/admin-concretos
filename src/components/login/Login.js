@@ -228,7 +228,7 @@ function Login() {
 	return (
 		<Fragment>
 			{user.loggedIn ? (
-				<Redirect to="/admin" />
+				<Redirect to="/clientes" />
 			) : (
 				<Fragment>{button}</Fragment>
 			)}

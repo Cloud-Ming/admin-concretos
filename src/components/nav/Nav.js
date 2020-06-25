@@ -24,7 +24,12 @@ import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
+
+// import InboxIcon from "@material-ui/icons/MoveToInbox";
+import Delete from "@material-ui/icons/Delete";
+import Business from "@material-ui/icons/Business";
+import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -209,14 +214,21 @@ function Nav({ history }) {
       <List>
         <ListItem button component={Link} to="/clientes">
           <ListItemIcon>
-            <InboxIcon />
+            <BusinessCenterIcon />
           </ListItemIcon>
           <ListItemText primary="Clientes" />
+        </ListItem>
+        <Divider />
+        <ListItem button component={Link} to="/comisionistas">
+          <ListItemIcon>
+            <SupervisorAccountIcon />
+          </ListItemIcon>
+          <ListItemText primary="Comisionistas" />
         </ListItem>
 
         <ListItem button component={Link} to="/admin">
           <ListItemIcon>
-            <InboxIcon />
+            <Business />
           </ListItemIcon>
           <ListItemText primary="Administrador" />
         </ListItem>
@@ -227,7 +239,7 @@ function Nav({ history }) {
       <List>
         <ListItem button component={Link} to="/papelera">
           <ListItemIcon>
-            <InboxIcon />
+            <Delete />
           </ListItemIcon>
           <ListItemText primary="Papelera" />
         </ListItem>

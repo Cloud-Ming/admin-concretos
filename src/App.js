@@ -3,30 +3,35 @@ import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { UserProvider } from "./context/Context";
 import { GuardProvider, GuardedRoute } from "react-router-guards";
 import getIsLoggedIn from "./components/utils/getIsLoggedIn";
+
 import Nav from "./components/nav/Nav";
 import Login from "./components/login/Login";
 
-// import Admin from "./components/admin/Admin";
-
-// Cliente
+// Clientes
 import AdminClientes from "./components/clientes/Admin";
 import RegistroClientes from "./components/clientes/Registro";
+// Clientes
+
+// Proyectos
 import CrearProyecto from "./components/clientes/proyectos/CrearProyecto";
 import AdminProyectosId from "./components/clientes/proyectos/AdminProyectosId";
+// Proyectos
+
+// Inventarios
 import CrearInventario from "./components/clientes/inventarios/CrearInventario";
 import AdminInventariosId from "./components/clientes/inventarios/AdminInventariosId";
 import AdminInventarioId from "./components/clientes/inventarios/inventario-id/AdminInventarioId";
-// Clientes
+// Inventarios
 
 import Papelera from "./components/papelera/Papelera";
 import NotFound from "./components/notFound/NotFound";
 import Loading from "./components/loading/Loading";
-// import Pdfs from "./components/pdfs/Pdf";
+
 
 const requireLogin = (to, from, next) => {
 	if (to.meta.auth) {
 		if (getIsLoggedIn()) {
-			next().redirect("/admin");
+			next().redirect("/clientes");
 		}
 		next.redirect("/");
 	} else {
@@ -64,7 +69,9 @@ function App() {
 							>
 								<RegistroClientes />
 							</GuardedRoute>
+							{/*Clientes*/}
 
+							{/*Proyectos*/}
 							<GuardedRoute
 								path="/crear-proyecto/:id"
 								meta={{ auth: true }}
@@ -78,7 +85,9 @@ function App() {
 							>
 								<AdminProyectosId />
 							</GuardedRoute>
+							{/*Proyectos*/}
 
+							{/*Inventarios*/}
 							<GuardedRoute
 								path="/crear-inventario/:id"
 								meta={{ auth: true }}
@@ -99,6 +108,23 @@ function App() {
 							>
 								<AdminInventarioId />
 							</GuardedRoute>
+							{/*Inventarios*/}
+
+							{/*Comisionistas*/}
+							<GuardedRoute
+								path="/comisionistas"
+								meta={{ auth: true }}
+							>
+								<h1>Comisionistas</h1>
+							</GuardedRoute>
+
+							<GuardedRoute
+								path="/crear-comisionista"
+								meta={{ auth: true }}
+							>
+								<h1>Crear comisionista</h1>
+							</GuardedRoute>
+							{/*Comisionistas*/}
 
 							<GuardedRoute path="/admin" meta={{ auth: true }}>
 								<h1>Admin</h1>
