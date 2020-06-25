@@ -1,18 +1,30 @@
 import React, { Fragment } from "react";
+import GastosForm from "./GastosForm";
+import Preformas from "./Preformas";
 
-function InventarioId() {
+function InventarioId(props) {
+	// const [data, setData] = useState(props);
+	const data = props.data;
+
+	// console.log("Props:", data);
+
 	return (
 		<Fragment>
-			<div className="descripcionInventarios">
-				<h1>Inventario</h1>
+			<div>
+				{data.map((item, key) => (
+					<div key={key}>
+						<p>{item.fecha}</p>
+						<p>{item.inventario}</p>
+					</div>
+				))}
 			</div>
 
 			<div>
-				<h1>Formulario gastos</h1>
+				<GastosForm />
 			</div>
 
 			<div>
-				<h1>Creador C.P.F</h1>
+				<Preformas />
 			</div>
 		</Fragment>
 	);

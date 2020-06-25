@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 
-import Loading from "../../loading/Loading";
-import VerInventariosId from "./VerInventariosId";
+import Loading from "../../../loading/Loading";
+import InventarioId from "./InventarioId";
 
 class AdminInventarios extends Component {
 	constructor(props) {
@@ -13,21 +13,21 @@ class AdminInventarios extends Component {
 			data: null,
 			error: null,
 			id_cliente: null,
-			nombre_proyecto: "",
 		};
+		// nombre_proyecto: "",
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
 		const id = match.params.id;
 
-		const data = match.params.data;
+		// const data = match.params.data;
 
 		// console.log(atob(data));
 
-		this.setState({
-			nombre_proyecto: atob(data)
-		})
+		// this.setState({
+		// 	nombre_proyecto: atob(data)
+		// })
 
 		this.setState({
 			id_cliente: id,
@@ -39,7 +39,7 @@ class AdminInventarios extends Component {
 
 		try {
 			const response = await fetch(
-				`https://botanicainternacionalamazonas.com/backend/vista/clientes/cargarInventariosId.php?id=${id}`,
+				`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventarioId.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}
@@ -60,7 +60,7 @@ class AdminInventarios extends Component {
 	}
 
 	render() {
-		const { error, loading, data, nombre_proyecto } = this.state;
+		const { error, loading, data } = this.state;
 
 		if (!!error)
 			return (
@@ -81,7 +81,7 @@ class AdminInventarios extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay inventarios </h1>
+					<h1> No existe inventario </h1>
 					<Link to={`/crear-inventario/${this.state.id_cliente}`}>
 						Crear inventario
 					</Link>
@@ -90,7 +90,7 @@ class AdminInventarios extends Component {
 
 		return (
 			<Fragment>
-				<VerInventariosId nombre_proyecto={nombre_proyecto} data={data} />
+				<InventarioId data={data} />
 			</Fragment>
 		);
 	}

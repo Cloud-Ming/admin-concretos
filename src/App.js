@@ -8,15 +8,14 @@ import Login from "./components/login/Login";
 
 // import Admin from "./components/admin/Admin";
 
-// Clientes
-
+// Cliente
 import AdminClientes from "./components/clientes/Admin";
 import RegistroClientes from "./components/clientes/Registro";
 import CrearProyecto from "./components/clientes/proyectos/CrearProyecto";
 import AdminProyectosId from "./components/clientes/proyectos/AdminProyectosId";
 import CrearInventario from "./components/clientes/inventarios/CrearInventario";
 import AdminInventariosId from "./components/clientes/inventarios/AdminInventariosId";
-import InventarioId from "./components/clientes/inventarios/inventario-id/InventarioId";
+import AdminInventarioId from "./components/clientes/inventarios/inventario-id/AdminInventarioId";
 // Clientes
 
 import Papelera from "./components/papelera/Papelera";
@@ -95,10 +94,10 @@ function App() {
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-inventario/"
+								path="/ver-inventario/:id"
 								meta={{ auth: true }}
 							>
-								<InventarioId />
+								<AdminInventarioId />
 							</GuardedRoute>
 
 							<GuardedRoute path="/admin" meta={{ auth: true }}>

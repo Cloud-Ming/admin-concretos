@@ -72,7 +72,6 @@ function VerProyecto(props) {
 			<div style={{ margin: "10px" }}>
 				{inventarios.map((inventario, key) => (
 					<Card key={key} className={classes.root}>
-						{console.log(inventario.id)}
 						<CardContent>
 							<Typography
 								className={classes.title}
@@ -121,7 +120,7 @@ function VerProyecto(props) {
 							<CardActions>
 								<Button
 									component={Link}
-									to="/ver-inventario/"
+									to={`/ver-inventario/${inventario.id}`}
 									size="small"
 								>
 									Ver inventario
