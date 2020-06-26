@@ -23,10 +23,14 @@ import AdminInventariosId from "./components/clientes/inventarios/AdminInventari
 import AdminInventarioId from "./components/clientes/inventarios/inventario-id/AdminInventarioId";
 // Inventarios
 
+// Comisionistas
+import AdminComisionistas from "./components/comisionistas/Admin";
+import CrearComisionista from "./components/comisionistas/Registro";
+// Comisionistas
+
 import Papelera from "./components/papelera/Papelera";
 import NotFound from "./components/notFound/NotFound";
 import Loading from "./components/loading/Loading";
-
 
 const requireLogin = (to, from, next) => {
 	if (to.meta.auth) {
@@ -115,14 +119,21 @@ function App() {
 								path="/comisionistas"
 								meta={{ auth: true }}
 							>
-								<h1>Comisionistas</h1>
+								<AdminComisionistas />
 							</GuardedRoute>
 
 							<GuardedRoute
 								path="/crear-comisionista"
 								meta={{ auth: true }}
 							>
-								<h1>Crear comisionista</h1>
+								<CrearComisionista />
+							</GuardedRoute>
+
+							<GuardedRoute
+								path="/ver-comisionista/:id"
+								meta={{ auth: true }}
+							>
+								<h1>ver comisionista id</h1>
 							</GuardedRoute>
 							{/*Comisionistas*/}
 
@@ -137,9 +148,11 @@ function App() {
 								<Papelera />
 							</GuardedRoute>
 
+							{/*No funciona*/}
 							<GuardedRoute path="*">
 								<NotFound />
 							</GuardedRoute>
+							{/*No funciona*/}
 						</Switch>
 					</UserProvider>
 				</GuardProvider>
