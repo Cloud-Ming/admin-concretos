@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
-
 import Loading from "../loading/Loading";
-import TablaComisionistas from "./TablaComisionistas";
+// import TablaClientes from "./TablaClientes";
 
-class AdminClientes extends Component {
+class AdminProveedores extends Component {
 	constructor(props) {
 		super(props);
 
@@ -22,7 +20,7 @@ class AdminClientes extends Component {
 
 		try {
 			const response = await fetch(
-				"https://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php",
+				"https://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php?id=1",
 				{
 					signal: this.abortController.signal,
 				}
@@ -47,7 +45,7 @@ class AdminClientes extends Component {
 	}
 
 	render() {
-		const { error, loading, data } = this.state;
+		const { error, loading } = this.state;
 		// console.log(data);
 		if (!!error)
 			return (
@@ -63,22 +61,14 @@ class AdminClientes extends Component {
 					<Loading />
 				</Fragment>
 			);
-
-		if (data === null)
-			return (
-				<Fragment>
-					<h1> No hay comisionistas </h1>
-					<Link to={`/crear-comisionista/`}>Crear comisionista</Link>
-				</Fragment>
-			);
-
+		
 		return (
 			<Fragment>
-				{/*<Link to={`/crear-comisionista/`}>Crear comisionista</Link>*/}
-				<TablaComisionistas data={data} />
+				<h1>Admin Proveedores</h1>
+				{/*<TablaClientes data={data} />*/}
 			</Fragment>
 		);
 	}
 }
 
-export default AdminClientes;
+export default AdminProveedores;

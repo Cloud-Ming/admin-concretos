@@ -1,14 +1,27 @@
 import React, { Fragment } from "react";
 import { Card, CardContent, Typography, makeStyles } from "@material-ui/core";
 
-import GastosForm from "./GastosForm";
-import Pdfs from "./Pdfs";
+import Titulo from "../../../titulo/Titulo";
+
+// Formulario de añadir gastos
+// import GastosForm from "./gastos/gastos/GastosForm";
+
+// Formulario añadir comisionistas
+import FormComisionistas from "./gastos/comisionistas/Admin";
+
+// import AdminCotizaciones from "./pdf/cotizaciones/Admin";
+
+import Preformas from "./pdf/preformas/Preformas";
+import Facturas from "./pdf/facturas/Facturas";
 
 function InventarioId(props) {
 	// const [data, setData] = useState(props);
-	const data = props.data;
+	const { nombre_proyecto, data } = props;
 
-	console.log("Props:", data);
+	// Inhability
+	// id_cliente
+
+	// console.log("Props:", data);
 
 	const useStyles = makeStyles({
 		titlePrincipal: {
@@ -37,13 +50,10 @@ function InventarioId(props) {
 
 	const classes = useStyles();
 
-	const reducerPrew = (data, key) => {
+	const operacionTotal = (data, key) => {
 		let json = JSON.parse(data);
-
 		let result = [];
-
 		// console.log(json);
-
 		for (var i = 0; i < json.length; i++) {
 			result.push(parseInt(json[i].price * json[i].count));
 			// console.log(key, json[i]);
@@ -51,16 +61,21 @@ function InventarioId(props) {
 
 		const reducer = (accumulator, currentValue) =>
 			accumulator + currentValue;
-		// console.log(result.reduce(reducer));
-		// console.log(result);
-
 		return result.reduce(reducer);
 	};
 
 	return (
 		<Fragment>
-			<div style={{ margin: 10 }}>
+			<div
+				style={{
+					marginTop: 20,
+					marginLeft: 10,
+					marginRight: 10,
+				}}
+			>
 				<div>
+					<Titulo text={nombre_proyecto} />
+					<br />
 					{data.map((item, key) => (
 						<Card key={key} className={classes.root}>
 							<CardContent>
@@ -100,11 +115,10 @@ function InventarioId(props) {
 										</li>
 									</ul>
 								))}
-								<p>
-									<b>Gastos adicionales:</b> {item.gastos}
-								</p>
+
 								<h3>
-									Total: {reducerPrew(item.inventario, key)}
+									Total:{" "}
+									{operacionTotal(item.inventario, key)}
 								</h3>
 								{/*<p>{item.inventario}</p>*/}
 							</CardContent>
@@ -112,12 +126,22 @@ function InventarioId(props) {
 					))}
 				</div>
 
-				<div>
-					<GastosForm />
-				</div>
+				{/*<div>
+					<GastosForm id_cliente={id_cliente} gastos={data} />
+				</div>*/}
 
 				<div>
-					<Pdfs />
+					<FormComisionistas />
+				</div>
+
+				{/*<div>
+					<AdminCotizaciones />
+				</div>*/}
+				<div>
+					<Preformas />
+				</div>
+				<div>
+					<Facturas />
 				</div>
 			</div>
 		</Fragment>

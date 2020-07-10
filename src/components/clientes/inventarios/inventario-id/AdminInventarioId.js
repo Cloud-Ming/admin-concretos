@@ -13,6 +13,7 @@ class AdminInventarios extends Component {
 			data: null,
 			error: null,
 			id_cliente: null,
+			nombre_proyecto: "",
 		};
 		// nombre_proyecto: "",
 	}
@@ -21,46 +22,49 @@ class AdminInventarios extends Component {
 		const { match } = this.props;
 		const id = match.params.id;
 
+		const data = match.params.data;
 		// const data = match.params.data;
 
 		// console.log(atob(data));
 
-		// this.setState({
-		// 	nombre_proyecto: atob(data)
-		// })
+		this.setState({
+			nombre_proyecto: atob(data)
+		})
 
 		this.setState({
 			id_cliente: id,
 		});
 
-		console.log(id);
+		this.setState({ loading: false, data: [{"id":"1","id_proyecto":"1","fecha":"2020-06-23","inventario":"[{\"id\":2,\"service\":\"Concreto 2\",\"price\":\"32000\",\"count\":\"1\"},{\"id\":3,\"service\":\"Maquinaria\",\"price\":\"32000\",\"count\":\"3\"},{\"id\":4,\"service\":\"Bomba\",\"price\":\"3000\",\"count\":\"6\"}]","gastos":"[]","descripcion":"Proyecto casas","exito":"true"}]});
 
-		this.abortController = new AbortController();
+		// console.log(id);
 
-		try {
-			const response = await fetch(
-				`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventarioId.php?id=${id}`,
-				{
-					signal: this.abortController.signal,
-				}
-			);
+		// this.abortController = new AbortController();
 
-			if (response.status >= 300) throw new Error(response.statusText);
+		// try {
+		// 	const response = await fetch(
+		// 		`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventarioId.php?id=${id}`,
+		// 		{
+		// 			signal: this.abortController.signal,
+		// 		}
+		// 	);
 
-			const data = await response.json();
+		// 	if (response.status >= 300) throw new Error(response.statusText);
 
-			this.setState({ loading: false, data });
-		} catch (e) {
-			if (e.name !== "AbortError") this.setState({ error: e.message });
-		}
+		// 	const data = await response.json();
+
+		// 	this.setState({ loading: false, data });
+		// } catch (e) {
+		// 	if (e.name !== "AbortError") this.setState({ error: e.message });
+		// }
 	}
 
-	componentWillUnmount() {
-		this.abortController.abort();
-	}
+	// componentWillUnmount() {
+	// 	this.abortController.abort();
+	// }
 
 	render() {
-		const { error, loading, data } = this.state;
+		const { error, loading, nombre_proyecto, id_cliente, data } = this.state;
 
 		if (!!error)
 			return (
@@ -90,7 +94,7 @@ class AdminInventarios extends Component {
 
 		return (
 			<Fragment>
-				<InventarioId data={data} />
+				<InventarioId nombre_proyecto={nombre_proyecto} id_cliente={id_cliente} data={data} />
 			</Fragment>
 		);
 	}

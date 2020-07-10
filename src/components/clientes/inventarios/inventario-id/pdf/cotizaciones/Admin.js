@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
-import { withRouter } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
-import Loading from "../../loading/Loading";
-import ComisionistaId from "./ComisionistaId";
+import Loading from "../../../../../loading/Loading";
+import Cotizacion from "./Cotizacion";
 
-class AdminComisionistas extends Component {
+class AdminCotizaciones extends Component {
 	constructor(props) {
 		super(props);
 
@@ -13,24 +13,35 @@ class AdminComisionistas extends Component {
 			data: null,
 			error: null,
 			id_cliente: null,
+			nombre_proyecto: "",
 		};
+		// nombre_proyecto: "",
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
 		const id = match.params.id;
 
+		const data = match.params.data;
+		// const data = match.params.data;
+
+		// console.log(atob(data));
+
+		this.setState({
+			nombre_proyecto: atob(data)
+		})
+
 		this.setState({
 			id_cliente: id,
 		});
 
-		console.log("ID:", id);
+		console.log(id);
 
 		this.abortController = new AbortController();
 
 		try {
 			const response = await fetch(
-				`https://botanicainternacionalamazonas.com/backend/vista/comisionistas/comisionistaId.php?id=${id}`,
+				`http://botanicainternacionalamazonas.com/backend/vista/pdf/cargarPreformaId.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}
@@ -51,7 +62,7 @@ class AdminComisionistas extends Component {
 	}
 
 	render() {
-		const { error, loading, id_cliente, data } = this.state;
+		const { error, loading, data, id_cliente, nombre_proyecto } = this.state;
 
 		if (!!error)
 			return (
@@ -72,19 +83,19 @@ class AdminComisionistas extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay datos sobre este comisionista </h1>
-					{/*<Link to={`/crear-inventario/${this.state.id_cliente}`}>
+					<h1> No existe inventario </h1>
+					<Link to={`/crear-inventario/${this.state.id_cliente}`}>
 						Crear inventario
-					</Link>*/}
+					</Link>
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-				<ComisionistaId id_cliente={id_cliente} data={data} />
+				<Cotizacion nombre_proyecto={nombre_proyecto} id_inventario={id_cliente} data={data} />
 			</Fragment>
 		);
 	}
 }
 
-export default withRouter(AdminComisionistas);
+export default withRouter(AdminCotizaciones);

@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
-import Loading from "../loading/Loading";
-import TablaComisionistas from "./TablaComisionistas";
+import Loading from "../../../../../loading/Loading";
+import Comisiones from "./Comisiones";
 
-class AdminClientes extends Component {
+class AdminCotizaciones extends Component {
 	constructor(props) {
 		super(props);
 
@@ -14,7 +14,11 @@ class AdminClientes extends Component {
 			error: null,
 		};
 
-		this.marcarComoImportante = this.marcarComoImportante.bind(this);
+		//#Deletes
+		// id_cliente: null,
+		// nombre_proyecto: "",
+
+		this.ingresarData = this.ingresarData.bind(this);
 	}
 
 	async componentDidMount() {
@@ -22,7 +26,7 @@ class AdminClientes extends Component {
 
 		try {
 			const response = await fetch(
-				"https://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php",
+				`https://botanicainternacionalamazonas.com/backend/vista/comisionistas/comisionistaId.php?id=1`,
 				{
 					signal: this.abortController.signal,
 				}
@@ -42,13 +46,17 @@ class AdminClientes extends Component {
 		this.abortController.abort();
 	}
 
-	marcarComoImportante(id) {
-		console.log(id);
+	ingresarData(item) {
+		// this.setState((state) => ({
+		// 	data: [...state.data, item],
+		// }));
+		// console.log('DATA:', this.state.data);
+		// console.log("Estado ajeno", item);
 	}
 
 	render() {
 		const { error, loading, data } = this.state;
-		// console.log(data);
+
 		if (!!error)
 			return (
 				<Fragment>
@@ -64,21 +72,24 @@ class AdminClientes extends Component {
 				</Fragment>
 			);
 
+		// Si no hay proyectos ...
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay comisionistas </h1>
-					<Link to={`/crear-comisionista/`}>Crear comisionista</Link>
+					<h1> No hay datos </h1>
+					{/*<Link to={`/crear-inventario/${this.state.id_cliente}`}>
+						Crear inventario
+					</Link>*/}
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-				{/*<Link to={`/crear-comisionista/`}>Crear comisionista</Link>*/}
-				<TablaComisionistas data={data} />
+				<Comisiones data={data} />
+				{/*<button onClick={()=>}>Otro component</button>*/}
 			</Fragment>
 		);
 	}
 }
 
-export default AdminClientes;
+export default withRouter(AdminCotizaciones);

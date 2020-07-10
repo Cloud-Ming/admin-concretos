@@ -61,7 +61,7 @@ class AdminClientes extends Component {
 					<Loading />
 				</Fragment>
 			);
-
+		
 		return (
 			<Fragment>
 				<TablaClientes data={data} />

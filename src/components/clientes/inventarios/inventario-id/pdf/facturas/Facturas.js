@@ -7,7 +7,7 @@ import {
 	makeStyles,
 } from "@material-ui/core";
 
-function GastosForm() {
+function Facturas() {
 	const useStyles = makeStyles({
 		titlePrincipal: {
 			marginLeft: 15,
@@ -44,16 +44,17 @@ function GastosForm() {
 						color="textSecondary"
 						gutterBottom
 					>
-						Gastos adicionales
+						Subir factura
 					</Typography>
-					<Button variant="contained" color="primary">
-						Agregar
-					</Button>
+					<div>
+						<Button variant="contained" color="primary">
+							Agregar
+						</Button>
+					</div>
 				</CardContent>
 			</Card>
 		</Fragment>
 	);
 }
 
-export default GastosForm;
-// https://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php?id=1
+export default Facturas;

@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import Titulo from "../../titulo/Titulo";
 import {
 	Card,
 	CardContent,
@@ -23,7 +24,7 @@ function VerProyecto(props) {
 		root: {
 			minWidth: 275,
 			marginBottom: 20,
-			backgroundColor: "#bee3e380",
+			backgroundColor: "#f7f4f4",
 		},
 		bullet: {
 			display: "inline-block",
@@ -66,10 +67,15 @@ function VerProyecto(props) {
 
 	return (
 		<Fragment>
-			<h1 className={classes.titlePrincipal}>
-				Inventarios: {nombre_proyecto}
-			</h1>
-			<div style={{ margin: "10px" }}>
+			<div
+				style={{
+					marginTop: 20,
+					marginLeft: 10,
+					marginRight: 10,
+				}}
+			>
+				<Titulo text={`${nombre_proyecto}`} />
+				<br />
 				{inventarios.map((inventario, key) => (
 					<Card key={key} className={classes.root}>
 						<CardContent>
@@ -120,7 +126,7 @@ function VerProyecto(props) {
 							<CardActions>
 								<Button
 									component={Link}
-									to={`/ver-inventario/${inventario.id}`}
+									to={`/ver-inventario/${inventario.id}/${btoa(nombre_proyecto)}`}
 									size="small"
 								>
 									Ver inventario

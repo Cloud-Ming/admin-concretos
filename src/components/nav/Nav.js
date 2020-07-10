@@ -214,11 +214,22 @@ function Nav({ history }) {
       <List>
         <ListItem button component={Link} to="/clientes">
           <ListItemIcon>
-            <BusinessCenterIcon />
+            <Business />
+            {/*<SupervisorAccountIcon />*/}
           </ListItemIcon>
           <ListItemText primary="Clientes" />
         </ListItem>
         <Divider />
+
+        <ListItem button component={Link} to="/proveedores">
+          <ListItemIcon>
+            <BusinessCenterIcon />
+          </ListItemIcon>
+          <ListItemText primary="Proveedores" />
+        </ListItem>
+
+        <Divider />
+
         <ListItem button component={Link} to="/comisionistas">
           <ListItemIcon>
             <SupervisorAccountIcon />
@@ -226,17 +237,15 @@ function Nav({ history }) {
           <ListItemText primary="Comisionistas" />
         </ListItem>
 
-        <ListItem button component={Link} to="/admin">
+        {/*    <ListItem button component={Link} to="/admin">
           <ListItemIcon>
             <Business />
           </ListItemIcon>
           <ListItemText primary="Administrador" />
-        </ListItem>
-      </List>
+        </ListItem>*/}
 
-      <Divider />
+        <Divider />
 
-      <List>
         <ListItem button component={Link} to="/papelera">
           <ListItemIcon>
             <Delete />

@@ -9,6 +9,11 @@ import {
 	Button,
 	Snackbar,
 	Divider,
+	FormControlLabel,
+	Checkbox,
+	InputLabel,
+	FormControl,
+	Select,
 } from "@material-ui/core";
 
 import IconButton from "@material-ui/core/IconButton";
@@ -20,24 +25,41 @@ function CrearInventario() {
 
 	const [datos, setDatos] = useState({
 		id_proyecto: id,
-		fecha: "",
+		fecha: new Date().toLocaleString(),
 		descripcion: "",
 	});
 
+	//Aqui se maneja el estado de los servicios en Array listo para enviar a el backend
 	const [servicesState, setServicesState] = useState([]);
 
+	// Aqui se maneja el estado antes de entrar a `servicesState`
 	const [datosForm, setDatosForm] = useState({
 		id: 1,
 		client: "",
-		service: "",
+		typeService: "0",
+		service: "Concreto psi",
 		price: 0,
 		count: 0,
+		iva: 0,
+		retencion: 0,
+		id_service: 0,
+		natural: false,
+	});
+
+	const [state, setState] = React.useState({
+		natural: false,
 	});
 
 	// CREACION SERVICIOS
 
+	const checkIva = (event) => {
+		setState({ ...state, [event.target.name]: event.target.checked });
+	};
+
 	const handleChangeServices = (event) => {
-		console.log(event.target.name, datosForm);
+		// console.log(event.target);
+		// console.log(event.target.name, datosForm);
+
 		setDatosForm({
 			...datosForm,
 			[event.target.name]: event.target.value,
@@ -45,13 +67,76 @@ function CrearInventario() {
 	};
 
 	const addService = () => {
+		let iva = "0%",
+			retencion = "0%",
+			service = "Concreto",
+			id_service = "0";
+
+		const typeService = datosForm.typeService;
+		const iFnatural = state.natural;
+
+		if (typeService === "0") {
+			if (iFnatural) {
+				console.log("retención 0% e iva 19%");
+				iva = "19%";
+				retencion = "0%";
+			} else {
+				console.log("retención 2.5% e iva 19%");
+				iva = "19%";
+				retencion = "2.5%";
+			}
+
+			id_service = "2";
+		} else if (typeService === "1") {
+			if (iFnatural) {
+				console.log("retencion 0% iva 19%");
+				iva = "19%";
+				retencion = "0%";
+			} else {
+				console.log("retencion 4% iva 19%");
+				iva = "19%";
+				retencion = "4%";
+			}
+		} else if (typeService === "2") {
+			if (iFnatural) {
+				console.log("retencion 0% iva 19%");
+				iva = "19%";
+				retencion = "0%";
+			} else {
+				console.log("retencion 1% iva 0%");
+				iva = "0%";
+				retencion = "1%";
+			}
+		}
+
+		if (datosForm.service === "0") {
+			console.log("Concreto PSI 351");
+			
+			service = "Concreto PSI 351";
+			id_service = "0";
+
+		} else if (datosForm.service === "1") {
+			console.log("Bomba estacionaria");
+			service = "Bomba estacionaria";
+			id_service = "";
+
+		} else if (datosForm.service === "2") {
+			console.log("Autobomba");
+			service = "Autobomba";
+			id_service = "";
+		}
+
 		setServicesState((newList) => [
 			...newList,
 			{
 				id: datosForm.id++,
-				service: datosForm.service,
+				typeService: datosForm.typeService,
+				service: service,
 				price: datosForm.price,
 				count: datosForm.count,
+				iva: iva,
+				retencion: retencion,
+				id_service: id_service,
 			},
 		]);
 	};
@@ -66,20 +151,9 @@ function CrearInventario() {
 	const [open, setOpen] = useState(false);
 	const [errorLogin, setErrorLogin] = useState("A ocurrido un error");
 
-	const useStyles = makeStyles((theme) => ({
-		root: {
-			"& > *": {
-				margin: theme.spacing(1),
-				width: "30ch",
-			},
-		},
-	}));
-
-	const classes = useStyles();
-
 	const handleChange = (event) => {
-		console.log(event.target.name, event.target.value);
-
+		console.log(event);
+		// console.log(event.target.name, event.target.value);
 		setDatos({
 			...datos,
 			[event.target.name]: event.target.value,
@@ -152,6 +226,17 @@ function CrearInventario() {
 		setOpen(false);
 	};
 
+	const useStyles = makeStyles((theme) => ({
+		root: {
+			"& > *": {
+				margin: theme.spacing(1),
+				width: "33ch",
+			},
+		},
+	}));
+
+	const classes = useStyles();
+
 	return (
 		<Fragment>
 			<Grid
@@ -173,48 +258,99 @@ function CrearInventario() {
 					noValidate
 					autoComplete="off"
 				>
-					{/*<input type="hidden" name="id_proyecto" value={id} />*/}
-
-					{/*label="Fecha"*/}
-					<TextField
-						id="fecha_input"
-						variant="outlined"
-						name="fecha"
-						type="date"
-						onChange={handleChange}
-						required
-					/>
-
 					<Divider />
 
 					{servicesState.map((el) => (
-						<div key={el.id} className="itemSevice">
-							{el.service} &nbsp; - &nbsp;
-							{el.price} &nbsp; - &nbsp;
-							{el.count} &nbsp; - &nbsp;
+						<div
+							key={el.id}
+							className="itemSevice"
+							style={{
+								border: "1px solid #ddd",
+								padding: 10,
+								marginBottom: 5,
+							}}
+						>
+							<p>
+								<b>Servicio: </b> {el.service}{" "}
+							</p>
+							<p>
+								<b>Precio: </b>${el.price}{" "}
+							</p>
+							<p>
+								<b>Cantidad: </b>
+								{el.count}{" "}
+							</p>
+
+							<p>
+								<b>Iva: </b>
+								{el.iva}{" "}
+							</p>
+
+							<p>
+								<b>Retencion: </b>
+								{el.retencion}{" "}
+							</p>
 							<button onClick={() => removeService(el.id)}>
-								x
+								Eliminar
 							</button>
 						</div>
 					))}
 
-					{/* <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel htmlFor="outlined-age-native-simple">Servicio</InputLabel>
-        <Select
-          native
-          value={datosForm.service}
-          onChange={handleChange}
-          label="Servicio"
-          name="service"
-        >
-          <option aria-label="None" value="" />
-          <option value={`Concreto`}>Concreto</option>
-          <option value={`Bomba`}>Bomba</option>
-          <option value={`Bomba estacionaria`}>Bomba estacionaria</option>
-        </Select>
-      </FormControl>*/}
+					<FormControl
+						variant="filled"
+						className={classes.formControl}
+					>
+						<InputLabel htmlFor="filled-age-native-simple">
+							Tipo servicio
+						</InputLabel>
+						<Select
+							native
+							value={datosForm.typeService}
+							onChange={handleChangeServices}
+							inputProps={{
+								name: "typeService",
+								id: "filled-age-native-simple",
+							}}
+						>
+							<option value="0">Suministro de concreto</option>
 
-					<TextField
+							<option value="1">
+								Alquiler equipos (Alquiler)
+							</option>
+
+							<option value="2">
+								Alquiler equipos (Transporte)
+							</option>
+						</Select>
+					</FormControl>
+
+					<br />
+
+					<FormControl
+						variant="filled"
+						className={classes.formControl}
+					>
+						<InputLabel htmlFor="filled-age-native-simple-two">
+							Servicio
+						</InputLabel>
+						<Select
+							native
+							value={datosForm.service}
+							onChange={handleChangeServices}
+							inputProps={{
+								name: "service",
+								id: "filled-age-native-simple-two",
+							}}
+						>
+							<option value="0">Concreto psi 351</option>
+
+							<option value="1">Bomba estacionaria</option>
+
+							<option value="2">Autobomba</option>
+						</Select>
+					</FormControl>
+
+					{/*<TextField
 						id="descripcion_input"
 						label="Servicio"
 						variant="outlined"
@@ -222,13 +358,13 @@ function CrearInventario() {
 						name="service"
 						onChange={handleChangeServices}
 						required
-					/>
+					/>*/}
 					<br />
 					<TextField
 						id="descripcion_input"
 						label="Precio"
 						variant="outlined"
-						type="text"
+						type="number"
 						name="price"
 						onChange={handleChangeServices}
 						required
@@ -238,12 +374,26 @@ function CrearInventario() {
 						id="descripcion_input"
 						label="Cantidad"
 						variant="outlined"
-						type="text"
+						type="number"
 						name="count"
 						onChange={handleChangeServices}
 						required
 					/>
 					<br />
+					<div>
+						<FormControlLabel
+							control={
+								<Checkbox
+									checked={state.natural}
+									onChange={checkIva}
+									name="natural"
+								/>
+							}
+							label="Persona natural"
+						/>
+						{/*<label>Si no se marca será persona jurídica</label>*/}
+					</div>
+
 					<Button
 						type="button"
 						onClick={() => addService()}
@@ -259,6 +409,13 @@ function CrearInventario() {
 					>
 						Contar estado servicios
 					</button>
+
+					{/*<button
+						type="button"
+						onClick={() => console.log(state)}
+					>
+						Contar estado checkbox
+					</button>*/}
 
 					<Divider />
 

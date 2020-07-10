@@ -25,8 +25,17 @@ import AdminInventarioId from "./components/clientes/inventarios/inventario-id/A
 
 // Comisionistas
 import AdminComisionistas from "./components/comisionistas/Admin";
+import AdminComisionistaId from "./components/comisionistas/comisionista-id/AdminComisionista";
 import CrearComisionista from "./components/comisionistas/Registro";
 // Comisionistas
+
+// Proveedores
+import AdminProveedores from "./components/proveedores/Admin";
+// Proveedores
+
+// Estado de cuenta
+import EstadoCuenta from "./components/clientes/estado-cuenta/Admin";
+// Estado de cuenta
 
 import Papelera from "./components/papelera/Papelera";
 import NotFound from "./components/notFound/NotFound";
@@ -107,7 +116,7 @@ function App() {
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-inventario/:id"
+								path="/ver-inventario/:id/:data"
 								meta={{ auth: true }}
 							>
 								<AdminInventarioId />
@@ -133,13 +142,27 @@ function App() {
 								path="/ver-comisionista/:id"
 								meta={{ auth: true }}
 							>
-								<h1>ver comisionista id</h1>
+								<AdminComisionistaId />
 							</GuardedRoute>
 							{/*Comisionistas*/}
 
-							<GuardedRoute path="/admin" meta={{ auth: true }}>
-								<h1>Admin</h1>
+							{/*Proveedores*/}
+							<GuardedRoute
+								path="/proveedores"
+								meta={{ auth: true }}
+							>
+								<AdminProveedores />
 							</GuardedRoute>
+							{/*Proveedores*/}
+
+							{/*Estado de cuenta*/}
+							<GuardedRoute
+								path="/estado-cuenta/:id"
+								meta={{ auth: true }}
+							>
+								<EstadoCuenta />
+							</GuardedRoute>
+							{/*Estado de cuenta*/}
 
 							<GuardedRoute
 								path="/papelera"

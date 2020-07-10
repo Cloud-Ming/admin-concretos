@@ -15,7 +15,8 @@ import CloseIcon from "@material-ui/icons/Close";
 function RegistroClientes() {
 	const [datos, setDatos] = useState({
 		nombre: "",
-		fecha: "",
+		celular: "",
+		fecha: new Date().toLocaleString(),
 	});
 
 	const [open, setOpen] = useState(false);
@@ -57,6 +58,7 @@ function RegistroClientes() {
 
 		var formData = new FormData();
 		formData.append("nombre", datos.nombre);
+		formData.append("celular", datos.celular);
 		formData.append("fecha", datos.fecha);
 
 		fetch(
@@ -131,12 +133,14 @@ function RegistroClientes() {
 					/>
 
 					<br />
-						{/*label="fecha"*/}
-						<TextField
-						id="fecha"
+
+
+					<TextField
+						id="celular"
+						label="Celular"
 						variant="outlined"
-						name="fecha"
-						type="date"
+						name="celular"
+						type="text"
 						onChange={handleChange}
 					/>
 
