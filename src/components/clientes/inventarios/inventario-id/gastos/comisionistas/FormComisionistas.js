@@ -19,11 +19,10 @@ function FormComisionistas(props) {
 
 	// Manejador de comisiones
 	const [comisiones, setComisiones] = useState(comisionesData);
-	console.log(comisiones);
 
 	// Manejador de formulario
 	const [datosForm, setDatosForm] = useState({
-		id: null,
+		id_unico: null,
 		id_inventario: id_cliente,
 		inventario: atob(nombre_proyecto),
 		comisionista: `${data[0].nombre},${data[0].id}`,
@@ -53,7 +52,7 @@ function FormComisionistas(props) {
 		setComisiones((newList) => [
 			...newList,
 			{
-				id: uniqueId,
+				id_unico: uniqueId,
 				id_inventario: datosForm.id_inventario,
 				inventario: datosForm.inventario,
 				comisionista: datosForm.comisionista.split(","),
@@ -63,16 +62,7 @@ function FormComisionistas(props) {
 			},
 		]);
 
-		console.log("NUEVA COMISION", {
-			id_unico: uniqueId,
-			id_inventario: datosForm.id_inventario,
-			inventario: datosForm.inventario,
-			id_comisionista: datosForm.comisionista.split(",")[1],
-			comisionista: datosForm.comisionista.split(",")[0],
-			monto: datosForm.monto,
-			fecha: new Date().toLocaleString(),
-			pago: datosForm.pago,
-		});
+		// console.log(datosForm.comisionista.split(","));
 
 		// nuevaComision(
 		// 	uniqueId,
@@ -87,8 +77,10 @@ function FormComisionistas(props) {
 	};
 
 	const eliminarComisionista = (id) => {
-		const newList = comisiones.filter((item) => item.id !== id);
+		const newList = comisiones.filter((item) => item.id_unico !== id);
 		setComisiones(newList);
+
+		console.log("Eliminando en DB ...", id);
 	};
 
 	const nuevaComision = (
@@ -188,13 +180,15 @@ function FormComisionistas(props) {
 						: comisiones.map((item, i) => (
 								<div key={i}>
 									{/*Aqui se llama el primer indice que es el nombre*/}
-									{item.comisionista}
+									{Array.isArray(item.comisionista)
+										? item.comisionista[0]
+										: item.comisionista}
 									<br />
 									{item.monto}
 									<br />
 									<button
 										onClick={() =>
-											eliminarComisionista(item.id)
+											eliminarComisionista(item.id_unico)
 										}
 									>
 										Eliminar
