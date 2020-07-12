@@ -23,8 +23,13 @@ class AdminCotizaciones extends Component {
 		const id = match.params.id;
 
 		const nombre_proyecto = match.params.data;
-
 		this.setState({
+			id_cliente: id,
+			nombre_proyecto: nombre_proyecto,
+		});
+
+		// ESTADO SIMULADO
+		/*this.setState({
 			id_cliente: id,
 			nombre_proyecto: nombre_proyecto,
 			data: [
@@ -68,9 +73,9 @@ class AdminCotizaciones extends Component {
 				},
 			],
 			loading: false,
-		});
+		});*/
+		// ESTADO SIMULADO
 
-		/*
 		this.abortController = new AbortController();
 
 		Promise.all([
@@ -95,12 +100,11 @@ class AdminCotizaciones extends Component {
 					loading: false,
 				})
 			);
-			*/
 	}
 
-	// componentWillUnmount() {
-	// 	this.abortController.abort();
-	// }
+	componentWillUnmount() {
+		this.abortController.abort();
+	}
 
 	render() {
 		const {
@@ -137,7 +141,7 @@ class AdminCotizaciones extends Component {
 
 		return (
 			<Fragment>
-				<FormComisionistas
+			<FormComisionistas
 					id_cliente={id_cliente}
 					nombre_proyecto={nombre_proyecto}
 					data={data}

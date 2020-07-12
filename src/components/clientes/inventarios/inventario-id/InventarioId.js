@@ -4,10 +4,10 @@ import { Card, CardContent, Typography, makeStyles } from "@material-ui/core";
 import Titulo from "../../../titulo/Titulo";
 
 // Formulario de añadir gastos
-// import GastosForm from "./gastos/gastos/GastosForm";
+import GastosForm from "./gastos/gastos/GastosForm";
 
 // Formulario añadir comisionistas
-import FormComisionistas from "./gastos/comisionistas/Admin";
+// import FormComisionistas from "./gastos/comisionistas/Admin";
 
 // import AdminCotizaciones from "./pdf/cotizaciones/Admin";
 
@@ -16,8 +16,7 @@ import Facturas from "./pdf/facturas/Facturas";
 
 function InventarioId(props) {
 	// const [data, setData] = useState(props);
-	const { nombre_proyecto, data } = props;
-
+	const { nombre_proyecto, id_cliente, data } = props;
 	// Inhability
 	// id_cliente
 
@@ -126,14 +125,15 @@ function InventarioId(props) {
 					))}
 				</div>
 
-				{/*<div>
-					<GastosForm id_cliente={id_cliente} gastos={data} />
-				</div>*/}
-
 				<div>
-					<FormComisionistas />
+					<GastosForm id_cliente={id_cliente} gastos={data} />
 				</div>
 
+			{/*	<div>
+					<FormComisionistas />
+				</div>
+			*/}
+			
 				{/*<div>
 					<AdminCotizaciones />
 				</div>*/}

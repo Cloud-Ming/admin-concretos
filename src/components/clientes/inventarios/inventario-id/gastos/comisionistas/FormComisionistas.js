@@ -18,7 +18,9 @@ function FormComisionistas(props) {
 	const { id_cliente, nombre_proyecto, data, comisionesData } = props;
 
 	// Manejador de comisiones
-	const [comisiones, setComisiones] = useState(comisionesData);
+	const [comisiones, setComisiones] = useState(
+		comisionesData ? comisionesData : []
+	);
 
 	// Manejador de formulario
 	const [datosForm, setDatosForm] = useState({
@@ -64,23 +66,23 @@ function FormComisionistas(props) {
 
 		// console.log(datosForm.comisionista.split(","));
 
-		// nuevaComision(
-		// 	uniqueId,
-		// 	datosForm.id_inventario,
-		// 	 datosForm.inventario,
-		// 	datosForm.comisionista.split(",")[1],
-		// 	datosForm.comisionista.split(",")[0],
-		// 	datosForm.monto,
-		// 	new Date().toLocaleString(),
-		// 	datosForm.pago
-		// );
+		nuevaComision(
+			uniqueId,
+			datosForm.id_inventario,
+			datosForm.inventario,
+			datosForm.comisionista.split(",")[1],
+			datosForm.comisionista.split(",")[0],
+			datosForm.monto,
+			new Date().toLocaleString(),
+			datosForm.pago
+		);
 	};
 
 	const eliminarComisionista = (id) => {
 		const newList = comisiones.filter((item) => item.id_unico !== id);
 		setComisiones(newList);
 
-		console.log("Eliminando en DB ...", id);
+		eliminarComision(id);
 	};
 
 	const nuevaComision = (
@@ -108,6 +110,41 @@ function FormComisionistas(props) {
 
 		fetch(
 			"https://botanicainternacionalamazonas.com/backend/vista/comisionistas/nuevaComision.php",
+			{
+				method: "POST",
+				mode: "cors",
+				signal: abortController.signal,
+				body: formData,
+			}
+		)
+			.then((res) => res.json())
+			.then((res) => {
+				// if (res === 401) {
+
+				// 	return;
+				// }
+
+				console.log(res);
+			})
+			.catch((err) => {
+				console.error("Request failed", err);
+			});
+
+		// Cancel the request if it takes more than 5 seconds
+		setTimeout(() => abortController.abort(), 5000);
+
+		//Controler
+	};
+
+	const eliminarComision = (id) => {
+		//Controler
+		const abortController = new AbortController();
+
+		var formData = new FormData();
+		formData.append("id_unico", id);
+
+		fetch(
+			"https://botanicainternacionalamazonas.com/backend/vista/comisionistas/eliminarComisionId.php",
 			{
 				method: "POST",
 				mode: "cors",
@@ -175,32 +212,11 @@ function FormComisionistas(props) {
 					>
 						Comisiones
 					</Typography>
-					{data.length === 0
-						? "No hay"
+					{comisiones === null
+						? "No hay."
+						: comisiones.length === 0
+						? "No hay.."
 						: comisiones.map((item, i) => (
-								<div key={i}>
-									{/*Aqui se llama el primer indice que es el nombre*/}
-									{Array.isArray(item.comisionista)
-										? item.comisionista[0]
-										: item.comisionista}
-									<br />
-									{item.monto}
-									<br />
-									<button
-										onClick={() =>
-											eliminarComisionista(item.id_unico)
-										}
-									>
-										Eliminar
-									</button>
-									<br />
-									<br />
-								</div>
-						  ))}
-
-					{/*{comisionistasData.length === 0
-						? "No hay"
-						: comisionistasData.map((item, i) => (
 								<Card key={i} className={classes.root}>
 									<CardContent>
 										<br />
@@ -214,15 +230,20 @@ function FormComisionistas(props) {
 										<small>Fecha: {item.fecha}</small>
 										<button
 											onClick={() =>
-												eliminarComisionista(item.id)
+												eliminarComisionista(
+													item.id_unico
+												)
 											}
 										>
-											Eliminar ({item.id})
+											Eliminar ({item.id_unico})
 										</button>
 									</CardContent>
 								</Card>
-						  ))}*/}
+						  ))}
 
+					{/*INHABILITY*/}
+
+					<br />
 					<br />
 					<Typography
 						className={classes.title}
@@ -265,6 +286,7 @@ function FormComisionistas(props) {
 						variant="outlined"
 						type="number"
 						name="monto"
+						value={datosForm.monto}
 						onChange={(event) => handleChange(event)}
 						required
 					/>

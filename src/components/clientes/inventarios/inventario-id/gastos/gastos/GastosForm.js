@@ -1,4 +1,5 @@
 import React, { Fragment, useState, useEffect } from "react";
+import uniqid from "uniqid";
 import {
 	Card,
 	CardContent,
@@ -10,23 +11,27 @@ import {
 
 function GastosForm(props) {
 	const { id_cliente, gastos } = props;
-	const [data, setData] = useState(JSON.parse(gastos[0].gastos));
+	const [data, setData] = useState(
+		gastos[0].gastos ? JSON.parse(gastos[0].gastos) : []
+	);
 
 	const [formData, setFormData] = useState({
-		id: data.length + 1,
+		id: null,
 		monto: 0,
 		descripcion: "",
 		fecha: new Date().toLocaleString(),
 	});
 
 	useEffect(() => {
-		console.log(data, id_cliente);
+		console.log("UseEffect GastosForm:", data);
+		// enviarData(data);
+
 		//Controler
 		const abortController = new AbortController();
 
 		var formData = new FormData();
 		formData.append("id", id_cliente);
-		formData.append("objeto", JSON.stringify(data) );
+		formData.append("objeto", JSON.stringify(data));
 
 		fetch(
 			"https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/agregarGastosId.php",
@@ -40,8 +45,7 @@ function GastosForm(props) {
 			.then((res) => res.json())
 			.then((res) => {
 				// if (res === 401) {
-					
-					
+
 				// 	return;
 				// }
 
@@ -55,13 +59,24 @@ function GastosForm(props) {
 		setTimeout(() => abortController.abort(), 5000);
 
 		//Controler
+		/**/
 	}, [data, id_cliente]);
 
-	const ingresarData = () => {
+	// Generador de ID unico
+	const uniqueId = uniqid();
+
+	const ingresarData = (e) => {
+		e.preventDefault();
+		// e.reset();
+		setFormData({
+			monto: 0,
+			descripcion: "",
+		});
+
 		setData((newList) => [
 			...newList,
 			{
-				id: formData.id++,
+				id: uniqueId,
 				monto: formData.monto,
 				descripcion: formData.descripcion,
 				fecha: new Date().toLocaleString(),
@@ -72,6 +87,7 @@ function GastosForm(props) {
 	const eliminarData = (id) => {
 		const newList = data.filter((item) => item.id !== id);
 		setData(newList);
+		console.log(id);
 	};
 
 	const onChange = (event) => {
@@ -80,11 +96,6 @@ function GastosForm(props) {
 			[event.target.name]: event.target.value,
 		});
 	};
-
-	// const sendData = () => {
-	// 	console.log("DATA:", data);
-	// https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/agregarGastosId.php?id=2&objeto=[{id:1}]
-	// };
 
 	const useStyles = makeStyles({
 		titlePrincipal: {
@@ -125,56 +136,72 @@ function GastosForm(props) {
 						>
 							Gastos adicionales
 						</Typography>
+						{data === null
+							? "No hay."
+							: data.length === 0
+							? "No hay.."
+							: data.map((item, i) => (
+									<div key={i}>
+										Descripcion: {item.descripcion}
+										<br />
+										Monto {item.monto}
+										<br />
+										<button
+											onClick={() =>
+												eliminarData(item.id)
+											}
+										>
+											Eliminar
+										</button>
+										<br />
+										<br />
+									</div>
+							  ))}
 
-						{data.map((item, i) => (
-							<div key={i}>
-								{item.id} - {item.monto} - {item.descripcion} -{" "}
-								<button onClick={() => eliminarData(item.id)}>
-									Eliminar
-								</button>
-								<br />
-								<br />
-							</div>
-						))}
 						<br />
 					</div>
 					<br />
-					<Typography
-						className={classes.title}
-						color="textSecondary"
-						gutterBottom
-					>
-						Agregar gastos
-					</Typography>
-					<TextField
-						id="outlined-basic"
-						label="Descripcion"
-						variant="outlined"
-						name="descripcion"
-						onChange={(event) => onChange(event)}
-					/>
-					<br />
-					<br />
+					<form onSubmit={(e) => ingresarData(e)}>
+						<Typography
+							className={classes.title}
+							color="textSecondary"
+							gutterBottom
+						>
+							Agregar gastos
+						</Typography>
+						<TextField
+							id="outlined-basic"
+							label="Descripcion"
+							variant="outlined"
+							value={formData.descripcion}
+							name="descripcion"
+							onChange={(event) => onChange(event)}
+						/>
+						<br />
+						<br />
 
-					<TextField
-						id="outlined-basic"
-						label="Monto"
-						variant="outlined"
-						name="monto"
-						onChange={(event) => onChange(event)}
-					/>
+						<TextField
+							id="outlined-basic"
+							label="Monto"
+							variant="outlined"
+							name="monto"
+							type="number"
+							value={formData.monto}
+							onChange={(event) => onChange(event)}
+						/>
 
-					<br />
-					<br />
+						<br />
+						<br />
 
-					<Button
-						onClick={() => ingresarData()}
-						variant="contained"
-						color="primary"
-					>
-						Agregar
-					</Button>
-					{/*<button onClick={()=>senData()}>Send data</button>*/}
+						<Button
+							type="submit"
+							variant="contained"
+							color="primary"
+						>
+							Agregar
+						</Button>
+						{/*<button onClick={()=>senData()}>Send data</button>*/}
+					</form>
 				</CardContent>
 			</Card>
 		</Fragment>
