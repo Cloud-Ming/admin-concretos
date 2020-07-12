@@ -1,7 +1,9 @@
 import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import Loading from "../../loading/Loading";
+import NoHayInventarios from "./NoHayInventarios";
+
 import VerInventariosId from "./VerInventariosId";
 
 class AdminInventarios extends Component {
@@ -12,6 +14,7 @@ class AdminInventarios extends Component {
 			loading: true,
 			data: null,
 			error: null,
+			nombre_cliente: null,
 			id_cliente: null,
 			nombre_proyecto: "",
 		};
@@ -23,19 +26,23 @@ class AdminInventarios extends Component {
 
 		const data = match.params.data;
 
-		// console.log(atob(data));
+		const cliente = match.params.cliente;
 
 		this.setState({
-			nombre_proyecto: atob(data)
-		})
-
-		this.setState({
+			nombre_proyecto: atob(data),
+			nombre_cliente: atob(cliente),
 			id_cliente: id,
 		});
 
-		console.log(id);
+		// DATA SIMULADA
+		/*this.setState({
+		loading: false,
+		data: []
+		});*/
 
-		this.abortController = new AbortController();
+		// Inhability
+		
+	this.abortController = new AbortController();
 
 		try {
 			const response = await fetch(
@@ -53,6 +60,7 @@ class AdminInventarios extends Component {
 		} catch (e) {
 			if (e.name !== "AbortError") this.setState({ error: e.message });
 		}
+		
 	}
 
 	componentWillUnmount() {
@@ -60,7 +68,14 @@ class AdminInventarios extends Component {
 	}
 
 	render() {
-		const { error, loading, data, nombre_proyecto } = this.state;
+		const {
+			error,
+			loading,
+			data,
+			id_cliente,
+			nombre_cliente,
+			nombre_proyecto,
+		} = this.state;
 
 		if (!!error)
 			return (
@@ -81,16 +96,25 @@ class AdminInventarios extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay inventarios </h1>
+					{/*<h1> No hay inventarios </h1>
 					<Link to={`/crear-inventario/${this.state.id_cliente}`}>
 						Crear inventario
-					</Link>
+					</Link>*/}
+					<NoHayInventarios
+						id_cliente={id_cliente}
+						nombre_cliente={nombre_cliente}
+						nombre_proyecto={nombre_proyecto}
+					/>
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-				<VerInventariosId nombre_proyecto={nombre_proyecto} data={data} />
+				<VerInventariosId
+					nombre_cliente={nombre_cliente}
+					nombre_proyecto={nombre_proyecto}
+					data={data}
+				/>
 			</Fragment>
 		);
 	}

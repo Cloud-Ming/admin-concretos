@@ -2,6 +2,9 @@ import React, { Component, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 import Loading from "../../../loading/Loading";
+
+import ErroRes from "../../../erroRes/ErroRes";
+
 import InventarioId from "./InventarioId";
 
 class AdminInventarios extends Component {
@@ -13,6 +16,7 @@ class AdminInventarios extends Component {
 			data: null,
 			error: null,
 			id_cliente: null,
+			nombre_cliente: null,
 			nombre_proyecto: "",
 		};
 		// nombre_proyecto: "",
@@ -21,35 +25,32 @@ class AdminInventarios extends Component {
 	async componentDidMount() {
 		const { match } = this.props;
 		const id = match.params.id;
-
 		const data = match.params.data;
-		// const data = match.params.data;
-
-		// console.log(atob(data));
+		
+		const nombre_cliente = match.params.cliente;
+		
 
 		this.setState({
 			nombre_proyecto: atob(data),
-		});
-
-		this.setState({
 			id_cliente: id,
+			nombre_cliente: nombre_cliente,
 		});
 
-		/*this.setState({
-			loading: false,
-			data: [
-				{
-					id: "1",
-					id_proyecto: "1",
-					fecha: "2020-06-23",
-					inventario:
-						'[{"id":2,"service":"Concreto 2","price":"32000","count":"1"},{"id":3,"service":"Maquinaria","price":"32000","count":"3"},{"id":4,"service":"Bomba","price":"3000","count":"6"}]',
-					gastos: "[]",
-					descripcion: "Proyecto casas",
-					exito: "true",
-				},
-			],
-		});*/
+		// this.setState({
+		// 	loading: false,
+		// 	data: [
+		// 		{
+		// 			id: "1",
+		// 			id_proyecto: "1",
+		// 			fecha: "2020-06-23",
+		// 			inventario:
+		// 				'[{"id":2,"service":"Concreto 2","price":"32000","count":"1"},{"id":3,"service":"Maquinaria","price":"32000","count":"3"},{"id":4,"service":"Bomba","price":"3000","count":"6"}]',
+		// 			gastos: "[]",
+		// 			descripcion: "Proyecto casas",
+		// 			exito: "true",
+		// 		},
+		// 	],
+		// });
 
 		// console.log(id);
 
@@ -73,9 +74,9 @@ class AdminInventarios extends Component {
 		}
 	}
 
-	// componentWillUnmount() {
-	// 	this.abortController.abort();
-	// }
+	componentWillUnmount() {
+		this.abortController.abort();
+	}
 
 	render() {
 		const {
@@ -83,14 +84,14 @@ class AdminInventarios extends Component {
 			loading,
 			nombre_proyecto,
 			id_cliente,
+			nombre_cliente,
 			data,
 		} = this.state;
 
 		if (!!error)
 			return (
 				<Fragment>
-					<h2>{error}</h2>
-					<p>A ocurrido un error</p>
+					<ErroRes />
 				</Fragment>
 			);
 
@@ -115,8 +116,9 @@ class AdminInventarios extends Component {
 		return (
 			<Fragment>
 				<InventarioId
-					nombre_proyecto={nombre_proyecto}
 					id_cliente={id_cliente}
+					nombre_cliente={nombre_cliente}
+					nombre_proyecto={nombre_proyecto}
 					data={data}
 				/>
 			</Fragment>

@@ -1,7 +1,11 @@
 import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import Loading from "../../loading/Loading";
+
+import ErroRes from "../../erroRes/ErroRes";
+
+import NoHayProyectos from "./NoHayProyectos";
 import VerProyectosId from "./VerProyectosId";
 
 class AdminProyectosId extends Component {
@@ -9,6 +13,7 @@ class AdminProyectosId extends Component {
 		super(props);
 
 		this.state = {
+			nombre_cliente: null,
 			loading: true,
 			data: null,
 			error: null,
@@ -19,12 +24,13 @@ class AdminProyectosId extends Component {
 	async componentDidMount() {
 		const { match } = this.props;
 		const id = match.params.id;
-
+		const nombre_cliente = match.params.data;
 		this.setState({
+			nombre_cliente: atob(nombre_cliente),
 			id_cliente: id,
 		});
 
-		console.log(id);
+		// console.log(id);
 
 		this.abortController = new AbortController();
 
@@ -51,13 +57,12 @@ class AdminProyectosId extends Component {
 	}
 
 	render() {
-		const { error, loading, data } = this.state;
+		const { error, loading, id_cliente, nombre_cliente, data } = this.state;
 
 		if (!!error)
 			return (
 				<Fragment>
-					<h2>{error}</h2>
-					<p>A ocurrido un error</p>
+					<ErroRes />
 				</Fragment>
 			);
 
@@ -72,16 +77,13 @@ class AdminProyectosId extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay proyectos </h1>
-					<Link to={`/crear-proyecto/${this.state.id_cliente}`}>
-						Crear Poyecto
-					</Link>
+					<NoHayProyectos nombre_cliente={nombre_cliente} data={data} id_cliente={id_cliente} />
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-				<VerProyectosId data={data} />
+				<VerProyectosId nombre_cliente={nombre_cliente} data={data} id_cliente={id_cliente} />
 			</Fragment>
 		);
 	}

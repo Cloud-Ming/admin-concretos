@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
+import {Link} from "react-router-dom";
 // import { Usercontext } from "../../context/Context";
 import { useParams } from "react-router-dom";
 import {
 	makeStyles,
 	Grid,
-	Typography,
 	TextField,
 	Button,
 	Snackbar,
@@ -20,8 +20,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 function CrearInventario() {
-	const { id } = useParams();
-	console.log(id);
+	const { id, proyecto, cliente } = useParams();
 
 	const [datos, setDatos] = useState({
 		id_proyecto: id,
@@ -111,15 +110,13 @@ function CrearInventario() {
 
 		if (datosForm.service === "0") {
 			console.log("Concreto PSI 351");
-			
+
 			service = "Concreto PSI 351";
 			id_service = "0";
-
 		} else if (datosForm.service === "1") {
 			console.log("Bomba estacionaria");
 			service = "Bomba estacionaria";
 			id_service = "";
-
 		} else if (datosForm.service === "2") {
 			console.log("Autobomba");
 			service = "Autobomba";
@@ -202,7 +199,8 @@ function CrearInventario() {
 					return;
 				}
 
-				console.log(res);
+				setErrorLogin("Inventario creado con éxito");
+				handleClick();
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
@@ -248,10 +246,8 @@ function CrearInventario() {
 				style={{ minHeight: "100vh" }}
 			>
 				{/*<Grid>*/}
-				<Typography variant="h4" component="h4">
-					Crear inventario
-				</Typography>
-
+				<h1>Crear inventario: ({atob(proyecto)})</h1>
+				<h2 style={{ marginTop: "0" }}>({atob(cliente)})</h2>
 				<form
 					onSubmit={handleonSubmit}
 					className={classes.root}
@@ -403,13 +399,13 @@ function CrearInventario() {
 						Añadir
 					</Button>
 					<br />
-					<button
+					{/*		<button
 						type="button"
 						onClick={() => console.log(servicesState)}
 					>
 						Contar estado servicios
 					</button>
-
+*/}
 					{/*<button
 						type="button"
 						onClick={() => console.log(state)}
@@ -449,15 +445,17 @@ function CrearInventario() {
 					message={errorLogin}
 					action={
 						<React.Fragment>
-							{/*
-							<Button
-								color="secondary"
-								size="small"
-								onClick={handleClose}
-							>
-								UNDO
-							</Button>
-							*/}
+							{
+								<Button
+									component={Link}
+									to={"/"}
+									color="secondary"
+									size="small"
+									onClick={handleClose}
+								>
+									VOLVER
+								</Button>
+							}
 							<IconButton
 								size="small"
 								aria-label="close"

@@ -25,6 +25,8 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+
 // import InboxIcon from "@material-ui/icons/MoveToInbox";
 import Delete from "@material-ui/icons/Delete";
 import Business from "@material-ui/icons/Business";
@@ -219,15 +221,14 @@ function Nav({ history }) {
           </ListItemIcon>
           <ListItemText primary="Clientes" />
         </ListItem>
-        <Divider />
 
-        <ListItem button component={Link} to="/proveedores">
+        <ListItem button component={Link} to="/crear-cliente">
           <ListItemIcon>
-            <BusinessCenterIcon />
+            <AddCircleIcon />
+            {/*<SupervisorAccountIcon />*/}
           </ListItemIcon>
-          <ListItemText primary="Proveedores" />
+          <ListItemText primary="Registrar cliente" />
         </ListItem>
-
         <Divider />
 
         <ListItem button component={Link} to="/comisionistas">
@@ -235,6 +236,30 @@ function Nav({ history }) {
             <SupervisorAccountIcon />
           </ListItemIcon>
           <ListItemText primary="Comisionistas" />
+        </ListItem>
+
+
+        <ListItem button component={Link} to="/comisionistas">
+          <ListItemIcon>
+            <AddCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Registrar comisionista" />
+        </ListItem>
+
+
+        <Divider />
+        <ListItem button component={Link} to="/proveedores">
+          <ListItemIcon>
+            <BusinessCenterIcon />
+          </ListItemIcon>
+          <ListItemText primary="Proveedores" />
+        </ListItem>
+
+        <ListItem button component={Link} to="/crear-proveedor">
+          <ListItemIcon>
+            <AddCircleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Registrar proveedor" />
         </ListItem>
 
         {/*    <ListItem button component={Link} to="/admin">
@@ -272,7 +297,7 @@ function Nav({ history }) {
             </IconButton>
 
             <Typography className={classes.title} variant="h6" noWrap>
-              Administrador
+              Super Concretos
             </Typography>
             {/*
             <div className={classes.search}>
@@ -324,7 +349,7 @@ function Nav({ history }) {
         ) : (
           <Toolbar>
             <Typography className={classes.title} variant="h6" noWrap>
-              Administrador
+              Super Concretos
             </Typography>
           </Toolbar>
         )}

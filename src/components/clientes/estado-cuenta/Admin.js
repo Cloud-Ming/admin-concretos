@@ -26,7 +26,7 @@ class EstadoCuenta extends Component {
 
 		// console.log(id);
 
-		const simuleResponse = [
+		/*const simuleResponse = [
 			{
 				id: "7",
 				id_proyecto: "1",
@@ -67,30 +67,31 @@ class EstadoCuenta extends Component {
 		setTimeout(() => {
 			this.setState({ loading: false, data: simuleResponse });
 		}, 500);
+		*/ 
 
-		// this.abortController = new AbortController();
+		this.abortController = new AbortController();
 
-		// try {
-		// 	const response = await fetch(
-		// 		`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventariosId.php?id=${id}`,
-		// 		{
-		// 			signal: this.abortController.signal,
-		// 		}
-		// 	);
+		try {
+			const response = await fetch(
+				`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventariosId.php?id=${id}`,
+				{
+					signal: this.abortController.signal,
+				}
+			);
 
-		// 	if (response.status >= 300) throw new Error(response.statusText);
+			if (response.status >= 300) throw new Error(response.statusText);
 
-		// 	const data = await response.json();
+			const data = await response.json();
 
-		// 	this.setState({ loading: false, data });
-		// } catch (e) {
-		// 	if (e.name !== "AbortError") this.setState({ error: e.message });
-		// }
+			this.setState({ loading: false, data });
+		} catch (e) {
+			if (e.name !== "AbortError") this.setState({ error: e.message });
+		}
 	}
 
-	// componentWillUnmount() {
-	// 	this.abortController.abort();
-	// }
+	componentWillUnmount() {
+		this.abortController.abort();
+	}
 
 	render() {
 		const { error, loading, data, id_cliente } = this.state;

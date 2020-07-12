@@ -1,5 +1,8 @@
 import React, { Component, Fragment } from "react";
+
 import Loading from "../loading/Loading";
+import ErroRes from "../erroRes/ErroRes";
+import NoHayClientes from "./NoHayClientes";
 import TablaClientes from "./TablaClientes";
 
 class AdminClientes extends Component {
@@ -16,6 +19,14 @@ class AdminClientes extends Component {
 	}
 
 	async componentDidMount() {
+		// Inhability
+		// Simulate data
+
+		// 	this.setState({
+		// 		loading: false,
+		// 		data: null,
+		// 	});
+
 		this.abortController = new AbortController();
 
 		try {
@@ -50,8 +61,7 @@ class AdminClientes extends Component {
 		if (!!error)
 			return (
 				<Fragment>
-					<h2>{error}</h2>
-					<p>A ocurrido un error</p>
+					<ErroRes />
 				</Fragment>
 			);
 
@@ -61,7 +71,12 @@ class AdminClientes extends Component {
 					<Loading />
 				</Fragment>
 			);
-		
+		if (data === null)
+			return (
+				<Fragment>
+					<NoHayClientes />
+				</Fragment>
+			);
 		return (
 			<Fragment>
 				<TablaClientes data={data} />

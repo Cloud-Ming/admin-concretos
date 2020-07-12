@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import Titulo from "../../titulo/Titulo";
+// import Titulo from "../../titulo/Titulo";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -117,6 +117,9 @@ const useStyles2 = makeStyles({
 });
 
 function VerProyecto(props) {
+	const { id_cliente, nombre_cliente } = props;
+	// console.log(nombre_cliente);
+
 	const proyectos = props.data;
 	// console.log(proyectos);
 	// console.log(btoa(proyectos[0].nombre_proyecto));
@@ -141,7 +144,24 @@ function VerProyecto(props) {
 	return (
 		<Fragment>
 			<div style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
-				<Titulo text={`${proyectos[0].nombre_proyecto}`} />
+				{/*<Titulo
+					text={`Cliente: ${nombre_cliente}`}
+				/>*/}
+
+				<h1>{`Proyectos(${proyectos.length}): ${nombre_cliente}`}</h1>
+				<h3>{`Proyecto: ${proyectos[0].nombre_proyecto} (${proyectos.length})`}</h3>
+
+				{/*<h3>{`Proyectos (${proyectos.length})`}</h3>*/}
+				<p>
+					Administra los proyectos de cada cliente, añade nuevos
+					inventarios
+				</p>
+				<Link
+					to={`/crear-proyecto/${id_cliente}/${btoa(proyectos[0].nombre_proyecto)}/${btoa(nombre_cliente)}`}
+				>
+					Crea nuevo proyecto
+				</Link>
+				<br />
 				<br />
 				<TableContainer component={Paper}>
 					<Table
@@ -151,10 +171,10 @@ function VerProyecto(props) {
 						<TableHead>
 							<TableRow>
 								<TableCell className={classes.titleHead}>
-									Nombre proyecto
+									Proyectos
 								</TableCell>
 								<TableCell className={classes.titleHead}>
-									Descripcion
+									Información
 								</TableCell>
 								<TableCell className={classes.titleHead}>
 									Fecha creación
@@ -189,7 +209,11 @@ function VerProyecto(props) {
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`/crear-inventario/${row.id}`}
+											to={`/crear-inventario/${
+												row.id
+											}/${btoa(id_cliente)}/${btoa(
+												nombre_cliente
+											)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -204,7 +228,7 @@ function VerProyecto(props) {
 												row.id
 											}/${btoa(
 												proyectos[0].nombre_proyecto
-											)}`}
+											)}/${btoa(nombre_cliente)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -250,6 +274,9 @@ function VerProyecto(props) {
 						</TableFooter>
 					</Table>
 				</TableContainer>
+				<br />
+
+				<Link to={`/clientes`}>Clientes</Link>
 			</div>
 		</Fragment>
 	);

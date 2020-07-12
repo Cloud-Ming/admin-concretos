@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 // import { Usercontext } from "../../context/Context";
-// import { withRouter, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
 	makeStyles,
 	Grid,
@@ -37,7 +37,7 @@ function RegistroClientes() {
 	const classes = useStyles();
 
 	const handleChange = (event) => {
-		console.log(event.target.name , event.target.value);
+		console.log(event.target.name, event.target.value);
 
 		setDatos({
 			...datos,
@@ -49,12 +49,12 @@ function RegistroClientes() {
 		event.preventDefault();
 		// event.target.reset();
 		if (
-			datos.nombre.length === 0 
-			|| datos.email.length === 0
-			|| datos.celular.length === 0
-			|| datos.cedula.length === 0
-			|| datos.ciudad.length === 0
-			) {
+			datos.nombre.length === 0 ||
+			datos.email.length === 0 ||
+			datos.celular.length === 0 ||
+			datos.cedula.length === 0 ||
+			datos.ciudad.length === 0
+		) {
 			setErrorLogin("Completa todo los campos");
 			handleClick();
 			return;
@@ -87,7 +87,10 @@ function RegistroClientes() {
 					return;
 				}
 
-				console.log(res);
+				// console.log("'Exito'", res);
+
+				setErrorLogin("Se ha creado un nuevo cliente");
+				handleClick();
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
@@ -152,7 +155,7 @@ function RegistroClientes() {
 					/>
 
 					<br />
-						<TextField
+					<TextField
 						id="celular_input"
 						label="Celular"
 						variant="outlined"
@@ -165,7 +168,7 @@ function RegistroClientes() {
 
 					<TextField
 						id="cedula_input"
-						label="Cedula"
+						label="Cedula ó NIT"
 						variant="outlined"
 						name="cedula"
 						type="number"
@@ -202,16 +205,17 @@ function RegistroClientes() {
 					onClose={handleClose}
 					message={errorLogin}
 					action={
-						<React.Fragment>
-							{/*
+						<Fragment>
+							
 							<Button
 								color="secondary"
 								size="small"
-								onClick={handleClose}
+								component={Link}
+								to="/clientes"
 							>
-								UNDO
+								Volver
 							</Button>
-							*/}
+							
 							<IconButton
 								size="small"
 								aria-label="close"
@@ -220,7 +224,7 @@ function RegistroClientes() {
 							>
 								<CloseIcon fontSize="small" />
 							</IconButton>
-						</React.Fragment>
+						</Fragment>
 					}
 				/>
 

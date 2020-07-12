@@ -86,14 +86,14 @@ function App() {
 
 							{/*Proyectos*/}
 							<GuardedRoute
-								path="/crear-proyecto/:id"
+								path="/crear-proyecto/:id/:cliente"
 								meta={{ auth: true }}
 							>
 								<CrearProyecto />
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-proyectos/:id"
+								path="/ver-proyectos/:id/:data"
 								meta={{ auth: true }}
 							>
 								<AdminProyectosId />
@@ -102,21 +102,21 @@ function App() {
 
 							{/*Inventarios*/}
 							<GuardedRoute
-								path="/crear-inventario/:id"
+								path="/crear-inventario/:id/:proyecto/:cliente"
 								meta={{ auth: true }}
 							>
 								<CrearInventario />
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-inventarios/:id/:data"
+								path="/ver-inventarios/:id/:data/:cliente"
 								meta={{ auth: true }}
 							>
 								<AdminInventariosId />
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-inventario/:id/:data"
+								path="/ver-inventario/:id/:data/:cliente"
 								meta={{ auth: true }}
 							>
 								<AdminInventarioId />

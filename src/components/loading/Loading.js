@@ -11,7 +11,7 @@ export default function Loading() {
 				alignItems="center"
 				justify="center"
 				style={{ minHeight: "100vh" }}
-			>
+			>	
 				<CircularProgress color="secondary" />
 			</Grid>
 		</Fragment>

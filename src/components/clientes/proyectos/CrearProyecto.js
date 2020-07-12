@@ -1,10 +1,10 @@
 import React, { Fragment, useState } from "react";
+import { Link } from "react-router-dom";
 // import { Usercontext } from "../../context/Context";
 import { useParams } from "react-router-dom";
 import {
 	makeStyles,
 	Grid,
-	Typography,
 	TextField,
 	Button,
 	Snackbar,
@@ -14,14 +14,15 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
 function CrearProyecto() {
-	const { id } = useParams();
+	const { id, cliente } = useParams();
+
 	console.log(id);
 
 	const [datos, setDatos] = useState({
 		id_cliente: id,
 		nombre: "",
 		descripcion: "",
-		fecha: "",
+		fecha: new Date().toLocaleString(),
 	});
 
 	const [open, setOpen] = useState(false);
@@ -89,7 +90,8 @@ function CrearProyecto() {
 					return;
 				}
 
-				console.log(res);
+				setErrorLogin("Éxito, proyecto creado");
+				handleClick();
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
@@ -124,9 +126,7 @@ function CrearProyecto() {
 				style={{ minHeight: "100vh" }}
 			>
 				{/*<Grid>*/}
-				<Typography variant="h4" component="h4">
-					Crear proyecto
-				</Typography>
+				<h1>Crear proyecto ({atob(cliente)})</h1>
 
 				<form
 					onSubmit={handleonSubmit}
@@ -134,8 +134,6 @@ function CrearProyecto() {
 					noValidate
 					autoComplete="off"
 				>
-					{/*<input type="hidden" name="id_cliente" value={id} />*/}
-
 					<TextField
 						id="nombre_input"
 						label="Nombre proyecto"
@@ -159,17 +157,6 @@ function CrearProyecto() {
 					/>
 
 					<br />
-
-					{/*label="Fecha"*/}
-					<TextField
-						id="fecha_input"
-						variant="outlined"
-						name="fecha"
-						type="date"
-						onChange={handleChange}
-						required
-					/>
-
 					<br />
 
 					<Button type="submit" variant="contained" color="primary">
@@ -189,16 +176,18 @@ function CrearProyecto() {
 					onClose={handleClose}
 					message={errorLogin}
 					action={
-						<React.Fragment>
-							{/*
-							<Button
-								color="secondary"
-								size="small"
-								onClick={handleClose}
-							>
-								UNDO
-							</Button>
-							*/}
+						<Fragment>
+							{
+								<Button
+									component={Link}
+									to={`/ver-proyectos/${id}/${cliente}`}
+									color="secondary"
+									size="small"
+									onClick={handleClose}
+								>
+									Volver
+								</Button>
+							}
 							<IconButton
 								size="small"
 								aria-label="close"
@@ -207,7 +196,7 @@ function CrearProyecto() {
 							>
 								<CloseIcon fontSize="small" />
 							</IconButton>
-						</React.Fragment>
+						</Fragment>
 					}
 				/>
 

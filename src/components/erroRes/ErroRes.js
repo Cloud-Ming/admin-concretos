@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
+// import WifiOffIcon from '@material-ui/icons/WifiOff';
 
-export default function NotFound() {
+export default function errroRes() {
 	return (
 		<Fragment>
 			<div
@@ -11,9 +12,10 @@ export default function NotFound() {
 					alignItems: "center",
 					justifyContent: "center",
 				}}
-			>	
-				<h1>Error 404</h1>
-				<h3 style={{margin:"0"}}>Esta pagina no funciona</h3>
+			>
+			{/*<WifiOffIcon />*/}
+				<h1>Ha ocurrido un error</h1>
+				<h3 style={{ margin: "0" }}>Revisa tu conexión a internet</h3>
 			</div>
 		</Fragment>
 	);

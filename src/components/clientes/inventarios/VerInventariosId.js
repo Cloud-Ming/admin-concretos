@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import Titulo from "../../titulo/Titulo";
+// import Titulo from "../../titulo/Titulo";
 import {
 	Card,
 	CardContent,
@@ -10,10 +10,9 @@ import {
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
-function VerProyecto(props) {
-	const nombre_proyecto = props.nombre_proyecto;
-	// console.log(nombre_proyecto);
-
+function VerInventariosId(props) {
+	const { nombre_cliente, nombre_proyecto } = props;
+	console.log(props);
 	const inventarios = props.data;
 	// console.log(inventarios);
 
@@ -45,7 +44,7 @@ function VerProyecto(props) {
 
 	const classes = useStyles();
 
-	const reducerPrew = (data, key) => {
+	const suma = (data, key) => {
 		let json = JSON.parse(data);
 
 		let result = [];
@@ -74,24 +73,39 @@ function VerProyecto(props) {
 					marginRight: 10,
 				}}
 			>
-				<Titulo text={`${nombre_proyecto}`} />
+				<h2>{`Cliente: ${nombre_cliente}`}</h2>
+				<h1
+					style={{ margin: "0" }}
+				>{`Inventarios(${inventarios.length}): ${nombre_proyecto}`}</h1>
+				<p>
+					Administra los inventarios relacionados a este proyecto{" "}
+					<b>({nombre_proyecto})</b>
+				</p>
+				{/*<h1>{`Proyecto: ${nombre_proyecto}`}</h1>*/}
+				{/*<h2>Proyecto</h2>*/}
+
 				<br />
 				{inventarios.map((inventario, key) => (
-					<Card key={key} className={classes.root}>
+					<Card
+						key={key}
+						className={classes.root}
+						style={{ backgroundColor: "rgb(184, 253, 170)" }}
+					>
 						<CardContent>
-							<Typography
+							{/*<Typography
 								className={classes.title}
 								color="textSecondary"
 								gutterBottom
 							>
 								{inventario.descripcion}
-							</Typography>
+							</Typography>*/}
+							<h2>{inventario.descripcion}</h2>
 
 							<Typography variant="body2" component="p">
-								{inventario.fecha}
+								<b>Fecha</b> {inventario.fecha}
 							</Typography>
 
-							<h2>Inventario: </h2>
+							<b>Inventario: </b>
 
 							{JSON.parse(inventario.inventario).map((data) => (
 								<ul
@@ -101,19 +115,16 @@ function VerProyecto(props) {
 									<li>
 										<b>Servicio:</b> {data.service}
 									</li>
-									<li>
+									{/*<li>
 										<b>Precio:</b> {data.price}
 									</li>
 									<li>
 										<b>Cantidad:</b> {data.count}
-									</li>
+									</li>}*/}
 								</ul>
 							))}
 
-							<h3>
-								Total: $
-								{reducerPrew(inventario.inventario, key)}
-							</h3>
+							<h3>Total: ${suma(inventario.inventario, key)}</h3>
 
 							{/*{JSON.parse(inventario.inventario).map((data) => {
 								return (
@@ -126,7 +137,9 @@ function VerProyecto(props) {
 							<CardActions>
 								<Button
 									component={Link}
-									to={`/ver-inventario/${inventario.id}/${btoa(nombre_proyecto)}`}
+									to={`/ver-inventario/${
+										inventario.id
+									}/${btoa(nombre_proyecto)}/${btoa(nombre_cliente)}`}
 									size="small"
 								>
 									Ver inventario
@@ -142,4 +155,4 @@ function VerProyecto(props) {
 	);
 }
 
-export default VerProyecto;
+export default VerInventariosId;

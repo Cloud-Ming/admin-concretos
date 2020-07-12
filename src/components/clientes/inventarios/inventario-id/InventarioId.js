@@ -1,10 +1,10 @@
 import React, { Fragment } from "react";
-import { Card, CardContent, Typography, makeStyles } from "@material-ui/core";
+import { Card, CardContent, makeStyles } from "@material-ui/core";
 
-import Titulo from "../../../titulo/Titulo";
+// import Titulo from "../../../titulo/Titulo";
 
 // Formulario de añadir gastos
-import GastosForm from "./gastos/gastos/GastosForm";
+// import GastosForm from "./gastos/gastos/GastosForm";
 
 // Formulario añadir comisionistas
 // import FormComisionistas from "./gastos/comisionistas/Admin";
@@ -16,7 +16,7 @@ import Facturas from "./pdf/facturas/Facturas";
 
 function InventarioId(props) {
 	// const [data, setData] = useState(props);
-	const { nombre_proyecto, id_cliente, data } = props;
+	const { nombre_proyecto, nombre_cliente, data } = props;
 	// Inhability
 	// id_cliente
 
@@ -73,19 +73,15 @@ function InventarioId(props) {
 				}}
 			>
 				<div>
-					<Titulo text={nombre_proyecto} />
+					<h1>Cliente: {atob(nombre_cliente)}</h1>
+					{/*<Titulo text={nombre_proyecto} />*/}
 					<br />
 					{data.map((item, key) => (
 						<Card key={key} className={classes.root}>
-							<CardContent>
-								<Typography
-									className={classes.title}
-									color="textSecondary"
-									gutterBottom
-								>
-									{item.descripcion}
-								</Typography>
-
+							<CardContent
+								style={{ backgroundColor: "#7f87ffb5" }}
+							>
+								<h2>{item.descripcion}</h2>
 								<p>
 									<b>Fecha:</b> {item.fecha}
 								</p>
@@ -99,20 +95,23 @@ function InventarioId(props) {
 								</Typography>*/}
 
 								{JSON.parse(item.inventario).map((data) => (
-									<ul
+									<div
 										key={key + data.service}
 										className={classes.list}
 									>
-										<li>
+										<div>
 											<b>Servicio:</b> {data.service}
-										</li>
-										<li>
+										</div>
+										<div>
 											<b>Precio:</b> {data.price}
-										</li>
-										<li>
+										</div>
+										<div>
 											<b>Cantidad:</b> {data.count}
-										</li>
-									</ul>
+										</div>
+										<div>
+											<b>Gastos:</b> {data.gastos}
+										</div>
+									</div>
 								))}
 
 								<h3>
@@ -125,15 +124,14 @@ function InventarioId(props) {
 					))}
 				</div>
 
-				<div>
+				{/*<div>
 					<GastosForm id_cliente={id_cliente} gastos={data} />
-				</div>
-
-			{/*	<div>
+				</div>*/}
+				{/*
+				<div>
 					<FormComisionistas />
-				</div>
-			*/}
-			
+				</div>*/}
+
 				{/*<div>
 					<AdminCotizaciones />
 				</div>*/}

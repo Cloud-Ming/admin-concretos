@@ -14,6 +14,10 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
+
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
+
 import FirstPageIcon from "@material-ui/icons/FirstPage";
 import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
@@ -116,6 +120,11 @@ const useStyles2 = makeStyles({
 	titleHead: {
 		fontWeight: "bold",
 	},
+	fab: {
+		position: "fixed",
+		bottom: "20px",
+		right: "15px",
+	},
 });
 
 function TablaClientes(props) {
@@ -143,7 +152,12 @@ function TablaClientes(props) {
 	return (
 		<Fragment>
 			<div style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
-				<Titulo text="Clientes" />
+				<Titulo text={`Clientes (${clientes.length})`} />
+				<p>
+					Administrador y supervisor de clientes, crea proyectos, y
+					revisa estados de cuenta
+				</p>
+				<br />
 				<br />
 				<TableContainer component={Paper}>
 					<Table
@@ -153,7 +167,7 @@ function TablaClientes(props) {
 						<TableHead>
 							<TableRow>
 								<TableCell className={classes.titleHead}>
-									Nombre
+									Clientes
 								</TableCell>
 								<TableCell className={classes.titleHead}>
 									Email
@@ -168,10 +182,10 @@ function TablaClientes(props) {
 									Crear nuevo proyecto
 								</TableCell>
 								<TableCell className={classes.titleHead}>
-									Ver proyectos
+									Proyectos
 								</TableCell>
 								<TableCell className={classes.titleHead}>
-									Estado de cuenta
+									Estados de cuenta
 								</TableCell>
 							</TableRow>
 						</TableHead>
@@ -200,7 +214,7 @@ function TablaClientes(props) {
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`crear-proyecto/${row.id}`}
+											to={`crear-proyecto/${row.id}/${btoa(row.nombre)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -211,7 +225,7 @@ function TablaClientes(props) {
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`ver-proyectos/${row.id}`}
+											to={`ver-proyectos/${row.id}/${btoa(row.nombre)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -269,6 +283,13 @@ function TablaClientes(props) {
 					</Table>
 				</TableContainer>
 			</div>
+
+			
+			<Link to="/crear-cliente">
+				<Fab color="primary" aria-label="add" className={classes.fab}>
+					<AddIcon />
+				</Fab>
+			</Link>
 		</Fragment>
 	);
 }

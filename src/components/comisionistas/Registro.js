@@ -1,5 +1,7 @@
 import React, { Fragment, useState } from "react";
 
+import { Link } from "react-router-dom";
+
 import {
 	makeStyles,
 	Grid,
@@ -34,7 +36,7 @@ function RegistroClientes() {
 	const classes = useStyles();
 
 	const handleChange = (event) => {
-		console.log(event.target.name , event.target.value);
+		console.log(event.target.name, event.target.value);
 
 		setDatos({
 			...datos,
@@ -45,9 +47,7 @@ function RegistroClientes() {
 	const handleonSubmit = async (event) => {
 		event.preventDefault();
 		// event.target.reset();
-		if (datos.nombre.length === 0
-			|| datos.fecha.length === 0
-			) {
+		if (datos.nombre.length === 0 || datos.fecha.length === 0) {
 			setErrorLogin("Completa todo los campos");
 			handleClick();
 			return;
@@ -78,7 +78,8 @@ function RegistroClientes() {
 					return;
 				}
 
-				console.log(res);
+				setErrorLogin("Comisionista registrado con éxito");
+				handleClick();
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
@@ -134,7 +135,6 @@ function RegistroClientes() {
 
 					<br />
 
-
 					<TextField
 						id="celular"
 						label="Celular"
@@ -164,15 +164,17 @@ function RegistroClientes() {
 					message={errorLogin}
 					action={
 						<React.Fragment>
-							{/*
-							<Button
-								color="secondary"
-								size="small"
-								onClick={handleClose}
-							>
-								UNDO
-							</Button>
-							*/}
+							{
+								<Button
+									component={Link}
+									to="/comisionistas"
+									color="secondary"
+									size="small"
+									onClick={handleClose}
+								>
+									VOLVER
+								</Button>
+							}
 							<IconButton
 								size="small"
 								aria-label="close"
