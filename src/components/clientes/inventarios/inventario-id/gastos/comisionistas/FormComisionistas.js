@@ -220,7 +220,7 @@ function FormComisionistas(props) {
 								<Card key={i} className={classes.root}>
 									<CardContent>
 										<br />
-										<small>Id: {item.id}</small>
+										{/**/}
 										<small>
 											Comisionista: {item.comisionista}
 										</small>
@@ -228,6 +228,7 @@ function FormComisionistas(props) {
 										<small>Monto: {item.monto}</small>
 										<br />
 										<small>Fecha: {item.fecha}</small>
+										<br /><br />
 										<button
 											onClick={() =>
 												eliminarComisionista(
@@ -235,7 +236,7 @@ function FormComisionistas(props) {
 												)
 											}
 										>
-											Eliminar ({item.id_unico})
+											Eliminar
 										</button>
 									</CardContent>
 								</Card>

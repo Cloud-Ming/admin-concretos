@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import Titulo from "../titulo/Titulo";
+// import Titulo from "../titulo/Titulo";
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -14,6 +14,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
 
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -152,7 +153,12 @@ function TablaClientes(props) {
 	return (
 		<Fragment>
 			<div style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
-				<Titulo text={`Clientes (${clientes.length})`} />
+				<br /><br />
+				{/*<Titulo text={`Clientes (${clientes.length})`} />*/}
+				<Typography variant="h3" component="h3">
+					{`Clientes (${clientes.length})`}
+				</Typography>
+
 				<p>
 					Administrador y supervisor de clientes, crea proyectos, y
 					revisa estados de cuenta

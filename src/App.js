@@ -130,6 +130,13 @@ function App() {
 							>
 								<AdminInventarioId />
 							</GuardedRoute>
+
+							<GuardedRoute
+								path="/inventarios"
+								meta={{ auth: true }}
+							>
+								<h1>Inventarios</h1>
+							</GuardedRoute>							
 							{/*Inventarios*/}
 
 							{/*Comisionistas*/}

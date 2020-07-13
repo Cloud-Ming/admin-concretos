@@ -4,50 +4,21 @@ import { Card, CardContent, makeStyles } from "@material-ui/core";
 // import Titulo from "../../../titulo/Titulo";
 
 // Formulario de añadir gastos
-import GastosForm from "./gastos/gastos/GastosForm";
+// import GastosForm from "./gastos/gastos/GastosForm";
 
 // Formulario añadir comisionistas
-import FormComisionistas from "./gastos/comisionistas/Admin";
+// import FormComisionistas from "./gastos/comisionistas/Admin";
 
-// import AdminCotizaciones from "./pdf/cotizaciones/Admin";
+import AdminCotizaciones from "./pdf/cotizaciones/Admin";
 
 import Preformas from "./pdf/preformas/Preformas";
 import Facturas from "./pdf/facturas/Facturas";
 
 function InventarioId(props) {
 	// const [data, setData] = useState(props);
-	const { nombre_proyecto, id_cliente, nombre_cliente, data } = props;
+	const { nombre_proyecto, nombre_cliente, data } = props;
 	// Inhability
 	// id_cliente
-
-	// console.log("Props:", data);
-
-	const useStyles = makeStyles({
-		titlePrincipal: {
-			marginLeft: 15,
-		},
-		root: {
-			minWidth: 275,
-			marginBottom: 20,
-		},
-		bullet: {
-			display: "inline-block",
-			margin: "0 2px",
-			transform: "scale(0.8)",
-		},
-		title: {
-			fontSize: 22,
-		},
-		pos: {
-			marginBottom: 12,
-		},
-		list: {
-			margin: 0,
-			padding: 10,
-		},
-	});
-
-	const classes = useStyles();
 
 	const operacionTotal = (data, key) => {
 		let json = JSON.parse(data);
@@ -62,6 +33,26 @@ function InventarioId(props) {
 			accumulator + currentValue;
 		return result.reduce(reducer);
 	};
+
+	// Styles
+	const useStyles = makeStyles({
+		titlePrincipal: {
+			marginLeft: 15,
+		},
+		root: {
+			minWidth: 275,
+			marginBottom: 20,
+		},
+		title: {
+			fontSize: 22,
+		},
+		list: {
+			margin: 0,
+			padding: 10,
+		},
+	});
+
+	const classes = useStyles();
 
 	return (
 		<Fragment>
@@ -83,12 +74,7 @@ function InventarioId(props) {
 					<br />
 					{data.map((item, key) => (
 						<Card key={key} className={classes.root}>
-							<CardContent
-								style={{
-									backgroundColor:
-										"rgba(230, 185, 153, 0.64)",
-								}}
-							>
+							<CardContent>
 								<h4>{item.descripcion}</h4>
 								<p>
 									<b>Fecha:</b> {item.fecha}
@@ -120,7 +106,7 @@ function InventarioId(props) {
 								))}
 
 								<h3>
-									Total:{" "}
+									Total:{" "} $
 									{operacionTotal(item.inventario, key)}
 								</h3>
 								{/*<p>{item.inventario}</p>*/}
@@ -129,17 +115,17 @@ function InventarioId(props) {
 					))}
 				</div>
 
-				<div>
+				{/*<div>
 					<GastosForm id_cliente={id_cliente} gastos={data} />
 				</div>
 
 				<div>
 					<FormComisionistas />
 				</div>
-
-				{/*<div>
+*/}
+				<div>
 					<AdminCotizaciones />
-				</div>*/}
+				</div>
 				<div>
 					<Preformas />
 				</div>

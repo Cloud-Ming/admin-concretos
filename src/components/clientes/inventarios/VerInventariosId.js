@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 // import Titulo from "../../titulo/Titulo";
+
 import {
 	Card,
 	CardContent,
@@ -9,42 +10,17 @@ import {
 	Button,
 	makeStyles,
 } from "@material-ui/core";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
+// import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
+
+import DeleteIcon from "@material-ui/icons/Delete";
+import Assignment from "@material-ui/icons/Assignment";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 function VerInventariosId(props) {
 	// Props data
 	const { id_cliente, nombre_cliente, nombre_proyecto } = props;
 	const inventarios = props.data;
-
-	// Styles
-	const useStyles = makeStyles({
-		titlePrincipal: {
-			marginLeft: 15,
-		},
-		root: {
-			minWidth: 275,
-			marginBottom: 20,
-			backgroundColor: "#f7f4f4",
-		},
-		bullet: {
-			display: "inline-block",
-			margin: "0 2px",
-			transform: "scale(0.8)",
-		},
-		title: {
-			fontSize: 22,
-		},
-		pos: {
-			marginBottom: 12,
-		},
-		list: {
-			margin: 0,
-			padding: 10,
-		},
-	});
-
-	const classes = useStyles();
 
 	// Operaciones
 	const suma = (data, key) => {
@@ -72,6 +48,28 @@ function VerInventariosId(props) {
 	// 	list.push(service);
 	// 	return list;
 	// };
+
+	// Styles
+	const useStyles = makeStyles({
+		titlePrincipal: {
+			marginLeft: 15,
+		},
+		root: {
+			minWidth: 275,
+			marginBottom: 20,
+			backgroundColor: "#f7f4f4",
+		},
+		title: {
+			fontSize: 22,
+		},
+		list: {
+			margin: 0,
+			padding: 10,
+		},
+	});
+
+	const classes = useStyles();
+
 	return (
 		<Fragment>
 			<div
@@ -81,31 +79,54 @@ function VerInventariosId(props) {
 					marginRight: 10,
 				}}
 			>
-				<h2>{`Cliente: ${nombre_cliente}`}</h2>
-				<h1
-					style={{ margin: "0" }}
-				>{`Inventarios(${inventarios.length}): ${nombre_proyecto}`}</h1>
+				<br />
+				<br />
+				<Typography variant="h3" component="h3">
+					{`Cliente(${nombre_cliente})`}
+				</Typography>
+
+				<Typography variant="h4" component="h5">
+					{`Inventarios(${inventarios.length}): ${nombre_proyecto}`}
+				</Typography>
+				
 				<p>
 					Administra los inventarios relacionados a este proyecto{" "}
 					<b>({nombre_proyecto})</b>
 				</p>
+				<br />
+				<Button
+					component={Link}
+					to={`/crear-inventario/${id_cliente}/${btoa(
+						nombre_proyecto
+					)}/${btoa(nombre_cliente)}`}
+					variant="contained"
+					color="primary"
+					startIcon={<Assignment />}
+				>
+					Crear nuevo inventario
+				</Button>
 				{/*<h1>{`Proyecto: ${nombre_proyecto}`}</h1>*/}
 				{/*<h2>Proyecto</h2>*/}
 
 				<br />
+				<br />
+
 				{inventarios.map((inventario, key) => (
 					<Card
 						key={key}
 						className={classes.root}
-						style={{ backgroundColor: "rgb(184, 253, 170)" }}
+						style={{ backgroundColor: "rgba(253, 213, 170, 0.7)" }}
 					>
 						<CardContent>
-							<h2>{inventario.descripcion}</h2>
+							<Typography variant="h6" component="p">
+								{inventario.descripcion}
+							</Typography>
 
 							<Typography variant="body2" component="p">
 								<b>Fecha</b> {inventario.fecha}
 							</Typography>
 
+							<br />
 							<br />
 							<b>Servicios: </b>
 
@@ -137,8 +158,17 @@ function VerInventariosId(props) {
 										nombre_cliente
 									)}`}
 									size="small"
+									startIcon={<Assignment />}
 								>
 									Ver inventario
+								</Button>
+								&nbsp;
+								<Button
+									disabled
+									size="small"
+									startIcon={<DeleteIcon />}
+								>
+									Eliminar inventario
 								</Button>
 							</CardActions>
 
@@ -147,7 +177,12 @@ function VerInventariosId(props) {
 					</Card>
 				))}
 
-				<Link to={`/ver-proyectos/${id_cliente}/${btoa(nombre_cliente)}`}><ArrowBackIcon />Proyectos</Link>
+				<Link
+					to={`/ver-proyectos/${id_cliente}/${btoa(nombre_cliente)}`}
+				>
+					<ArrowBackIcon />
+					Proyectos
+				</Link>
 				{/*<Link to={`/ver-proyectos/${id_cliente}/${btoa(nombre_cliente)}`}>Proyectos</Link>*/}
 			</div>
 		</Fragment>

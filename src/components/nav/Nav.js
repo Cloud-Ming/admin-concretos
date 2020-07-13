@@ -35,7 +35,9 @@ import BusinessCenter from "@material-ui/icons/BusinessCenter";
 // import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 import GroupAddIcon from '@material-ui/icons/GroupAdd';
 import GroupIcon from '@material-ui/icons/Group';
+import Assignment from "@material-ui/icons/Assignment";
 
+// Styles
 const useStyles = makeStyles((theme) => ({
   grow: {
     flexGrow: 1,
@@ -106,6 +108,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+// Component
 function Nav({ history }) {
   const { user, logout } = useContext(Usercontext);
   // console.log('Nav se renderizo!!');
@@ -233,12 +236,20 @@ function Nav({ history }) {
           <ListItemText primary="Registrar cliente" />
         </ListItem>
 
-        <ListItem button component={Link} to="/proyectos">
+        <ListItem disabled button component={Link} to="/proyectos">
           <ListItemIcon>
             <BusinessCenter />
             {/*<SupervisorAccountIcon />*/}
           </ListItemIcon>
           <ListItemText primary="Proyectos" />
+        </ListItem>
+
+        <ListItem disabled button component={Link} to="/inventarios">
+          <ListItemIcon>
+            <Assignment />
+            {/*<SupervisorAccountIcon />*/}
+          </ListItemIcon>
+          <ListItemText primary="Inventarios" />
         </ListItem>
 
         <Divider />
@@ -281,7 +292,7 @@ function Nav({ history }) {
 
         <Divider />
 
-        <ListItem button component={Link} to="/papelera">
+        <ListItem disabled button component={Link} to="/papelera">
           <ListItemIcon>
             <Delete />
           </ListItemIcon>

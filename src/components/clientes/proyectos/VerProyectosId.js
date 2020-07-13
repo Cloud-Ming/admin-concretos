@@ -14,6 +14,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
+
+import Typography from "@material-ui/core/Typography";
+
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
@@ -25,14 +28,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
-import ArrowBackIcon from '@material-ui/icons/ArrowBack';
-
-const useStyles1 = makeStyles((theme) => ({
-	root: {
-		flexShrink: 0,
-		marginLeft: theme.spacing(2.5),
-	},
-}));
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 function TablePaginationActions(props) {
 	const classes = useStyles1();
@@ -112,6 +108,15 @@ TablePaginationActions.propTypes = {
 	rowsPerPage: PropTypes.number.isRequired,
 };
 
+// Styles
+
+const useStyles1 = makeStyles((theme) => ({
+	root: {
+		flexShrink: 0,
+		marginLeft: theme.spacing(2.5),
+	},
+}));
+
 const useStyles2 = makeStyles({
 	table: {
 		minWidth: 650,
@@ -153,10 +158,21 @@ function VerProyecto(props) {
 					text={`Cliente: ${nombre_cliente}`}
 				/>*/}
 				<br />
-				<h2>{`Cliente(${nombre_cliente})`}</h2>
-				<h1>{`Proyectos(${proyectos.length}): ${proyectos[0].nombre_proyecto}`}</h1>
+				<br />
+				<Typography variant="h3" component="h3">
+					{`Cliente(${nombre_cliente})`}
+				</Typography>
+
+				<Typography variant="h4" component="h5">
+					{`Proyectos(${proyectos.length}): ${proyectos[0].nombre_proyecto}`}
+				</Typography>
+				<br />
+
+				{/*<h2>{`Cliente(${nombre_cliente})`}</h2>*/}
+				{/*<p>{`Proyectos(${proyectos.length}): ${proyectos[0].nombre_proyecto}`}</p>*/}
 
 				{/*<h3>{`Proyectos (${proyectos.length})`}</h3>*/}
+
 				<p>
 					Administra los proyectos de cada cliente, añade nuevos
 					inventarios.
@@ -230,9 +246,9 @@ function VerProyecto(props) {
 											component={Link}
 											to={`/crear-inventario/${
 												row.id
-											}/${btoa(row.nombre_proyecto)}/${btoa(
-												nombre_cliente
-											)}`}
+											}/${btoa(
+												row.nombre_proyecto
+											)}/${btoa(nombre_cliente)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -295,7 +311,10 @@ function VerProyecto(props) {
 				</TableContainer>
 				<br />
 
-				<Link to={`/clientes`}><ArrowBackIcon />Clientes</Link>
+				<Link to={`/clientes`}>
+					<ArrowBackIcon />
+					Clientes
+				</Link>
 			</div>
 		</Fragment>
 	);

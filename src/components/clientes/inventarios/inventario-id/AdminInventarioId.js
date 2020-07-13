@@ -34,48 +34,49 @@ class AdminInventarios extends Component {
 			nombre_cliente: nombre_cliente,
 		});
 
-		// this.setState({
-		// 	loading: false,
-		// 	data: [
-		// 		{
-		// 			id: "1",
-		// 			id_proyecto: "1",
-		// 			fecha: "2020-06-23",
-		// 			inventario:
-		// 				'[{"id":2,"service":"Concreto 2","price":"32000","count":"1"},{"id":3,"service":"Maquinaria","price":"32000","count":"3"},{"id":4,"service":"Bomba","price":"3000","count":"6"}]',
-		// 			gastos: "[]",
-		// 			descripcion: "Proyecto casas",
-		// 			exito: "true",
-		// 		},
-		// 	],
-		// });
+		// Data simulada
+		this.setState({
+			loading: false,
+			data: [
+				{
+					id: "1",
+					id_proyecto: "1",
+					fecha: "2020-06-23",
+					inventario:
+						'[{"id":2,"service":"Concreto 2","price":"32000","count":"1"},{"id":3,"service":"Maquinaria","price":"32000","count":"3"},{"id":4,"service":"Bomba","price":"3000","count":"6"}]',
+					gastos: "[]",
+					descripcion: "Proyecto casas",
+					exito: "true",
+				},
+			],
+		});
 
 		// console.log(id);
 
-		this.abortController = new AbortController();
+		// this.abortController = new AbortController();
 
-		try {
-			const response = await fetch(
-				`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventarioId.php?id=${id}`,
-				{
-					signal: this.abortController.signal,
-				}
-			);
+		// try {
+		// 	const response = await fetch(
+		// 		`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventarioId.php?id=${id}`,
+		// 		{
+		// 			signal: this.abortController.signal,
+		// 		}
+		// 	);
 
-			if (response.status >= 300) throw new Error(response.statusText);
+		// 	if (response.status >= 300) throw new Error(response.statusText);
 
-			const data = await response.json();
+		// 	const data = await response.json();
 
-			this.setState({ loading: false, data });
+		// 	this.setState({ loading: false, data });
 			
-		} catch (e) {
-			if (e.name !== "AbortError") this.setState({ error: e.message });
-		}
+		// } catch (e) {
+		// 	if (e.name !== "AbortError") this.setState({ error: e.message });
+		// }
 	}
 
-	componentWillUnmount() {
-		this.abortController.abort();
-	}
+	// componentWillUnmount() {
+	// 	this.abortController.abort();
+	// }
 
 	render() {
 		const {

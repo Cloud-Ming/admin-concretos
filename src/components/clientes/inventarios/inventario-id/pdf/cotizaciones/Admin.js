@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import Loading from "../../../../../loading/Loading";
 import Cotizacion from "./Cotizacion";
@@ -20,22 +20,14 @@ class AdminCotizaciones extends Component {
 
 	async componentDidMount() {
 		const { match } = this.props;
+
 		const id = match.params.id;
-
 		const data = match.params.data;
-		// const data = match.params.data;
-
-		// console.log(atob(data));
 
 		this.setState({
-			nombre_proyecto: atob(data)
-		})
-
-		this.setState({
+			nombre_proyecto: atob(data),
 			id_cliente: id,
 		});
-
-		console.log(id);
 
 		this.abortController = new AbortController();
 
@@ -62,7 +54,13 @@ class AdminCotizaciones extends Component {
 	}
 
 	render() {
-		const { error, loading, data, id_cliente, nombre_proyecto } = this.state;
+		const {
+			error,
+			loading,
+			data,
+			id_cliente,
+			nombre_proyecto,
+		} = this.state;
 
 		if (!!error)
 			return (
@@ -79,20 +77,13 @@ class AdminCotizaciones extends Component {
 				</Fragment>
 			);
 
-		// Si no hay proyectos ...
-		if (data === null)
-			return (
-				<Fragment>
-					<h1> No existe inventario </h1>
-					<Link to={`/crear-inventario/${this.state.id_cliente}`}>
-						Crear inventario
-					</Link>
-				</Fragment>
-			);
-
 		return (
 			<Fragment>
-				<Cotizacion nombre_proyecto={nombre_proyecto} id_inventario={id_cliente} data={data} />
+				<Cotizacion
+					nombre_proyecto={nombre_proyecto}
+					id_inventario={id_cliente}
+					data={data}
+				/>
 			</Fragment>
 		);
 	}

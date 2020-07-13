@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import ErroRes from "../erroRes/ErroRes";
 
 import Loading from "../loading/Loading";
-import NoHayProveedores from "./NoHayProveedores"
+import NoHayProveedores from "./NoHayProveedores";
 import Proveedores from "./Proveedores";
 
 class AdminProveedores extends Component {
@@ -17,37 +17,61 @@ class AdminProveedores extends Component {
 
 		this.marcarComoImportante = this.marcarComoImportante.bind(this);
 	}
+	// async componentDidMount() {
+		// Data : Null or [data]
+
+	// 	this.setState({
+	// 		loading: false,
+	// 		// data: null,
+	// 		data: [
+	// 			{
+	// 				id: "1",
+	// 				proveedor: "Pruebas sas",
+	// 				email: "sas@gmail.com",
+	// 				celular: "320108288",
+	// 				id_servicio: "0",
+	// 				producto: "Cemento",
+	// 				monto: "100000",
+	// 				fecha_creacion: "13/7/2020 9:14:59",
+	// 			},
+	// 			{
+	// 				id: "2",
+	// 				proveedor: "Otra prueba",
+	// 				email: "otraPruebaSas@gmail.com",
+	// 				celular: "320108288",
+	// 				id_servicio: "0",
+	// 				producto: "Cemento",
+	// 				monto: "100000",
+	// 				fecha_creacion: "13/7/2020 9:14:59",
+	// 			},
+	// 		],
+	// 	});
+	// }
+
 	async componentDidMount() {
-		this.setState({
-			loading: false,
-			data: null,
-		});
+		this.abortController = new AbortController();
+
+		try {
+			const response = await fetch(
+				"https://botanicainternacionalamazonas.com/backend/vista/proveedores/cargarProveedores.php",
+				{
+					signal: this.abortController.signal,
+				}
+			);
+
+			if (response.status >= 300) throw new Error(response.statusText);
+
+			const data = await response.json();
+
+			this.setState({ loading: false, data });
+		} catch (e) {
+			if (e.name !== "AbortError") this.setState({ error: e.message });
+		}
 	}
 
-	// async componentDidMount() {
-	// 	this.abortController = new AbortController();
-
-	// 	try {
-	// 		const response = await fetch(
-	// 			"https://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php?id=1",
-	// 			{
-	// 				signal: this.abortController.signal,
-	// 			}
-	// 		);
-
-	// 		if (response.status >= 300) throw new Error(response.statusText);
-
-	// 		const data = await response.json();
-
-	// 		this.setState({ loading: false, data });
-	// 	} catch (e) {
-	// 		if (e.name !== "AbortError") this.setState({ error: e.message });
-	// 	}
-	// }
-
-	// componentWillUnmount() {
-	// 	this.abortController.abort();
-	// }
+	componentWillUnmount() {
+		this.abortController.abort();
+	}
 
 	marcarComoImportante(id) {
 		console.log(id);
@@ -70,9 +94,7 @@ class AdminProveedores extends Component {
 				</Fragment>
 			);
 
-		if (data === null) return (
-			<NoHayProveedores />
-			);
+		if (data === null) return <NoHayProveedores />;
 
 		return (
 			<Fragment>

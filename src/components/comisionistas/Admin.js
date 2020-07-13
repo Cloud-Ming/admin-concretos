@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from "react";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 
 import Loading from "../loading/Loading";
+import NoHayComisionistas from "./NoHayComisionistas"
 import TablaComisionistas from "./TablaComisionistas";
 
 class AdminClientes extends Component {
@@ -67,8 +68,7 @@ class AdminClientes extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay comisionistas </h1>
-					<Link to={`/crear-comisionista/`}>Crear comisionista</Link>
+					<NoHayComisionistas />
 				</Fragment>
 			);
 

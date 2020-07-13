@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 // import { Usercontext } from "../../context/Context";
 import { useParams } from "react-router-dom";
 import {
@@ -160,7 +160,18 @@ function CrearInventario() {
 	const handleonSubmit = async (event) => {
 		event.preventDefault();
 		//event.target.reset();
-		console.log(datos);
+		// setDatosForm({
+		// 	id: 1,
+		// 	client: "",
+		// 	typeService: "0",
+		// 	service: "Concreto psi",
+		// 	price: 0,
+		// 	count: 0,
+		// 	iva: 0,
+		// 	retencion: 0,
+		// 	id_service: 0,
+		// 	natural: false,
+		// });
 
 		if (
 			datos.id_proyecto.length === 0 ||
