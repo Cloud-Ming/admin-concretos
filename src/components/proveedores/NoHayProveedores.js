@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
 import { Link } from "react-router-dom";
 import Button from "@material-ui/core/Button";
-import BusinessCenter from "@material-ui/icons/BusinessCenter";
+import Group from "@material-ui/icons/Group";
 
-const noHayProyectos = (props) => {
+const NoHayProveedores = (props) => {
 	const { id_cliente, nombre_cliente}  = props;
 	// console.log('DATA', nombre_cliente);
 
@@ -18,19 +18,19 @@ const noHayProyectos = (props) => {
 					justifyContent: "center",
 				}}
 			>	
-				<h1> No hay proyectos ({nombre_cliente})</h1>
+				<h1> No hay proveedores registrados</h1>
 				<Button
 						component={Link}
 						to={`/crear-proyecto/${id_cliente}/${btoa(nombre_cliente)}`}
 						variant="contained"
 						color="primary"
-						startIcon={<BusinessCenter />}
+						startIcon={<Group />}
 					>
-						Crear proyecto
+						Crear proveedor
 					</Button>
 				{/*<Link to={`/crear-proyecto/${id_cliente}/${btoa(nombre_cliente)}`}>Crear Poyecto</Link>*/}
 			</div>
 		</Fragment>
 	);
 };
-export default noHayProyectos;
+export default NoHayProveedores;

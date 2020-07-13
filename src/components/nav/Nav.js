@@ -30,8 +30,11 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 // import InboxIcon from "@material-ui/icons/MoveToInbox";
 import Delete from "@material-ui/icons/Delete";
 import Business from "@material-ui/icons/Business";
-import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
-import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
+import BusinessCenter from "@material-ui/icons/BusinessCenter";
+// import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
+// import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
+import GroupAddIcon from '@material-ui/icons/GroupAdd';
+import GroupIcon from '@material-ui/icons/Group';
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -229,28 +232,35 @@ function Nav({ history }) {
           </ListItemIcon>
           <ListItemText primary="Registrar cliente" />
         </ListItem>
+
+        <ListItem button component={Link} to="/proyectos">
+          <ListItemIcon>
+            <BusinessCenter />
+            {/*<SupervisorAccountIcon />*/}
+          </ListItemIcon>
+          <ListItemText primary="Proyectos" />
+        </ListItem>
+
         <Divider />
 
         <ListItem button component={Link} to="/comisionistas">
           <ListItemIcon>
-            <SupervisorAccountIcon />
+            <GroupAddIcon />
           </ListItemIcon>
           <ListItemText primary="Comisionistas" />
         </ListItem>
 
-
-        <ListItem button component={Link} to="/comisionistas">
+        <ListItem button component={Link} to="/crear-comisionista">
           <ListItemIcon>
             <AddCircleIcon />
           </ListItemIcon>
           <ListItemText primary="Registrar comisionista" />
         </ListItem>
 
-
         <Divider />
         <ListItem button component={Link} to="/proveedores">
           <ListItemIcon>
-            <BusinessCenterIcon />
+            <GroupIcon />
           </ListItemIcon>
           <ListItemText primary="Proveedores" />
         </ListItem>
@@ -297,7 +307,7 @@ function Nav({ history }) {
             </IconButton>
 
             <Typography className={classes.title} variant="h6" noWrap>
-              Super Concretos
+              Super Concretos S.A.S
             </Typography>
             {/*
             <div className={classes.search}>

@@ -2,9 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Link, withRouter } from "react-router-dom";
 
 import Loading from "../../../loading/Loading";
-
 import ErroRes from "../../../erroRes/ErroRes";
-
 import InventarioId from "./InventarioId";
 
 class AdminInventarios extends Component {
@@ -69,6 +67,7 @@ class AdminInventarios extends Component {
 			const data = await response.json();
 
 			this.setState({ loading: false, data });
+			
 		} catch (e) {
 			if (e.name !== "AbortError") this.setState({ error: e.message });
 		}

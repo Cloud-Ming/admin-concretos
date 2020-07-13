@@ -30,7 +30,7 @@ class AdminComisionistas extends Component {
 
 		try {
 			const response = await fetch(
-				`https://botanicainternacionalamazonas.com/backend/vista/comisionistas/comisionistaId.php?id=${id}`,
+				`https://botanicainternacionalamazonas.com/backend/vista/comisionistas/verInfoComisionistas.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}

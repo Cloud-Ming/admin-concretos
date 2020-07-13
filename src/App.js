@@ -15,6 +15,7 @@ import RegistroClientes from "./components/clientes/Registro";
 // Proyectos
 import CrearProyecto from "./components/clientes/proyectos/CrearProyecto";
 import AdminProyectosId from "./components/clientes/proyectos/AdminProyectosId";
+import Proyectos from "./components/clientes/proyectos/Proyectos";
 // Proyectos
 
 // Inventarios
@@ -31,6 +32,7 @@ import CrearComisionista from "./components/comisionistas/Registro";
 
 // Proveedores
 import AdminProveedores from "./components/proveedores/Admin";
+import CrearProveedores from "./components/proveedores/CrearProveedores";
 // Proveedores
 
 // Estado de cuenta
@@ -98,6 +100,13 @@ function App() {
 							>
 								<AdminProyectosId />
 							</GuardedRoute>
+
+							<GuardedRoute
+								path="/proyectos"
+								meta={{ auth: true }}
+							>
+								<Proyectos />
+							</GuardedRoute>
 							{/*Proyectos*/}
 
 							{/*Inventarios*/}
@@ -152,6 +161,13 @@ function App() {
 								meta={{ auth: true }}
 							>
 								<AdminProveedores />
+							</GuardedRoute>
+
+							<GuardedRoute
+								path="/crear-proveedor"
+								meta={{ auth: true }}
+							>
+								<CrearProveedores />
 							</GuardedRoute>
 							{/*Proveedores*/}
 

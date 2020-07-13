@@ -4,10 +4,10 @@ import { Card, CardContent, makeStyles } from "@material-ui/core";
 // import Titulo from "../../../titulo/Titulo";
 
 // Formulario de añadir gastos
-// import GastosForm from "./gastos/gastos/GastosForm";
+import GastosForm from "./gastos/gastos/GastosForm";
 
 // Formulario añadir comisionistas
-// import FormComisionistas from "./gastos/comisionistas/Admin";
+import FormComisionistas from "./gastos/comisionistas/Admin";
 
 // import AdminCotizaciones from "./pdf/cotizaciones/Admin";
 
@@ -16,7 +16,7 @@ import Facturas from "./pdf/facturas/Facturas";
 
 function InventarioId(props) {
 	// const [data, setData] = useState(props);
-	const { nombre_proyecto, nombre_cliente, data } = props;
+	const { nombre_proyecto, id_cliente, nombre_cliente, data } = props;
 	// Inhability
 	// id_cliente
 
@@ -73,15 +73,23 @@ function InventarioId(props) {
 				}}
 			>
 				<div>
-					<h1>Cliente: {atob(nombre_cliente)}</h1>
+					<br />
+					{/*<h3>Inventarios</h3>*/}
+					<h2>Cliente({atob(nombre_cliente)})</h2>
 					{/*<Titulo text={nombre_proyecto} />*/}
+
+					<h1>Proyecto({nombre_proyecto})</h1>
+					<p>Inventarios</p>
 					<br />
 					{data.map((item, key) => (
 						<Card key={key} className={classes.root}>
 							<CardContent
-								style={{ backgroundColor: "#7f87ffb5" }}
+								style={{
+									backgroundColor:
+										"rgba(230, 185, 153, 0.64)",
+								}}
 							>
-								<h2>{item.descripcion}</h2>
+								<h4>{item.descripcion}</h4>
 								<p>
 									<b>Fecha:</b> {item.fecha}
 								</p>
@@ -93,12 +101,9 @@ function InventarioId(props) {
 								>
 									Inventario:
 								</Typography>*/}
-
-								{JSON.parse(item.inventario).map((data) => (
-									<div
-										key={key + data.service}
-										className={classes.list}
-									>
+								<h4>Servicios:</h4>
+								{JSON.parse(item.inventario).map((data, i) => (
+									<div key={i} className={classes.list}>
 										<div>
 											<b>Servicio:</b> {data.service}
 										</div>
@@ -124,13 +129,13 @@ function InventarioId(props) {
 					))}
 				</div>
 
-				{/*<div>
+				<div>
 					<GastosForm id_cliente={id_cliente} gastos={data} />
-				</div>*/}
-				{/*
+				</div>
+
 				<div>
 					<FormComisionistas />
-				</div>*/}
+				</div>
 
 				{/*<div>
 					<AdminCotizaciones />

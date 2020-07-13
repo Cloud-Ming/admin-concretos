@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 
 import Loading from "../../loading/Loading";
+import ErroRes from "../../erroRes/ErroRes";
+
 import NoHayInventarios from "./NoHayInventarios";
 
 import VerInventariosId from "./VerInventariosId";
@@ -41,8 +43,8 @@ class AdminInventarios extends Component {
 		});*/
 
 		// Inhability
-		
-	this.abortController = new AbortController();
+
+		this.abortController = new AbortController();
 
 		try {
 			const response = await fetch(
@@ -60,7 +62,6 @@ class AdminInventarios extends Component {
 		} catch (e) {
 			if (e.name !== "AbortError") this.setState({ error: e.message });
 		}
-		
 	}
 
 	componentWillUnmount() {
@@ -80,8 +81,7 @@ class AdminInventarios extends Component {
 		if (!!error)
 			return (
 				<Fragment>
-					<h2>{error}</h2>
-					<p>A ocurrido un error</p>
+					<ErroRes />
 				</Fragment>
 			);
 
@@ -96,10 +96,6 @@ class AdminInventarios extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					{/*<h1> No hay inventarios </h1>
-					<Link to={`/crear-inventario/${this.state.id_cliente}`}>
-						Crear inventario
-					</Link>*/}
 					<NoHayInventarios
 						id_cliente={id_cliente}
 						nombre_cliente={nombre_cliente}
@@ -111,6 +107,7 @@ class AdminInventarios extends Component {
 		return (
 			<Fragment>
 				<VerInventariosId
+					id_cliente={id_cliente}
 					nombre_cliente={nombre_cliente}
 					nombre_proyecto={nombre_proyecto}
 					data={data}

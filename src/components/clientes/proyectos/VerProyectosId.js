@@ -4,6 +4,9 @@ import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+
+import Button from "@material-ui/core/Button";
+
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -21,6 +24,8 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 const useStyles1 = makeStyles((theme) => ({
 	root: {
@@ -147,20 +152,34 @@ function VerProyecto(props) {
 				{/*<Titulo
 					text={`Cliente: ${nombre_cliente}`}
 				/>*/}
-
-				<h1>{`Proyectos(${proyectos.length}): ${nombre_cliente}`}</h1>
-				<h3>{`Proyecto: ${proyectos[0].nombre_proyecto} (${proyectos.length})`}</h3>
+				<br />
+				<h2>{`Cliente(${nombre_cliente})`}</h2>
+				<h1>{`Proyectos(${proyectos.length}): ${proyectos[0].nombre_proyecto}`}</h1>
 
 				{/*<h3>{`Proyectos (${proyectos.length})`}</h3>*/}
 				<p>
 					Administra los proyectos de cada cliente, añade nuevos
-					inventarios
+					inventarios.
 				</p>
-				<Link
+				<br />
+				<Button
+					component={Link}
+					to={`/crear-proyecto/${id_cliente}/${btoa(
+						proyectos[0].nombre_proyecto
+					)}/${btoa(nombre_cliente)}`}
+					variant="contained"
+					color="primary"
+					startIcon={<BusinessCenterIcon />}
+				>
+					Crear nuevo proyecto
+				</Button>
+
+				{/*<Link
 					to={`/crear-proyecto/${id_cliente}/${btoa(proyectos[0].nombre_proyecto)}/${btoa(nombre_cliente)}`}
 				>
 					Crea nuevo proyecto
-				</Link>
+				</Link>*/}
+				<br />
 				<br />
 				<br />
 				<TableContainer component={Paper}>
@@ -211,7 +230,7 @@ function VerProyecto(props) {
 											component={Link}
 											to={`/crear-inventario/${
 												row.id
-											}/${btoa(id_cliente)}/${btoa(
+											}/${btoa(row.nombre_proyecto)}/${btoa(
 												nombre_cliente
 											)}`}
 											aria-label="delete"
@@ -276,7 +295,7 @@ function VerProyecto(props) {
 				</TableContainer>
 				<br />
 
-				<Link to={`/clientes`}>Clientes</Link>
+				<Link to={`/clientes`}><ArrowBackIcon />Clientes</Link>
 			</div>
 		</Fragment>
 	);

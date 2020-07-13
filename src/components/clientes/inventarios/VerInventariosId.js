@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import { Link } from "react-router-dom";
 // import Titulo from "../../titulo/Titulo";
 import {
 	Card,
@@ -8,14 +9,15 @@ import {
 	Button,
 	makeStyles,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+
 
 function VerInventariosId(props) {
-	const { nombre_cliente, nombre_proyecto } = props;
-	console.log(props);
+	// Props data
+	const { id_cliente, nombre_cliente, nombre_proyecto } = props;
 	const inventarios = props.data;
-	// console.log(inventarios);
 
+	// Styles
 	const useStyles = makeStyles({
 		titlePrincipal: {
 			marginLeft: 15,
@@ -44,6 +46,7 @@ function VerInventariosId(props) {
 
 	const classes = useStyles();
 
+	// Operaciones
 	const suma = (data, key) => {
 		let json = JSON.parse(data);
 
@@ -64,6 +67,11 @@ function VerInventariosId(props) {
 		return result.reduce(reducer);
 	};
 
+	// const recorrerArrays = (service) => {
+	// 	let list = [];
+	// 	list.push(service);
+	// 	return list;
+	// };
 	return (
 		<Fragment>
 			<div
@@ -92,54 +100,42 @@ function VerInventariosId(props) {
 						style={{ backgroundColor: "rgb(184, 253, 170)" }}
 					>
 						<CardContent>
-							{/*<Typography
-								className={classes.title}
-								color="textSecondary"
-								gutterBottom
-							>
-								{inventario.descripcion}
-							</Typography>*/}
 							<h2>{inventario.descripcion}</h2>
 
 							<Typography variant="body2" component="p">
 								<b>Fecha</b> {inventario.fecha}
 							</Typography>
 
-							<b>Inventario: </b>
+							<br />
+							<b>Servicios: </b>
 
-							{JSON.parse(inventario.inventario).map((data) => (
-								<ul
-									key={key + data.service}
-									className={classes.list}
-								>
-									<li>
-										<b>Servicio:</b> {data.service}
-									</li>
-									{/*<li>
+							{JSON.parse(inventario.inventario).map(
+								(data, i) => (
+									<div key={i} className={classes.list}>
+										<div>
+											<b>{i + 1}.</b> &nbsp;
+											<b>Servicio:</b> {data.service}
+										</div>
+										{/*<li>
 										<b>Precio:</b> {data.price}
 									</li>
 									<li>
 										<b>Cantidad:</b> {data.count}
 									</li>}*/}
-								</ul>
-							))}
+									</div>
+								)
+							)}
 
 							<h3>Total: ${suma(inventario.inventario, key)}</h3>
-
-							{/*{JSON.parse(inventario.inventario).map((data) => {
-								return (
-									<div key={key + data.service}>
-										{data.count}
-									</div>
-								);
-							})}*/}
 
 							<CardActions>
 								<Button
 									component={Link}
 									to={`/ver-inventario/${
 										inventario.id
-									}/${btoa(nombre_proyecto)}/${btoa(nombre_cliente)}`}
+									}/${btoa(nombre_proyecto)}/${btoa(
+										nombre_cliente
+									)}`}
 									size="small"
 								>
 									Ver inventario
@@ -150,6 +146,9 @@ function VerInventariosId(props) {
 						</CardContent>
 					</Card>
 				))}
+
+				<Link to={`/ver-proyectos/${id_cliente}/${btoa(nombre_cliente)}`}><ArrowBackIcon />Proyectos</Link>
+				{/*<Link to={`/ver-proyectos/${id_cliente}/${btoa(nombre_cliente)}`}>Proyectos</Link>*/}
 			</div>
 		</Fragment>
 	);

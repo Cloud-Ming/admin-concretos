@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from "react";
+import ErroRes from "../erroRes/ErroRes";
+
 import Loading from "../loading/Loading";
-// import TablaClientes from "./TablaClientes";
+import NoHayProveedores from "./NoHayProveedores"
+import Proveedores from "./Proveedores";
 
 class AdminProveedores extends Component {
 	constructor(props) {
@@ -14,44 +17,49 @@ class AdminProveedores extends Component {
 
 		this.marcarComoImportante = this.marcarComoImportante.bind(this);
 	}
-
 	async componentDidMount() {
-		this.abortController = new AbortController();
-
-		try {
-			const response = await fetch(
-				"https://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php?id=1",
-				{
-					signal: this.abortController.signal,
-				}
-			);
-
-			if (response.status >= 300) throw new Error(response.statusText);
-
-			const data = await response.json();
-
-			this.setState({ loading: false, data });
-		} catch (e) {
-			if (e.name !== "AbortError") this.setState({ error: e.message });
-		}
+		this.setState({
+			loading: false,
+			data: null,
+		});
 	}
 
-	componentWillUnmount() {
-		this.abortController.abort();
-	}
+	// async componentDidMount() {
+	// 	this.abortController = new AbortController();
+
+	// 	try {
+	// 		const response = await fetch(
+	// 			"https://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php?id=1",
+	// 			{
+	// 				signal: this.abortController.signal,
+	// 			}
+	// 		);
+
+	// 		if (response.status >= 300) throw new Error(response.statusText);
+
+	// 		const data = await response.json();
+
+	// 		this.setState({ loading: false, data });
+	// 	} catch (e) {
+	// 		if (e.name !== "AbortError") this.setState({ error: e.message });
+	// 	}
+	// }
+
+	// componentWillUnmount() {
+	// 	this.abortController.abort();
+	// }
 
 	marcarComoImportante(id) {
 		console.log(id);
 	}
 
 	render() {
-		const { error, loading } = this.state;
+		const { error, loading, data } = this.state;
 		// console.log(data);
 		if (!!error)
 			return (
 				<Fragment>
-					<h2>{error}</h2>
-					<p>A ocurrido un error</p>
+					<ErroRes />
 				</Fragment>
 			);
 
@@ -61,11 +69,15 @@ class AdminProveedores extends Component {
 					<Loading />
 				</Fragment>
 			);
-		
+
+		if (data === null) return (
+			<NoHayProveedores />
+			);
+
 		return (
 			<Fragment>
-				<h1>Admin Proveedores</h1>
-				{/*<TablaClientes data={data} />*/}
+				{/*<h1>Admin Proveedores</h1>*/}
+				{<Proveedores data={data} />}
 			</Fragment>
 		);
 	}
