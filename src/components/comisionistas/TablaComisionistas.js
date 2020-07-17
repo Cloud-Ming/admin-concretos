@@ -1,5 +1,7 @@
 import React, { Fragment } from "react";
-import Titulo from "../titulo/Titulo";
+
+// import Titulo from "../titulo/Titulo";
+
 import { Link } from "react-router-dom";
 
 import PropTypes from "prop-types";
@@ -19,9 +21,10 @@ import KeyboardArrowLeft from "@material-ui/icons/KeyboardArrowLeft";
 import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 import LastPageIcon from "@material-ui/icons/LastPage";
 
-import AddCircleIcon from "@material-ui/icons/AddCircle";
+
 import VisibilityIcon from "@material-ui/icons/Visibility";
-// import IconButton from '@material-ui/core/IconButton';
+
+
 
 const useStyles1 = makeStyles((theme) => ({
 	root: {
@@ -141,12 +144,7 @@ function TablaComisionistas(props) {
 
 	return (
 		<Fragment>
-			<div style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
-				<Titulo text="Comisionistas" />
-
-				<Link to="/crear-comisionista/">Crear comisionista</Link>
-				
-				<br />
+			<div style={{ marginTop: "20px", marginLeft: "10px", marginRight: "10px" }}>
 				<TableContainer component={Paper}>
 					<Table
 						className={classes.table}
@@ -165,9 +163,7 @@ function TablaComisionistas(props) {
 								<TableCell className={classes.titleHead}>
 									Fecha creación
 								</TableCell>
-								<TableCell className={classes.titleHead}>
-									Agregar comision
-								</TableCell>
+						
 								<TableCell className={classes.titleHead}>
 									Ver comisiones
 								</TableCell>
@@ -193,21 +189,11 @@ function TablaComisionistas(props) {
 										{row.fecha}
 									</TableCell>
 
+									
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`crear-comision/${row.id}`}
-											aria-label="delete"
-											className={classes.margin}
-										>
-											<AddCircleIcon />
-										</IconButton>
-									</TableCell>
-
-									<TableCell style={{ width: 160 }}>
-										<IconButton
-											component={Link}
-											to={`ver-comisionista/${row.id}`}
+											to={`ver-comisionista/${row.id}/${btoa(row.nombre)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -253,6 +239,7 @@ function TablaComisionistas(props) {
 						</TableFooter>
 					</Table>
 				</TableContainer>
+
 			</div>
 		</Fragment>
 	);

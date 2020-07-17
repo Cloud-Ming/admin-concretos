@@ -13,6 +13,7 @@ class AdminComisionistas extends Component {
 			data: null,
 			error: null,
 			id_cliente: null,
+			comisionista:null,
 		};
 	}
 
@@ -20,8 +21,11 @@ class AdminComisionistas extends Component {
 		const { match } = this.props;
 		const id = match.params.id;
 
+		const comisionista = match.params.comisionista;
+
 		this.setState({
 			id_cliente: id,
+			comisionista: comisionista,
 		});
 
 		console.log("ID:", id);
@@ -51,7 +55,7 @@ class AdminComisionistas extends Component {
 	}
 
 	render() {
-		const { error, loading, id_cliente, data } = this.state;
+		const { error, loading, id_cliente, comisionista, data } = this.state;
 
 		if (!!error)
 			return (
@@ -81,7 +85,7 @@ class AdminComisionistas extends Component {
 
 		return (
 			<Fragment>
-				<ComisionistaId id_cliente={id_cliente} data={data} />
+				<ComisionistaId id_cliente={id_cliente} comisionista={comisionista} data={data} />
 			</Fragment>
 		);
 	}

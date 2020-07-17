@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
-import { makeStyles } from "@material-ui/core/styles";
 
+import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -21,19 +21,14 @@ const useStyles = makeStyles({
 });
 
 const Proveedores = (props) => {
+	
 	const { data } = props;
+
 	const classes = useStyles();
 
 	return (
 		<Fragment>
 			<div style={{ margin: 10 }}>
-				<br />
-				<br />
-				<Typography variant="h3" component="h2">
-					Proveedores({data.length})
-				</Typography>
-				<p>Administrar proveedores</p>
-				<br />
 				{data.map((item, index) => (
 					<div key={index}>
 						<Card className={classes.root}>

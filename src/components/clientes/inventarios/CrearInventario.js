@@ -19,6 +19,7 @@ import {
 // Icons
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import Assignment from "@material-ui/icons/Assignment"
 
 // Styles
 const useStyles = makeStyles((theme) => ({
@@ -438,7 +439,8 @@ function CrearInventario() {
 
 					<br />
 
-					<Button type="submit" variant="contained" color="primary">
+					<Button type="submit" variant="contained" color="primary"
+					startIcon={<Assignment />}>
 						Crear inventario
 					</Button>
 				</form>

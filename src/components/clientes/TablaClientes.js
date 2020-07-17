@@ -1,7 +1,8 @@
 import React, { Fragment } from "react";
 // import Titulo from "../titulo/Titulo";
-import { Link } from "react-router-dom";
 
+
+import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
@@ -14,7 +15,7 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
+
 
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
@@ -27,7 +28,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import AssessmentIcon from "@material-ui/icons/Assessment";
-// import IconButton from '@material-ui/core/IconButton';
+
 
 const useStyles1 = makeStyles((theme) => ({
 	root: {
@@ -156,19 +157,7 @@ function TablaClientes(props) {
 	return (
 		<Fragment style={{ backgroundColor: "rgba(202, 202, 202, 0.18)" }}>
 			<div style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
-				<br />
-				<br />
-				{/*<Titulo text={`Clientes (${clientes.length})`} />*/}
-				<Typography variant="h3" component="h3">
-					{`Clientes (${clientes.length})`}
-				</Typography>
-
-				<p>
-					Administrador y supervisor de clientes, crea proyectos, y
-					revisa estados de cuenta
-				</p>
-				<br />
-				<br />
+		
 				<TableContainer component={Paper}>
 					<Table
 						className={classes.table}
@@ -250,7 +239,9 @@ function TablaClientes(props) {
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`estado-cuenta/${row.id}/${btoa(row.nombre)}`}
+											to={`estado-cuenta/${row.id}/${btoa(
+												row.nombre
+											)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>

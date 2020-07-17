@@ -38,7 +38,7 @@ function Pagos(props) {
 
 	const [dataPagos, setDataPagos] = useState(pagos ? pagos : []);
 
-	const [inputs, setInputs] = useState({ monto: 0 });
+	const [inputs, setInputs] = useState({ monto: 0, descripcion: "" });
 
 	// Alertas
 	const [open, setOpen] = useState(false);
@@ -60,7 +60,12 @@ function Pagos(props) {
 		event.preventDefault();
 
 		//send to backend
-		sendData(uniqueId, new Date().toLocaleString(), inputs.monto);
+		sendData(
+			uniqueId,
+			new Date().toLocaleString(),
+			inputs.monto,
+			inputs.descripcion
+		);
 	};
 
 	// Alertas
@@ -123,7 +128,7 @@ function Pagos(props) {
 	};
 
 	// Controler send
-	const sendData = (id_unico, fecha, monto) => {
+	const sendData = (id_unico, fecha, monto, descripcion) => {
 		// controller
 		const abortController = new AbortController();
 
@@ -133,6 +138,7 @@ function Pagos(props) {
 		formData.append("id_unico", id_unico);
 		formData.append("fecha", fecha);
 		formData.append("monto", monto);
+		formData.append("descripcion", descripcion);
 
 		fetch(
 			"https://botanicainternacionalamazonas.com/backend/vista/estados-cuenta/crearPago.php",
@@ -154,6 +160,7 @@ function Pagos(props) {
 				// Reset form
 				setInputs({
 					monto: 0,
+					descripcion: "",
 				});
 
 				setError("Pago creado con éxito");
@@ -166,6 +173,7 @@ function Pagos(props) {
 						id_unico: id_unico,
 						fecha: fecha,
 						monto: monto,
+						descripcion: descripcion,
 					},
 				]);
 			})
@@ -212,6 +220,10 @@ function Pagos(props) {
 											<b>Fecha:</b> {pago.fecha}
 										</p>
 										<p>
+											<b>Descripción:</b>{" "}
+											{pago.descripcion}
+										</p>
+										<p>
 											<b>Monto:</b> ${pago.monto}
 										</p>
 
@@ -238,6 +250,16 @@ function Pagos(props) {
 
 					<form onSubmit={(event) => crearPago(event)}>
 						<TextField
+							type="text"
+							id="outlined-basic"
+							label="Descripción"
+							variant="outlined"
+							value={inputs.descripcion}
+							name="descripcion"
+							onChange={(event) => onChange(event)}
+						/>
+						<br /><br />
+						<TextField
 							type="number"
 							id="outlined-basic"
 							label="Monto"
@@ -255,7 +277,7 @@ function Pagos(props) {
 								color="primary"
 								startIcon={<DescriptionIcon />}
 							>
-								Crea pago
+								Crear pago
 							</Button>
 						</div>
 					</form>

@@ -27,8 +27,9 @@ import CardContent from "@material-ui/core/CardContent";
 // });
 
 export default function Tabla(props) {
-	const { idCliente, cliente, data } = props;
-	console.log(idCliente);
+	const { cliente, data } = props;
+	console.log(data);
+
 	// Inhability
 	// idCliente
 
@@ -50,25 +51,29 @@ export default function Tabla(props) {
 					<div key={index}>
 						<Card>
 							<CardContent>
-								<h3>
-									<b> Item </b> {index + 1}
-								</h3>
+								<small>
+									<b> Item: </b> {index + 1}
+								</small>
 								<p>
 									<b>Descripción:</b> {inventario.descripcion}
 								</p>
-								<p>
+								<small>
 									<b>Fecha: </b>
 									{inventario.fecha}
-								</p>
+								</small>
 								<p>
-									<b>Descripcion: </b>
-									{inventario.descripcion}
+									<b>Inventario: </b>
 								</p>
-								<b>Inventario: </b>
-
 								{JSON.parse(inventario.inventario).map(
 									(item) => (
-										<div key={index}>
+										<div
+											key={index}
+											style={{
+												backgroundColor: "#f7f5f5",
+												marginTop: 10,
+												padding: 10,
+											}}
+										>
 											<p>
 												<b>Servicio: </b> {item.service}
 											</p>
@@ -115,18 +120,12 @@ export default function Tabla(props) {
 				<Pagos />
 
 				<br />
-				<p>
-					<b>Saldo a favor de: </b> $0
-				</p>
-				<p>
-					<b>Retención de la fuente: </b> $0
-				</p>
-				<p>
-					<b>Total a pagar:</b> $0
-				</p>
-				
-
-				
+				<Card>
+					<CardContent>
+						<Typography variant="h4">Total a pagar: $0</Typography>
+					</CardContent>
+					(Estamos trabajando en esta seccion)
+				</Card>
 			</div>
 		</Fragment>
 	);

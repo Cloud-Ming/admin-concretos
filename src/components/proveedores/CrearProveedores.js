@@ -31,9 +31,6 @@ const useStyles = makeStyles((theme) => ({
 		minHeight: "100vh",
 		backgroundColor: "rgba(202, 202, 202, 0.18)",
 	},
-	sendButton: {
-		backgroundColor: "#4e637b",
-	},
 }));
 
 function CrearProveedores() {
@@ -44,7 +41,6 @@ function CrearProveedores() {
 		id_servicio: 0,
 		producto: "Cemento",
 		monto: 0,
-		fecha_creacion: new Date().toLocaleString(),
 	});
 
 	const [open, setOpen] = useState(false);
@@ -70,8 +66,7 @@ function CrearProveedores() {
 			datos.celular.length === 0 ||
 			datos.id_servicio.length === 0 ||
 			datos.producto.length === 0 ||
-			datos.monto.length === 0 ||
-			datos.fecha_creacion.length === 0
+			datos.monto.length === 0
 		) {
 			setErrorLogin("Completa todo los campos");
 			handleClick();
@@ -88,7 +83,7 @@ function CrearProveedores() {
 		formData.append("id_servicio", datos.id_servicio);
 		formData.append("producto", datos.producto);
 		formData.append("monto", datos.monto);
-		formData.append("fecha_creacion", datos.fecha_creacion);
+		formData.append("fecha_creacion", new Date().toLocaleString());
 
 		fetch(
 			"https://botanicainternacionalamazonas.com/backend/vista/proveedores/crearProveedores.php",
@@ -109,6 +104,13 @@ function CrearProveedores() {
 
 				// console.log("'Exito'", res);
 
+				setDatos({
+					proveedor: "",
+					email: "",
+					celular: "",
+					monto: "",
+				});
+
 				setErrorLogin("Proveedor creado con éxito");
 				handleClick();
 			})
@@ -119,7 +121,7 @@ function CrearProveedores() {
 			});
 
 		// Cancel the request if it takes more than 5 seconds
-		setTimeout(() => abortController.abort(), 5000);
+		setTimeout(() => abortController.abort(), 1000);
 	};
 
 	// Manejador alerta

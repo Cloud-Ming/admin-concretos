@@ -30,7 +30,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 // import InboxIcon from "@material-ui/icons/MoveToInbox";
-import Delete from "@material-ui/icons/Delete";
+// import Delete from "@material-ui/icons/Delete";
 import Business from "@material-ui/icons/Business";
 import BusinessCenter from "@material-ui/icons/BusinessCenter";
 // import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
@@ -39,6 +39,7 @@ import GroupAddIcon from "@material-ui/icons/GroupAdd";
 import GroupIcon from "@material-ui/icons/Group";
 import Assignment from "@material-ui/icons/Assignment";
 import AssessmentIcon from "@material-ui/icons/Assessment";
+
 // Styles
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -268,12 +269,12 @@ function Nav({ history }) {
 
         <Divider />
 
-        <ListItem button component={Link} to="/papelera">
+       {/* <ListItem button component={Link} to="/papelera">
           <ListItemIcon>
             <Delete />
           </ListItemIcon>
           <ListItemText primary="Papelera" />
-        </ListItem>
+        </ListItem>*/}
       </List>
     </div>
   );

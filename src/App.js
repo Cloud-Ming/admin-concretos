@@ -1,5 +1,9 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
+
+import HeaderApp from "./components/header/HeaderApp"
+
+//Configuracion login
 import { UserProvider } from "./context/Context";
 import { GuardProvider, GuardedRoute } from "react-router-guards";
 import getIsLoggedIn from "./components/utils/getIsLoggedIn";
@@ -43,6 +47,9 @@ import Papelera from "./components/papelera/Papelera";
 import NotFound from "./components/notFound/NotFound";
 import Loading from "./components/loading/Loading";
 
+// icons
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
+
 const requireLogin = (to, from, next) => {
 	if (to.meta.auth) {
 		if (getIsLoggedIn()) {
@@ -65,6 +72,15 @@ function App() {
 				>
 					<UserProvider>
 						<Nav />
+					<div style={{margin:"10px"}}>
+					<HeaderApp
+					titulo={`Permanente`}
+					subtitulo="Este mensaje es permanente"
+					link="/..."
+					textButton="..."
+					icon={<GroupAddIcon />}
+					/>
+					</div>
 						<Switch>
 							<GuardedRoute path="/" exact meta={{ auth: true }}>
 								<Login />
@@ -155,7 +171,7 @@ function App() {
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-comisionista/:id"
+								path="/ver-comisionista/:id/:comisionista"
 								meta={{ auth: true }}
 							>
 								<AdminComisionistaId />
