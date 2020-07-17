@@ -114,6 +114,7 @@ TablePaginationActions.propTypes = {
 	rowsPerPage: PropTypes.number.isRequired,
 };
 
+// Styles
 const useStyles2 = makeStyles({
 	table: {
 		minWidth: 650,
@@ -133,7 +134,6 @@ function TablaClientes(props) {
 
 	const clientes = data;
 
-	const classes = useStyles2();
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(clientes.length);
 
@@ -150,10 +150,14 @@ function TablaClientes(props) {
 		setPage(0);
 	};
 
+	// Styles
+	const classes = useStyles2();
+
 	return (
-		<Fragment>
+		<Fragment style={{ backgroundColor: "rgba(202, 202, 202, 0.18)" }}>
 			<div style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
-				<br /><br />
+				<br />
+				<br />
 				{/*<Titulo text={`Clientes (${clientes.length})`} />*/}
 				<Typography variant="h3" component="h3">
 					{`Clientes (${clientes.length})`}
@@ -220,7 +224,9 @@ function TablaClientes(props) {
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`crear-proyecto/${row.id}/${btoa(row.nombre)}`}
+											to={`crear-proyecto/${
+												row.id
+											}/${btoa(row.nombre)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -231,7 +237,9 @@ function TablaClientes(props) {
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`ver-proyectos/${row.id}/${btoa(row.nombre)}`}
+											to={`ver-proyectos/${row.id}/${btoa(
+												row.nombre
+											)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -242,7 +250,7 @@ function TablaClientes(props) {
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`estado-cuenta/${row.id}`}
+											to={`estado-cuenta/${row.id}/${btoa(row.nombre)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -290,7 +298,6 @@ function TablaClientes(props) {
 				</TableContainer>
 			</div>
 
-			
 			<Link to="/crear-cliente">
 				<Fab color="primary" aria-label="add" className={classes.fab}>
 					<AddIcon />

@@ -13,21 +13,23 @@ class AdminProyectosId extends Component {
 		super(props);
 
 		this.state = {
-			nombre_cliente: null,
 			loading: true,
 			data: null,
 			error: null,
-			id_cliente: null,
+			idCliente: null,
+			nombreCliente: null,
 		};
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
+
 		const id = match.params.id;
-		const nombre_cliente = match.params.data;
+		const cliente = match.params.cliente;
+		
 		this.setState({
-			nombre_cliente: atob(nombre_cliente),
-			id_cliente: id,
+			idCliente: id,
+			nombreCliente: atob(cliente),
 		});
 
 		// console.log(id);
@@ -57,7 +59,7 @@ class AdminProyectosId extends Component {
 	}
 
 	render() {
-		const { error, loading, id_cliente, nombre_cliente, data } = this.state;
+		const { error, loading, idCliente, nombreCliente, data } = this.state;
 
 		if (!!error)
 			return (
@@ -77,13 +79,13 @@ class AdminProyectosId extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<NoHayProyectos nombre_cliente={nombre_cliente} data={data} id_cliente={id_cliente} />
+					<NoHayProyectos nombre_cliente={nombreCliente} data={data} id_cliente={idCliente} />
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-				<VerProyectosId nombre_cliente={nombre_cliente} data={data} id_cliente={id_cliente} />
+				<VerProyectosId nombre_cliente={nombreCliente} data={data} id_cliente={idCliente} />
 			</Fragment>
 		);
 	}

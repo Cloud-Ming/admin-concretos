@@ -1,22 +1,46 @@
 import React, { Fragment } from "react";
-import { Card, CardContent, makeStyles } from "@material-ui/core";
+import {
+	Card,
+	CardContent,
+	Typography,
+	Divider,
+	makeStyles,
+} from "@material-ui/core";
 
 // import Titulo from "../../../titulo/Titulo";
 
 // Formulario de añadir gastos
-// import GastosForm from "./gastos/gastos/GastosForm";
+import GastosForm from "./gastos/gastos/GastosForm";
 
 // Formulario añadir comisionistas
-// import FormComisionistas from "./gastos/comisionistas/Admin";
+import FormComisionistas from "./gastos/comisionistas/Admin";
 
 import AdminCotizaciones from "./pdf/cotizaciones/Admin";
 
-import Preformas from "./pdf/preformas/Preformas";
-import Facturas from "./pdf/facturas/Facturas";
+import Preformas from "./pdf/preformas/Admin";
+import Facturas from "./pdf/facturas/Admin";
+
+// Styles
+const useStyles = makeStyles({
+	titlePrincipal: {
+		marginLeft: 15,
+	},
+	root: {
+		minWidth: 275,
+		marginBottom: 20,
+	},
+	title: {
+		fontSize: 22,
+	},
+	list: {
+		margin: 0,
+		padding: 10,
+	},
+});
 
 function InventarioId(props) {
-	// const [data, setData] = useState(props);
-	const { nombre_proyecto, nombre_cliente, data } = props;
+	const { id_cliente, nombre_proyecto, nombre_cliente, data } = props;
+
 	// Inhability
 	// id_cliente
 
@@ -35,23 +59,6 @@ function InventarioId(props) {
 	};
 
 	// Styles
-	const useStyles = makeStyles({
-		titlePrincipal: {
-			marginLeft: 15,
-		},
-		root: {
-			minWidth: 275,
-			marginBottom: 20,
-		},
-		title: {
-			fontSize: 22,
-		},
-		list: {
-			margin: 0,
-			padding: 10,
-		},
-	});
-
 	const classes = useStyles();
 
 	return (
@@ -65,29 +72,37 @@ function InventarioId(props) {
 			>
 				<div>
 					<br />
-					{/*<h3>Inventarios</h3>*/}
-					<h2>Cliente({atob(nombre_cliente)})</h2>
-					{/*<Titulo text={nombre_proyecto} />*/}
+					<Typography variant="h3" component="h3">
+						{`Inventario (${data.length})`}
+					</Typography>
 
-					<h1>Proyecto({nombre_proyecto})</h1>
-					<p>Inventarios</p>
+					<p>Proyecto({nombre_proyecto})</p>
+					<p>Cliente({atob(nombre_cliente)})</p>
+
 					<br />
 					{data.map((item, key) => (
 						<Card key={key} className={classes.root}>
 							<CardContent>
-								<h4>{item.descripcion}</h4>
-								<p>
-									<b>Fecha:</b> {item.fecha}
-								</p>
-
-								{/*<Typography
+								<Typography
 									className={classes.title}
 									color="textSecondary"
 									gutterBottom
 								>
-									Inventario:
+									Inventario
+								</Typography>
+								{/*<Typography variant="h6" component="p">
+									Descripción:
 								</Typography>*/}
-								<h4>Servicios:</h4>
+								<p style={{ marginTop: "0" }}>
+									{item.descripcion}
+								</p>
+								<Typography variant="body2" component="p">
+									<b>Fecha</b> {item.fecha}
+								</Typography>
+								<br />
+								<Divider />
+								<br />
+								<b>Lista servicios</b>
 								{JSON.parse(item.inventario).map((data, i) => (
 									<div key={i} className={classes.list}>
 										<div>
@@ -99,35 +114,33 @@ function InventarioId(props) {
 										<div>
 											<b>Cantidad:</b> {data.count}
 										</div>
-										<div>
-											<b>Gastos:</b> {data.gastos}
-										</div>
 									</div>
 								))}
-
-								<h3>
-									Total:{" "} $
-									{operacionTotal(item.inventario, key)}
-								</h3>
+								<br />
+								<Divider />
+								<br />
+								{/*<Typography variant="h5" component="h6">*/}
+								Total: ${operacionTotal(item.inventario, key)}
+								{/*</Typography>*/}
 								{/*<p>{item.inventario}</p>*/}
 							</CardContent>
 						</Card>
 					))}
 				</div>
-
-				{/*<div>
+				<br />
+				<br />
+				<div>
 					<GastosForm id_cliente={id_cliente} gastos={data} />
 				</div>
-
 				<div>
 					<FormComisionistas />
 				</div>
-*/}
 				<div>
-					<AdminCotizaciones />
+					<AdminCotizaciones data={data} />
 				</div>
+
 				<div>
-					<Preformas />
+					<Preformas data={data} />
 				</div>
 				<div>
 					<Facturas />

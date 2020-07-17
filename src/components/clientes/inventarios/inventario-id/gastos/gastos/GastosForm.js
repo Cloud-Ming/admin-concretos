@@ -3,14 +3,40 @@ import uniqid from "uniqid";
 import {
 	Card,
 	CardContent,
+	Snackbar,
 	Typography,
 	TextField,
 	Button,
 	makeStyles,
 } from "@material-ui/core";
 
+// Icons
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+
+// Styles
+const useStyles = makeStyles({
+	titlePrincipal: {
+		marginLeft: 15,
+	},
+	root: {
+		minWidth: 275,
+		marginBottom: 20,
+	},
+	title: {
+		fontSize: 22,
+	},
+	list: {
+		margin: 0,
+		padding: 10,
+	},
+});
+
 function GastosForm(props) {
 	const { id_cliente, gastos } = props;
+
+	const [update, setUpdate] = useState(null);
+
 	const [data, setData] = useState(
 		gastos[0].gastos ? JSON.parse(gastos[0].gastos) : []
 	);
@@ -22,10 +48,23 @@ function GastosForm(props) {
 		fecha: new Date().toLocaleString(),
 	});
 
-	useEffect(() => {
-		console.log("UseEffect GastosForm:", data);
-		// enviarData(data);
+	const [open, setOpen] = useState(false);
+	const [error, setError] = useState("A ocurrido un error");
 
+	// Alertas
+	const handleClick = () => {
+		setOpen(true);
+	};
+
+	const handleClose = (event, reason) => {
+		if (reason === "clickaway") {
+			return;
+		}
+
+		setOpen(false);
+	};
+
+	useEffect(() => {
 		//Controler
 		const abortController = new AbortController();
 
@@ -44,50 +83,65 @@ function GastosForm(props) {
 		)
 			.then((res) => res.json())
 			.then((res) => {
-				// if (res === 401) {
+				if (res === 401) {
+					handleClick();
+					setError("Error al crear comision");
+					return;
+				}
 
-				// 	return;
-				// }
+				if(update === "succes"){
+					handleClick();
+					setError("Gasto agregado con éxito");
+				}else if(update === "delete"){
+					handleClick();
+					setError("Gasto eliminado con éxito");
+				}
+				return;
 
-				console.log(res);
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
+				if(update === "succes"){
+				 handleClick();
+				 setError("A ocurrido un error");
+				}
 			});
 
 		// Cancel the request if it takes more than 5 seconds
-		setTimeout(() => abortController.abort(), 5000);
+		setTimeout(() => abortController.abort(), 1000);
 
 		//Controler
-		/**/
-	}, [data, id_cliente]);
+	}, [update, data, id_cliente]);
 
 	// Generador de ID unico
 	const uniqueId = uniqid();
 
 	const ingresarData = (e) => {
 		e.preventDefault();
-		// e.reset();
+
 		setFormData({
 			monto: 0,
 			descripcion: "",
 		});
 
 		setData((newList) => [
-			...newList,
-			{
-				id: uniqueId,
-				monto: formData.monto,
-				descripcion: formData.descripcion,
-				fecha: new Date().toLocaleString(),
-			},
-		]);
+	...newList,
+	{
+		id: uniqueId,
+		monto: formData.monto,
+		descripcion: formData.descripcion,
+		fecha: new Date().toLocaleString(),
+	},
+]);
+
+		setUpdate("succes");
 	};
 
 	const eliminarData = (id) => {
 		const newList = data.filter((item) => item.id !== id);
 		setData(newList);
 		console.log(id);
+		setUpdate("delete");
 	};
 
 	const onChange = (event) => {
@@ -97,31 +151,7 @@ function GastosForm(props) {
 		});
 	};
 
-	const useStyles = makeStyles({
-		titlePrincipal: {
-			marginLeft: 15,
-		},
-		root: {
-			minWidth: 275,
-			marginBottom: 20,
-		},
-		bullet: {
-			display: "inline-block",
-			margin: "0 2px",
-			transform: "scale(0.8)",
-		},
-		title: {
-			fontSize: 22,
-		},
-		pos: {
-			marginBottom: 12,
-		},
-		list: {
-			margin: 0,
-			padding: 10,
-		},
-	});
-
+	// Styles
 	const classes = useStyles();
 
 	return (
@@ -136,10 +166,7 @@ function GastosForm(props) {
 						>
 							Gastos adicionales
 						</Typography>
-						{data === null
-							? "No hay."
-							: data.length === 0
-							? "No hay.."
+						{data === null || data.length === 0 ? "No hay gastos adicionales."
 							: data.map((item, i) => (
 									<div key={i}>
 										Descripcion: {item.descripcion}
@@ -204,6 +231,37 @@ function GastosForm(props) {
 					</form>
 				</CardContent>
 			</Card>
+			<Snackbar
+				anchorOrigin={{
+					vertical: "bottom",
+					horizontal: "center",
+				}}
+				open={open}
+				autoHideDuration={6000}
+				onClose={handleClose}
+				message={error}
+				action={
+					<Fragment>
+						{/*
+							<Button
+								color="secondary"
+								size="small"
+								onClick={handleClose}
+							>
+								UNDO
+							</Button>
+							*/}
+						<IconButton
+							size="small"
+							aria-label="close"
+							color="inherit"
+							onClick={handleClose}
+						>
+							<CloseIcon fontSize="small" />
+						</IconButton>
+					</Fragment>
+				}
+			/>
 		</Fragment>
 	);
 }

@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-// import WifiOffIcon from '@material-ui/icons/WifiOff';
+import SignalWifiOffIcon from "@material-ui/icons/SignalWifiOff";
 
 export default function errroRes() {
 	return (
@@ -13,7 +13,7 @@ export default function errroRes() {
 					justifyContent: "center",
 				}}
 			>
-			{/*<WifiOffIcon />*/}
+				<SignalWifiOffIcon style={{ fontSize: "80px" }} />
 				<h1>Ha ocurrido un error</h1>
 				<h3 style={{ margin: "0" }}>Revisa tu conexión a internet</h3>
 			</div>

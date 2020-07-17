@@ -1,7 +1,10 @@
 import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 
+import ErroRes from "../../erroRes/ErroRes";
 import Loading from "../../loading/Loading";
+import NohayEstadosDeCuenta from "./NohayEstadosDeCuenta";
+
 import Tabla from "./Tabla";
 
 class EstadoCuenta extends Component {
@@ -12,21 +15,25 @@ class EstadoCuenta extends Component {
 			loading: true,
 			data: null,
 			error: null,
-			id_cliente: null,
+			idCliente: null,
+			cliente: null,
 		};
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
+
 		const id = match.params.id;
+		const cliente = match.params.cliente;
 
 		this.setState({
-			id_cliente: id,
+			idCliente: id,
+			cliente: cliente,
 		});
 
 		// console.log(id);
 
-		/*const simuleResponse = [
+		const simuleResponse = [
 			{
 				id: "7",
 				id_proyecto: "1",
@@ -67,40 +74,40 @@ class EstadoCuenta extends Component {
 		setTimeout(() => {
 			this.setState({ loading: false, data: simuleResponse });
 		}, 500);
-		*/ 
+		
 
-		this.abortController = new AbortController();
+		// this.abortController = new AbortController();
 
-		try {
-			const response = await fetch(
-				`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventariosId.php?id=${id}`,
-				{
-					signal: this.abortController.signal,
-				}
-			);
+		// try {
+		// 	const response = await fetch(
+		// 		`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventariosId.php?id=${id}`,
+		// 		{
+		// 			signal: this.abortController.signal,
+		// 		}
+		// 	);
 
-			if (response.status >= 300) throw new Error(response.statusText);
+		// 	if (response.status >= 300) throw new Error(response.statusText);
 
-			const data = await response.json();
+		// 	const data = await response.json();
 
-			this.setState({ loading: false, data });
-		} catch (e) {
-			if (e.name !== "AbortError") this.setState({ error: e.message });
-		}
+		// 	this.setState({ loading: false, data });
+
+		// } catch (e) {
+		// 	if (e.name !== "AbortError") this.setState({ error: e.message });
+		// }
 	}
 
-	componentWillUnmount() {
-		this.abortController.abort();
-	}
+	// componentWillUnmount() {
+	// 	this.abortController.abort();
+	// }
 
 	render() {
-		const { error, loading, data, id_cliente } = this.state;
+		const { error, loading, idCliente, cliente, data } = this.state;
 
-		if (!!error)
+		if (error)
 			return (
 				<Fragment>
-					<h2>{error}</h2>
-					<p>A ocurrido un error</p>
+					<ErroRes />
 				</Fragment>
 			);
 
@@ -115,16 +122,13 @@ class EstadoCuenta extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay estados de cuenta </h1>
-					{/*<Link to={`/crear-proyecto/${this.state.id_cliente}`}>
-						Crear estados de cuenta
-					</Link>*/}
+					<NohayEstadosDeCuenta cliente={cliente} />
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-				<Tabla data={data} id_cliente={id_cliente} />
+				<Tabla idCliente={idCliente} cliente={cliente} data={data} />
 			</Fragment>
 		);
 	}

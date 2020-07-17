@@ -1,8 +1,9 @@
 import React, { useContext } from "react";
 import { Usercontext } from "../../context/Context";
-
 import { Link, withRouter } from "react-router-dom";
-import { fade, makeStyles } from "@material-ui/core/styles";
+
+// Matrial ui
+import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -25,6 +26,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 
+// Icons
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 // import InboxIcon from "@material-ui/icons/MoveToInbox";
@@ -33,10 +35,10 @@ import Business from "@material-ui/icons/Business";
 import BusinessCenter from "@material-ui/icons/BusinessCenter";
 // import SupervisorAccountIcon from "@material-ui/icons/SupervisorAccount";
 // import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
-import GroupAddIcon from '@material-ui/icons/GroupAdd';
-import GroupIcon from '@material-ui/icons/Group';
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
+import GroupIcon from "@material-ui/icons/Group";
 import Assignment from "@material-ui/icons/Assignment";
-
+import AssessmentIcon from "@material-ui/icons/Assessment";
 // Styles
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -45,49 +47,16 @@ const useStyles = makeStyles((theme) => ({
   menuButton: {
     marginRight: theme.spacing(2),
   },
+  appBar: {
+    backgroundColor: "#4e637b",
+  },
   title: {
     display: "none",
     [theme.breakpoints.up("sm")]: {
       display: "block",
     },
   },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: fade(theme.palette.common.white, 0.15),
-    "&:hover": {
-      backgroundColor: fade(theme.palette.common.white, 0.25),
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-    },
-  },
-  searchIcon: {
-    padding: theme.spacing(0, 2),
-    height: "100%",
-    position: "absolute",
-    pointerEvents: "none",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  inputRoot: {
-    color: "inherit",
-  },
-  inputInput: {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
+
   sectionDesktop: {
     display: "none",
     [theme.breakpoints.up("md")]: {
@@ -111,8 +80,7 @@ const useStyles = makeStyles((theme) => ({
 // Component
 function Nav({ history }) {
   const { user, logout } = useContext(Usercontext);
-  // console.log('Nav se renderizo!!');
-  const classes = useStyles();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
   const [drawerMenu, setDrawerMenu] = React.useState({
@@ -252,6 +220,14 @@ function Nav({ history }) {
           <ListItemText primary="Inventarios" />
         </ListItem>
 
+        <ListItem disabled button component={Link} to="/inventarios">
+          <ListItemIcon>
+            <AssessmentIcon />
+            {/*<SupervisorAccountIcon />*/}
+          </ListItemIcon>
+          <ListItemText primary="Estados de cuenta" />
+        </ListItem>
+
         <Divider />
 
         <ListItem button component={Link} to="/comisionistas">
@@ -292,7 +268,7 @@ function Nav({ history }) {
 
         <Divider />
 
-        <ListItem disabled button component={Link} to="/papelera">
+        <ListItem button component={Link} to="/papelera">
           <ListItemIcon>
             <Delete />
           </ListItemIcon>
@@ -302,9 +278,12 @@ function Nav({ history }) {
     </div>
   );
 
+  // Styles
+  const classes = useStyles();
+
   return (
     <div className={classes.grow}>
-      <AppBar position="static">
+      <AppBar position="static" className={classes.appBar}>
         {user.loggedIn ? (
           <Toolbar>
             <IconButton

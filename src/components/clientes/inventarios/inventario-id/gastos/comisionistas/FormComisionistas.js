@@ -8,14 +8,40 @@ import {
 	TextField,
 	FormControl,
 	Select,
+	Snackbar,
 	Button,
 	makeStyles,
 } from "@material-ui/core";
 
 // import AdminComisionesId from "./AdminComisionesId";
 
+// Icons
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+
+// Styles
+const useStyles = makeStyles({
+	titlePrincipal: {
+		marginLeft: 15,
+	},
+	root: {
+		minWidth: 275,
+		marginBottom: 20,
+	},
+	title: {
+		fontSize: 22,
+	},
+	list: {
+		margin: 0,
+		padding: 10,
+	},
+	formControl: {
+		width: 250,
+	},
+});
+
 function FormComisionistas(props) {
-	const { id_cliente, nombre_proyecto, data, comisionesData } = props;
+	const { idCliente, nombreProyecto, data, comisionesData } = props;
 
 	// Manejador de comisiones
 	const [comisiones, setComisiones] = useState(
@@ -25,17 +51,24 @@ function FormComisionistas(props) {
 	// Manejador de formulario
 	const [datosForm, setDatosForm] = useState({
 		id_unico: null,
-		id_inventario: id_cliente,
-		inventario: atob(nombre_proyecto),
-		comisionista: `${data[0].nombre},${data[0].id}`,
+		id_inventario: idCliente,
+		inventario: atob(nombreProyecto),
+		comisionista:
+			data[0].length === 0 || data === null
+				? `data,0`
+				: `${data[0].nombre},${data[0].id} `,
+		// comisionista: data[0] ? `${data[0].nombre},${data[0].id} ` : [],
 		monto: 0,
 		fecha: null,
 		pago: false,
 	});
 
+	const [open, setOpen] = useState(false);
+	const [error, setError] = useState("A ocurrido un error");
+
 	useEffect(() => {
 		console.log("COMISIONES", comisiones);
-	}, [id_cliente, data, comisiones]);
+	}, [idCliente, data, comisiones]);
 
 	const handleChange = (event) => {
 		console.log(event.target.name, ":", event.target.value);
@@ -46,28 +79,27 @@ function FormComisionistas(props) {
 		});
 	};
 
+	// Alertas
+	const handleClick = () => {
+		setOpen(true);
+	};
+
+	const handleClose = (event, reason) => {
+		if (reason === "clickaway") {
+			return;
+		}
+
+		setOpen(false);
+	};
+
 	// Generador de ID unico
 	const uniqueId = uniqid();
 
 	// Agregar un nuevo comisionista a la lista
-	const agregarComisionista = () => {
-		setComisiones((newList) => [
-			...newList,
-			{
-				id_unico: uniqueId,
-				id_inventario: datosForm.id_inventario,
-				inventario: datosForm.inventario,
-				comisionista: datosForm.comisionista.split(","),
-				monto: datosForm.monto,
-				fecha: new Date().toLocaleString(),
-				pago: datosForm.pago,
-			},
-		]);
-
-		// console.log(datosForm.comisionista.split(","));
+	const agregarComisionista = (event) => {
+		event.preventDefault();
 
 		nuevaComision(
-			uniqueId,
 			datosForm.id_inventario,
 			datosForm.inventario,
 			datosForm.comisionista.split(",")[1],
@@ -79,14 +111,10 @@ function FormComisionistas(props) {
 	};
 
 	const eliminarComisionista = (id) => {
-		const newList = comisiones.filter((item) => item.id_unico !== id);
-		setComisiones(newList);
-
 		eliminarComision(id);
 	};
 
 	const nuevaComision = (
-		id_unico,
 		id_inventario,
 		inventario,
 		id_comisionista,
@@ -95,11 +123,22 @@ function FormComisionistas(props) {
 		fecha,
 		pago
 	) => {
+		// Insertar
+		// setComisiones((newList) => [
+		// 	...newList,
+		// 	{
+		// 		id: uniqueId,
+		// 		monto: datosForm.monto,
+		// 		comisionista: datosForm.comisionista,
+		// 		fecha: fecha,
+		// 	},
+		// ]);
+
 		//Controler
 		const abortController = new AbortController();
 
 		var formData = new FormData();
-		formData.append("id_unico", id_unico);
+		formData.append("id_unico", uniqueId);
 		formData.append("id_inventario", id_inventario);
 		formData.append("inventario", inventario);
 		formData.append("id_comisionista", id_comisionista);
@@ -119,19 +158,42 @@ function FormComisionistas(props) {
 		)
 			.then((res) => res.json())
 			.then((res) => {
-				// if (res === 401) {
+				if (res === 401) {
+					handleClick();
+					setError("Error al crear comision");
+					return;
+				}
 
-				// 	return;
-				// }
+				// Insertar
+				setComisiones((newList) => [
+					...newList,
+					{
+						id_unico: uniqueId,
+						monto: monto,
+						descripcion: comisiones.descripcion,
+						fecha: fecha,
+					},
+				]);
 
-				console.log(res);
+				// Clear form
+				setDatosForm({
+					monto: 0,
+				});
+
+				handleClick();
+				setError("Éxito al crear comision");
+				return;
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
+
+				handleClick();
+				setError("A ocurrido un error");
+				return;
 			});
 
 		// Cancel the request if it takes more than 5 seconds
-		setTimeout(() => abortController.abort(), 5000);
+		setTimeout(() => abortController.abort(), 1000);
 
 		//Controler
 	};
@@ -154,51 +216,34 @@ function FormComisionistas(props) {
 		)
 			.then((res) => res.json())
 			.then((res) => {
-				// if (res === 401) {
+				if (res === 401) {
+					handleClick();
+					setError("Error al crear comision");
+					return;
+				}
 
-				// 	return;
-				// }
+				// Delete of list
+				const newList = comisiones.filter(
+					(item) => item.id_unico !== id
+				);
+				setComisiones(newList);
 
-				console.log(res);
+				handleClick();
+				setError("Comisión eliminada con éxito");
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
+				handleClick();
+				setError("A ocurrido un error");
 			});
 
 		// Cancel the request if it takes more than 5 seconds
-		setTimeout(() => abortController.abort(), 5000);
+		setTimeout(() => abortController.abort(), 1000);
 
 		//Controler
 	};
 
-	const useStyles = makeStyles({
-		titlePrincipal: {
-			marginLeft: 15,
-		},
-		root: {
-			minWidth: 275,
-			marginBottom: 20,
-		},
-		bullet: {
-			display: "inline-block",
-			margin: "0 2px",
-			transform: "scale(0.8)",
-		},
-		title: {
-			fontSize: 22,
-		},
-		pos: {
-			marginBottom: 12,
-		},
-		list: {
-			margin: 0,
-			padding: 10,
-		},
-		formControl: {
-			width: 250,
-		},
-	});
-
+	// Styles
 	const classes = useStyles();
 
 	return (
@@ -212,23 +257,24 @@ function FormComisionistas(props) {
 					>
 						Comisiones
 					</Typography>
-					{comisiones === null
-						? "No hay."
-						: comisiones.length === 0
-						? "No hay.."
+
+					{comisiones === null || comisiones.length === 0
+						? "No hay comisiones."
 						: comisiones.map((item, i) => (
-								<Card key={i} className={classes.root}>
+								<Card key={item.id} className={classes.root}>
 									<CardContent>
 										<br />
-										{/**/}
+										{item.id}
+										<br />
 										<small>
 											Comisionista: {item.comisionista}
 										</small>
 										<br />
-										<small>Monto: {item.monto}</small>
-										<br />
 										<small>Fecha: {item.fecha}</small>
-										<br /><br />
+										<br />
+										<small>Monto: ${item.monto}</small>
+										<br />
+										<br />
 										<button
 											onClick={() =>
 												eliminarComisionista(
@@ -253,55 +299,94 @@ function FormComisionistas(props) {
 					>
 						Agregar comisionistas
 					</Typography>
-					<FormControl
-						variant="filled"
-						className={classes.formControl}
-					>
-						<InputLabel htmlFor="filled-age-native-simple">
-							Comisionistas
-						</InputLabel>
-						<Select
-							native
-							inputProps={{
-								name: "comisionista",
-								id: "filled-age-native-simple",
-							}}
-							value={datosForm.comisionista}
-							onChange={(event) => handleChange(event)}
+
+					<form onSubmit={(event) => agregarComisionista(event)}>
+						<FormControl
+							variant="filled"
+							className={classes.formControl}
 						>
-							{data.map((item) => (
-								<option
-									key={item.id}
-									value={[item.nombre, item.id]}
-								>
-									{item.nombre}
-								</option>
-							))}
-						</Select>
-					</FormControl>
-					<br />
-					<br />
-					<TextField
-						id="descripcion_input"
-						label="Monto"
-						variant="outlined"
-						type="number"
-						name="monto"
-						value={datosForm.monto}
-						onChange={(event) => handleChange(event)}
-						required
-					/>
-					<br />
-					<br />
-					<Button
-						onClick={() => agregarComisionista()}
-						variant="contained"
-						color="primary"
-					>
-						Agregar
-					</Button>
+							<InputLabel htmlFor="filled-age-native-simple">
+								Comisionistas
+							</InputLabel>
+							<Select
+								native
+								inputProps={{
+									name: "comisionista",
+									id: "filled-age-native-simple",
+								}}
+								value={datosForm.comisionista}
+								onChange={(event) => handleChange(event)}
+							>
+								{data === null ? (
+									<option value="No hay">
+										No hay comisionistas
+									</option>
+								) : (
+									data.map((item) => (
+										<option
+											key={item.id}
+											value={[item.nombre, item.id]}
+										>
+											{item.nombre}
+										</option>
+									))
+								)}
+							</Select>
+						</FormControl>
+						<br />
+						<br />
+						<TextField
+							id="descripcion_input"
+							label="Monto"
+							variant="outlined"
+							type="number"
+							name="monto"
+							onChange={(event) => handleChange(event)}
+							value={datosForm.monto}
+						/>
+						<br />
+						<br />
+						<Button
+							type="submit"
+							variant="contained"
+							color="primary"
+						>
+							Agregar
+						</Button>
+					</form>
 				</CardContent>
 			</Card>
+			<Snackbar
+				anchorOrigin={{
+					vertical: "bottom",
+					horizontal: "center",
+				}}
+				open={open}
+				autoHideDuration={6000}
+				onClose={handleClose}
+				message={error}
+				action={
+					<Fragment>
+						{/*
+							<Button
+								color="secondary"
+								size="small"
+								onClick={handleClose}
+							>
+								UNDO
+							</Button>
+							*/}
+						<IconButton
+							size="small"
+							aria-label="close"
+							color="inherit"
+							onClick={handleClose}
+						>
+							<CloseIcon fontSize="small" />
+						</IconButton>
+					</Fragment>
+				}
+			/>
 		</Fragment>
 	);
 }

@@ -8,37 +8,40 @@ import {
 	TextField,
 	Button,
 	Snackbar,
+	Typography,
 } from "@material-ui/core";
 
+// Icons
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import BusinessCenter from "@material-ui/icons/BusinessCenter";
+
+// Styles
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			margin: theme.spacing(1),
+			width: "30ch",
+		},
+	},
+	grid: {
+		minHeight: "100vh",
+		backgroundColor: "rgba(202, 202, 202, 0.18)",
+	},
+}));
 
 function CrearProyecto() {
 	const { id, cliente } = useParams();
-
-	console.log(id);
-
 	const [datos, setDatos] = useState({
 		id_cliente: id,
 		nombre: "",
 		descripcion: "",
-		fecha: new Date().toLocaleString(),
 	});
 
 	const [open, setOpen] = useState(false);
 	const [errorLogin, setErrorLogin] = useState("A ocurrido un error");
 
-	const useStyles = makeStyles((theme) => ({
-		root: {
-			"& > *": {
-				margin: theme.spacing(1),
-				width: "30ch",
-			},
-		},
-	}));
-
-	const classes = useStyles();
-
+	// Handler forms
 	const handleChange = (event) => {
 		console.log(event.target.name, event.target.value);
 
@@ -50,14 +53,11 @@ function CrearProyecto() {
 
 	const handleonSubmit = async (event) => {
 		event.preventDefault();
-		// event.target.reset();
-		console.log(datos);
 
 		if (
 			datos.id_cliente.length === 0 ||
 			datos.nombre.length === 0 ||
-			datos.descripcion.length === 0 ||
-			datos.fecha.length === 0
+			datos.descripcion.length === 0
 		) {
 			setErrorLogin("Completa todo los campos");
 			handleClick();
@@ -71,7 +71,7 @@ function CrearProyecto() {
 		formData.append("id_cliente", datos.id_cliente);
 		formData.append("nombre", datos.nombre);
 		formData.append("descripcion", datos.descripcion);
-		formData.append("fecha", datos.fecha);
+		formData.append("fecha", new Date().toLocaleString());
 
 		fetch(
 			"https://botanicainternacionalamazonas.com/backend/vista/clientes/proyectos/crearProyecto.php",
@@ -85,10 +85,15 @@ function CrearProyecto() {
 			.then((res) => res.json())
 			.then((res) => {
 				if (res === 401) {
-					setErrorLogin("Error al crear usuario");
+					setErrorLogin("Error al crear proyecto");
 					handleClick();
 					return;
 				}
+
+				setDatos({
+					nombre: "",
+					descripcion: "",
+				});
 
 				setErrorLogin("Éxito, proyecto creado");
 				handleClick();
@@ -100,9 +105,10 @@ function CrearProyecto() {
 			});
 
 		// Cancel the request if it takes more than 5 seconds
-		setTimeout(() => abortController.abort(), 5000);
+		setTimeout(() => abortController.abort(), 1000);
 	};
 
+	// Alertas
 	const handleClick = () => {
 		setOpen(true);
 	};
@@ -115,6 +121,9 @@ function CrearProyecto() {
 		setOpen(false);
 	};
 
+	// Styles
+	const classes = useStyles();
+
 	return (
 		<Fragment>
 			<Grid
@@ -123,10 +132,11 @@ function CrearProyecto() {
 				direction="column"
 				alignItems="center"
 				justify="center"
-				style={{ minHeight: "100vh" }}
+				className={classes.grid}
 			>
-				{/*<Grid>*/}
-				<h1>Crear proyecto ({atob(cliente)})</h1>
+				<Typography variant="h4" component="h4">
+					Crear proyecto ({atob(cliente)})
+				</Typography>
 
 				<form
 					onSubmit={handleonSubmit}
@@ -141,7 +151,7 @@ function CrearProyecto() {
 						name="nombre"
 						type="text"
 						onChange={handleChange}
-						required
+						value={datos.nombre}
 					/>
 
 					<br />
@@ -153,13 +163,19 @@ function CrearProyecto() {
 						name="descripcion"
 						type="text"
 						onChange={handleChange}
-						required
+						value={datos.descripcion}
 					/>
 
 					<br />
 					<br />
 
-					<Button type="submit" variant="contained" color="primary">
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						startIcon={<BusinessCenter />}
+						className={classes.sendButton}
+					>
 						Crear proyecto
 					</Button>
 				</form>
@@ -185,7 +201,7 @@ function CrearProyecto() {
 									size="small"
 									onClick={handleClose}
 								>
-									Volver
+									VER
 								</Button>
 							}
 							<IconButton
@@ -199,10 +215,6 @@ function CrearProyecto() {
 						</Fragment>
 					}
 				/>
-
-				{/*	</Grid>*/}
-				{/*<h3>{datos.email}</h3>*/}
-				{/*<h3>{datos.contrasena}</h3>*/}
 			</Grid>
 		</Fragment>
 	);

@@ -28,7 +28,8 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
-import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+
+// import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 function TablePaginationActions(props) {
 	const classes = useStyles1();
@@ -128,13 +129,8 @@ const useStyles2 = makeStyles({
 
 function VerProyecto(props) {
 	const { id_cliente, nombre_cliente } = props;
-	// console.log(nombre_cliente);
-
 	const proyectos = props.data;
-	// console.log(proyectos);
-	// console.log(btoa(proyectos[0].nombre_proyecto));
 
-	const classes = useStyles2();
 	const [page, setPage] = React.useState(0);
 	const [rowsPerPage, setRowsPerPage] = React.useState(proyectos.length);
 
@@ -151,6 +147,9 @@ function VerProyecto(props) {
 		setPage(0);
 	};
 
+	// Styles
+	const classes = useStyles2();
+
 	return (
 		<Fragment>
 			<div style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
@@ -160,35 +159,19 @@ function VerProyecto(props) {
 				<br />
 				<br />
 				<Typography variant="h3" component="h3">
-					{`Cliente(${nombre_cliente})`}
+					{`Proyectos(${proyectos.length})`}
 				</Typography>
 
-				<Typography variant="h4" component="h5">
-					{`Proyectos(${proyectos.length}): ${proyectos[0].nombre_proyecto}`}
-				</Typography>
+				<p>
+					Proyecto: <b>{`${proyectos[0].nombre_proyecto}`}</b>
+				</p>
 				<br />
-
-				{/*<h2>{`Cliente(${nombre_cliente})`}</h2>*/}
-				{/*<p>{`Proyectos(${proyectos.length}): ${proyectos[0].nombre_proyecto}`}</p>*/}
-
-				{/*<h3>{`Proyectos (${proyectos.length})`}</h3>*/}
 
 				<p>
 					Administra los proyectos de cada cliente, añade nuevos
 					inventarios.
 				</p>
 				<br />
-				<Button
-					component={Link}
-					to={`/crear-proyecto/${id_cliente}/${btoa(
-						proyectos[0].nombre_proyecto
-					)}/${btoa(nombre_cliente)}`}
-					variant="contained"
-					color="primary"
-					startIcon={<BusinessCenterIcon />}
-				>
-					Crear nuevo proyecto
-				</Button>
 
 				{/*<Link
 					to={`/crear-proyecto/${id_cliente}/${btoa(proyectos[0].nombre_proyecto)}/${btoa(nombre_cliente)}`}
@@ -244,11 +227,7 @@ function VerProyecto(props) {
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`/crear-inventario/${
-												row.id
-											}/${btoa(
-												row.nombre_proyecto
-											)}/${btoa(nombre_cliente)}`}
+											to={`/crear-inventario/${id_cliente}/${btoa(row.nombre_proyecto)}/${btoa(nombre_cliente)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -259,11 +238,7 @@ function VerProyecto(props) {
 									<TableCell style={{ width: 160 }}>
 										<IconButton
 											component={Link}
-											to={`/ver-inventarios/${
-												row.id
-											}/${btoa(
-												proyectos[0].nombre_proyecto
-											)}/${btoa(nombre_cliente)}`}
+											to={`/ver-inventarios/${id_cliente}/${btoa(proyectos[0].nombre_proyecto)}/${btoa(nombre_cliente)}`}
 											aria-label="delete"
 											className={classes.margin}
 										>
@@ -311,10 +286,20 @@ function VerProyecto(props) {
 				</TableContainer>
 				<br />
 
-				<Link to={`/clientes`}>
+				<Button
+					component={Link}
+					to={`/crear-proyecto/${id_cliente}/${btoa(proyectos[0].nombre_proyecto)}/${btoa(nombre_cliente)}`}
+					variant="contained"
+					color="primary"
+					startIcon={<BusinessCenterIcon />}
+				>
+					Crear nuevo proyecto
+				</Button>
+
+{/*				<Link to={`/clientes`}>
 					<ArrowBackIcon />
 					Clientes
-				</Link>
+				</Link>*/}
 			</div>
 		</Fragment>
 	);

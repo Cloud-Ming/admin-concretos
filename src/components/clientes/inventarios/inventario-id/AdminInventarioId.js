@@ -24,9 +24,8 @@ class AdminInventarios extends Component {
 		const { match } = this.props;
 		const id = match.params.id;
 		const data = match.params.data;
-		
+
 		const nombre_cliente = match.params.cliente;
-		
 
 		this.setState({
 			nombre_proyecto: atob(data),
@@ -35,48 +34,48 @@ class AdminInventarios extends Component {
 		});
 
 		// Data simulada
-		this.setState({
-			loading: false,
-			data: [
-				{
-					id: "1",
-					id_proyecto: "1",
-					fecha: "2020-06-23",
-					inventario:
-						'[{"id":2,"service":"Concreto 2","price":"32000","count":"1"},{"id":3,"service":"Maquinaria","price":"32000","count":"3"},{"id":4,"service":"Bomba","price":"3000","count":"6"}]',
-					gastos: "[]",
-					descripcion: "Proyecto casas",
-					exito: "true",
-				},
-			],
-		});
+		// this.setState({
+		// 	loading: false,
+		// 	// data:null,
+		// 	data: [
+		// 		{
+		// 			id: "17",
+		// 			id_proyecto: "15",
+		// 			fecha: "13/7/2020 12:08",
+		// 			inventario:
+		// 				'[{"id":1,"typeService":"1","service":"Bomba estacionaria","price":"987656","count":"1","iva":"19%","retencion":"0%","id_service":""}]',
+		// 			gastos: "[]",
+		// 			descripcion: "ihbujklmlk",
+		// 			exito: "",
+		// 		},
+		// 	],
+		// });
 
 		// console.log(id);
 
-		// this.abortController = new AbortController();
+		this.abortController = new AbortController();
 
-		// try {
-		// 	const response = await fetch(
-		// 		`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventarioId.php?id=${id}`,
-		// 		{
-		// 			signal: this.abortController.signal,
-		// 		}
-		// 	);
+		try {
+			const response = await fetch(
+				`https://botanicainternacionalamazonas.com/backend/vista/clientes/inventarios/cargarInventarioId.php?id=${id}`,
+				{
+					signal: this.abortController.signal,
+				}
+			);
 
-		// 	if (response.status >= 300) throw new Error(response.statusText);
+			if (response.status >= 300) throw new Error(response.statusText);
 
-		// 	const data = await response.json();
+			const data = await response.json();
 
-		// 	this.setState({ loading: false, data });
-			
-		// } catch (e) {
-		// 	if (e.name !== "AbortError") this.setState({ error: e.message });
-		// }
+			this.setState({ loading: false, data });
+		} catch (e) {
+			if (e.name !== "AbortError") this.setState({ error: e.message });
+		}
 	}
 
-	// componentWillUnmount() {
-	// 	this.abortController.abort();
-	// }
+	componentWillUnmount() {
+		this.abortController.abort();
+	}
 
 	render() {
 		const {

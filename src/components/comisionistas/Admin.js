@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from "react";
 // import { Link } from "react-router-dom";
 
+import ErroRes from "../erroRes/ErroRes";
 import Loading from "../loading/Loading";
 import NoHayComisionistas from "./NoHayComisionistas"
 import TablaComisionistas from "./TablaComisionistas";
@@ -19,6 +20,7 @@ class AdminClientes extends Component {
 	}
 
 	async componentDidMount() {
+		
 		this.abortController = new AbortController();
 
 		try {
@@ -53,8 +55,7 @@ class AdminClientes extends Component {
 		if (!!error)
 			return (
 				<Fragment>
-					<h2>{error}</h2>
-					<p>A ocurrido un error</p>
+					<ErroRes />
 				</Fragment>
 			);
 

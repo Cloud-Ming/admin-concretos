@@ -2,6 +2,8 @@ import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 
 import Loading from "../../../../../loading/Loading";
+import ErroRes from "../../../../../erroRes/ErroRes";
+import NoHayComisionistas from "./NoHayComisionistas";
 import FormComisionistas from "./FormComisionistas";
 
 class AdminCotizaciones extends Component {
@@ -13,19 +15,19 @@ class AdminCotizaciones extends Component {
 			data: null,
 			comisiones: null,
 			error: null,
-			id_cliente: null,
-			nombre_proyecto: null,
+			idCliente: null,
+			nombreProyecto: null,
 		};
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
 		const id = match.params.id;
+		const nombreProyecto = match.params.data;
 
-		const nombre_proyecto = match.params.data;
 		this.setState({
-			id_cliente: id,
-			nombre_proyecto: nombre_proyecto,
+			idCliente: id,
+			nombreProyecto: nombreProyecto,
 		});
 
 		// ESTADO SIMULADO
@@ -76,20 +78,14 @@ class AdminCotizaciones extends Component {
 		});*/
 		// ESTADO SIMULADO
 
-		this.abortController = new AbortController();
+		// this.abortController = new AbortController();
 
 		Promise.all([
 			fetch(
 				"http://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php",
-				{
-					signal: this.abortController.signal,
-				}
 			),
 			fetch(
 				`https://botanicainternacionalamazonas.com/backend/vista/comisionistas/comisionistaId.php?id=${id}`,
-				{
-					signal: this.abortController.signal,
-				}
 			),
 		])
 			.then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
@@ -102,16 +98,16 @@ class AdminCotizaciones extends Component {
 			);
 	}
 
-	componentWillUnmount() {
-		this.abortController.abort();
-	}
+	// componentWillUnmount() {
+	// 	this.abortController.abort();
+	// }
 
 	render() {
 		const {
 			error,
 			loading,
-			id_cliente,
-			nombre_proyecto,
+			idCliente,
+			nombreProyecto,
 			data,
 			comisiones,
 		} = this.state;
@@ -119,8 +115,7 @@ class AdminCotizaciones extends Component {
 		if (!!error)
 			return (
 				<Fragment>
-					<h2>{error}</h2>
-					<p>A ocurrido un error</p>
+					<ErroRes />
 				</Fragment>
 			);
 
@@ -135,15 +130,15 @@ class AdminCotizaciones extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay comisionistas registrados </h1>
+					<NoHayComisionistas />
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-			<FormComisionistas
-					id_cliente={id_cliente}
-					nombre_proyecto={nombre_proyecto}
+				<FormComisionistas
+					idCliente={idCliente}
+					nombreProyecto={nombreProyecto}
 					data={data}
 					comisionesData={comisiones}
 				/>

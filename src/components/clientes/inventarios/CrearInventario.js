@@ -16,15 +16,29 @@ import {
 	Select,
 } from "@material-ui/core";
 
+// Icons
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+
+// Styles
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			margin: theme.spacing(1),
+			width: "33ch",
+		},
+	},
+	grid: {
+		minHeight: "100vh",
+		backgroundColor: "rgba(202, 202, 202, 0.18)",
+	},
+}));
 
 function CrearInventario() {
 	const { id, proyecto, cliente } = useParams();
 
 	const [datos, setDatos] = useState({
 		id_proyecto: id,
-		fecha: new Date().toLocaleString(),
 		descripcion: "",
 	});
 
@@ -50,15 +64,11 @@ function CrearInventario() {
 	});
 
 	// CREACION SERVICIOS
-
 	const checkIva = (event) => {
 		setState({ ...state, [event.target.name]: event.target.checked });
 	};
 
 	const handleChangeServices = (event) => {
-		// console.log(event.target);
-		// console.log(event.target.name, datosForm);
-
 		setDatosForm({
 			...datosForm,
 			[event.target.name]: event.target.value,
@@ -159,7 +169,7 @@ function CrearInventario() {
 
 	const handleonSubmit = async (event) => {
 		event.preventDefault();
-		//event.target.reset();
+
 		// setDatosForm({
 		// 	id: 1,
 		// 	client: "",
@@ -175,7 +185,6 @@ function CrearInventario() {
 
 		if (
 			datos.id_proyecto.length === 0 ||
-			datos.fecha.length === 0 ||
 			servicesState.length === 0 ||
 			datos.descripcion.length === 0
 		) {
@@ -189,7 +198,7 @@ function CrearInventario() {
 
 		var formData = new FormData();
 		formData.append("id_proyecto", datos.id_proyecto);
-		formData.append("fecha", datos.fecha);
+		formData.append("fecha", new Date().toLocaleString());
 		formData.append("inventario", JSON.stringify(servicesState));
 		formData.append("descripcion", datos.descripcion);
 
@@ -210,6 +219,27 @@ function CrearInventario() {
 					return;
 				}
 
+				// Reset forms
+
+				setDatos({
+					descripcion: "",
+				});
+
+				setDatosForm({
+					id: 1,
+					client: "",
+					typeService: "0",
+					service: "Concreto psi",
+					price: 0,
+					count: 0,
+					iva: 0,
+					retencion: 0,
+					id_service: 0,
+					natural: false,
+				});
+
+				setServicesState([]);
+
 				setErrorLogin("Inventario creado con éxito");
 				handleClick();
 			})
@@ -220,9 +250,10 @@ function CrearInventario() {
 			});
 
 		// Cancel the request if it takes more than 5 seconds
-		setTimeout(() => abortController.abort(), 5000);
+		setTimeout(() => abortController.abort(), 1000);
 	};
 
+	// Alertas
 	const handleClick = () => {
 		setOpen(true);
 	};
@@ -235,15 +266,7 @@ function CrearInventario() {
 		setOpen(false);
 	};
 
-	const useStyles = makeStyles((theme) => ({
-		root: {
-			"& > *": {
-				margin: theme.spacing(1),
-				width: "33ch",
-			},
-		},
-	}));
-
+	// Styles
 	const classes = useStyles();
 
 	return (
@@ -254,9 +277,8 @@ function CrearInventario() {
 				direction="column"
 				alignItems="center"
 				justify="center"
-				style={{ minHeight: "100vh" }}
+				className={classes.grid}
 			>
-				{/*<Grid>*/}
 				<h1>Crear inventario: ({atob(proyecto)})</h1>
 				<h2 style={{ marginTop: "0" }}>({atob(cliente)})</h2>
 				<form
@@ -357,15 +379,6 @@ function CrearInventario() {
 						</Select>
 					</FormControl>
 
-					{/*<TextField
-						id="descripcion_input"
-						label="Servicio"
-						variant="outlined"
-						type="text"
-						name="service"
-						onChange={handleChangeServices}
-						required
-					/>*/}
 					<br />
 					<TextField
 						id="descripcion_input"
@@ -374,7 +387,7 @@ function CrearInventario() {
 						type="number"
 						name="price"
 						onChange={handleChangeServices}
-						required
+						value={datosForm.price}
 					/>
 					<br />
 					<TextField
@@ -384,7 +397,7 @@ function CrearInventario() {
 						type="number"
 						name="count"
 						onChange={handleChangeServices}
-						required
+						value={datosForm.count}
 					/>
 					<br />
 					<div>
@@ -410,19 +423,6 @@ function CrearInventario() {
 						Añadir
 					</Button>
 					<br />
-					{/*		<button
-						type="button"
-						onClick={() => console.log(servicesState)}
-					>
-						Contar estado servicios
-					</button>
-*/}
-					{/*<button
-						type="button"
-						onClick={() => console.log(state)}
-					>
-						Contar estado checkbox
-					</button>*/}
 
 					<Divider />
 
@@ -433,7 +433,7 @@ function CrearInventario() {
 						name="descripcion"
 						type="text"
 						onChange={handleChange}
-						required
+						value={datos.descripcion}
 					/>
 
 					<br />
@@ -442,8 +442,6 @@ function CrearInventario() {
 						Crear inventario
 					</Button>
 				</form>
-
-				{/*<Button onClick={handleClick}>A ocurrido un error</Button>*/}
 
 				<Snackbar
 					anchorOrigin={{
@@ -455,18 +453,19 @@ function CrearInventario() {
 					onClose={handleClose}
 					message={errorLogin}
 					action={
-						<React.Fragment>
-							{
-								<Button
-									component={Link}
-									to={"/"}
-									color="secondary"
-									size="small"
-									onClick={handleClose}
-								>
-									VOLVER
-								</Button>
-							}
+						<Fragment>
+
+					{/*id, proyecto, cliente*/}
+							<Button
+								component={Link}
+								to={`/ver-inventarios/${id}/${proyecto}/${cliente}`}
+								color="secondary"
+								size="small"
+								onClick={handleClose}
+							>
+								ver
+							</Button>
+
 							<IconButton
 								size="small"
 								aria-label="close"
@@ -475,13 +474,9 @@ function CrearInventario() {
 							>
 								<CloseIcon fontSize="small" />
 							</IconButton>
-						</React.Fragment>
+						</Fragment>
 					}
 				/>
-
-				{/*	</Grid>*/}
-				{/*<h3>{datos.email}</h3>*/}
-				{/*<h3>{datos.contrasena}</h3>*/}
 			</Grid>
 		</Fragment>
 	);

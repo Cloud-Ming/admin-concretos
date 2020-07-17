@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 // import { Usercontext } from "../../context/Context";
 import { Link } from "react-router-dom";
+
 import {
 	makeStyles,
 	Grid,
@@ -13,8 +14,27 @@ import {
 	Snackbar,
 } from "@material-ui/core";
 
+// Icons
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import GroupIcon from "@material-ui/icons/Group";
+
+// Styles
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			margin: theme.spacing(1),
+			width: "30ch",
+		},
+	},
+	grid: {
+		minHeight: "100vh",
+		backgroundColor: "rgba(202, 202, 202, 0.18)",
+	},
+	sendButton: {
+		backgroundColor: "#4e637b",
+	},
+}));
 
 function CrearProveedores() {
 	const [datos, setDatos] = useState({
@@ -103,7 +123,6 @@ function CrearProveedores() {
 	};
 
 	// Manejador alerta
-
 	const handleClick = () => {
 		setOpen(true);
 	};
@@ -117,15 +136,6 @@ function CrearProveedores() {
 	};
 
 	// Styles
-	const useStyles = makeStyles((theme) => ({
-		root: {
-			"& > *": {
-				margin: theme.spacing(1),
-				width: "30ch",
-			},
-		},
-	}));
-
 	const classes = useStyles();
 
 	return (
@@ -136,19 +146,18 @@ function CrearProveedores() {
 				direction="column"
 				alignItems="center"
 				justify="center"
-				style={{ minHeight: "100vh" }}
+				className={classes.grid}
 			>
-				{/*<Grid>*/}
 				<Typography variant="h4" component="h4">
 					Registrar proveedor
 				</Typography>
-				<p>Registrar nueva empresa proveedora</p>
+				{/*<p>Registrar nueva empresa proveedora</p>*/}
 
 				<form
 					onSubmit={handleonSubmit}
 					className={classes.root}
 					noValidate
-					autoComplete="off"
+					autoComplete="on"
 				>
 					<TextField
 						id="nombre_input"
@@ -184,14 +193,6 @@ function CrearProveedores() {
 
 					<br />
 
-					{/*	<TextField
-						id="producto_input"
-						label="Producto"
-						variant="outlined"
-						name="product"
-						type="tel"
-						onChange={handleChange}
-					/>*/}
 					<FormControl
 						variant="filled"
 						className={classes.formControl}
@@ -226,7 +227,13 @@ function CrearProveedores() {
 
 					<br />
 
-					<Button type="submit" variant="contained" color="primary">
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						startIcon={<GroupIcon />}
+						className={classes.sendButton}
+					>
 						Registrar
 					</Button>
 				</form>
@@ -250,7 +257,7 @@ function CrearProveedores() {
 								component={Link}
 								to="/proveedores"
 							>
-								Volver
+								VER
 							</Button>
 
 							<IconButton
@@ -264,12 +271,7 @@ function CrearProveedores() {
 						</Fragment>
 					}
 				/>
-
-				{/*	</Grid>*/}
-				{/*<h3>{datos.email}</h3>*/}
-				{/*<h3>{datos.contrasena}</h3>*/}
-
-				<Link to="/proveedores">Todos los proveedores</Link>
+				{/*<Link to="/proveedores">Todos los proveedores</Link>*/}
 			</Grid>
 		</Fragment>
 	);

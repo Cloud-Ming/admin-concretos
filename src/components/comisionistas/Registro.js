@@ -13,6 +13,20 @@ import {
 
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
+
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			margin: theme.spacing(1),
+			width: "30ch",
+		},
+	},
+	grid: {
+		minHeight: "100vh",
+		backgroundColor: "rgba(202, 202, 202, 0.18)",
+	},
+}));
 
 function RegistroClientes() {
 	const [datos, setDatos] = useState({
@@ -23,17 +37,6 @@ function RegistroClientes() {
 
 	const [open, setOpen] = useState(false);
 	const [errorLogin, setErrorLogin] = useState("A ocurrido un error");
-
-	const useStyles = makeStyles((theme) => ({
-		root: {
-			"& > *": {
-				margin: theme.spacing(1),
-				width: "30ch",
-			},
-		},
-	}));
-
-	const classes = useStyles();
 
 	const handleChange = (event) => {
 		console.log(event.target.name, event.target.value);
@@ -78,6 +81,12 @@ function RegistroClientes() {
 					return;
 				}
 
+				// Reset form
+				setDatos({
+					nombre: "",
+					celular: "",
+				});
+				
 				setErrorLogin("Comisionista registrado con éxito");
 				handleClick();
 			})
@@ -88,7 +97,7 @@ function RegistroClientes() {
 			});
 
 		// Cancel the request if it takes more than 5 seconds
-		setTimeout(() => abortController.abort(), 5000);
+		setTimeout(() => abortController.abort(), 1000);
 	};
 
 	const handleClick = () => {
@@ -99,9 +108,11 @@ function RegistroClientes() {
 		if (reason === "clickaway") {
 			return;
 		}
-
 		setOpen(false);
 	};
+
+	// Styles
+	const classes = useStyles();
 
 	return (
 		<Fragment>
@@ -111,7 +122,7 @@ function RegistroClientes() {
 				direction="column"
 				alignItems="center"
 				justify="center"
-				style={{ minHeight: "100vh" }}
+				className={classes.grid}
 			>
 				{/*<Grid>*/}
 				<Typography variant="h4" component="h4">
@@ -122,7 +133,7 @@ function RegistroClientes() {
 					onSubmit={handleonSubmit}
 					className={classes.root}
 					noValidate
-					autoComplete="off"
+					autoComplete="on"
 				>
 					<TextField
 						id="nombre"
@@ -131,6 +142,7 @@ function RegistroClientes() {
 						name="nombre"
 						type="text"
 						onChange={handleChange}
+						value={datos.nombre}
 					/>
 
 					<br />
@@ -142,16 +154,21 @@ function RegistroClientes() {
 						name="celular"
 						type="text"
 						onChange={handleChange}
+						value={datos.celular}
 					/>
 
 					<br />
 
-					<Button type="submit" variant="contained" color="primary">
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						startIcon={<GroupAddIcon />}
+						className={classes.sendButton}
+					>
 						Registrar
 					</Button>
 				</form>
-
-				{/*<Button onClick={handleClick}>A ocurrido un error</Button>*/}
 
 				<Snackbar
 					anchorOrigin={{
@@ -163,18 +180,17 @@ function RegistroClientes() {
 					onClose={handleClose}
 					message={errorLogin}
 					action={
-						<React.Fragment>
-							{
-								<Button
-									component={Link}
-									to="/comisionistas"
-									color="secondary"
-									size="small"
-									onClick={handleClose}
-								>
-									VOLVER
-								</Button>
-							}
+						<Fragment>
+							<Button
+								component={Link}
+								to="/comisionistas"
+								color="secondary"
+								size="small"
+								onClick={handleClose}
+							>
+								VER
+							</Button>
+
 							<IconButton
 								size="small"
 								aria-label="close"
@@ -183,13 +199,9 @@ function RegistroClientes() {
 							>
 								<CloseIcon fontSize="small" />
 							</IconButton>
-						</React.Fragment>
+						</Fragment>
 					}
 				/>
-
-				{/*	</Grid>*/}
-				{/*<h3>{datos.email}</h3>*/}
-				{/*<h3>{datos.contrasena}</h3>*/}
 			</Grid>
 		</Fragment>
 	);

@@ -13,6 +13,16 @@ import {
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 
+// Styles
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			margin: theme.spacing(1),
+			width: "30ch",
+		},
+	},
+}));
+
 function Login() {
 	const { user, login } = useContext(Usercontext);
 
@@ -25,17 +35,7 @@ function Login() {
 
 	const [errorLogin, setErrorLogin] = useState("A ocurrido un error");
 
-	const useStyles = makeStyles((theme) => ({
-		root: {
-			"& > *": {
-				margin: theme.spacing(1),
-				width: "30ch",
-			},
-		},
-	}));
-
-	const classes = useStyles();
-
+	// Handler forms
 	const handleChange = (event) => {
 		console.log(event.target.value);
 
@@ -82,46 +82,15 @@ function Login() {
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
-				setErrorLogin("A ocurrido un error");
+				setErrorLogin("A ocurrido un error, revisa tu conexion");
 				handleClick();
 			});
 
 		// Cancel the request if it takes more than 5 seconds
-		setTimeout(() => abortController.abort(), 5000);
-
-		//Controler
-
-		// var formData = new FormData();
-		// formData.append("email", datos.email);
-		// formData.append("contrasena", datos.contrasena);
-
-		// const data = await fetch(
-		// 	"https://botanicainternacionalamazonas.com/backend/vista/LoginAdministrador.php",
-		// 	{
-		// 		method: "POST",
-		// 		body: formData,
-		// 	}
-		// );
-
-		// const validate = await data.json();
-
-		// if (validate.length <= 1) {
-		// 	console.log(validate);
-		// 	console.log(validate[0].nombre);
-
-		// 	login(validate[0].nombre);
-
-		// 	setErrorLogin("Iniciando sesión ...");
-		// 	handleClick();
-		// } else {
-		// 	console.log(validate);
-		// 	setErrorLogin("Usuario no registrado");
-		// 	handleClick();
-		// }
+		setTimeout(() => abortController.abort(), 1000);
 	};
 
-	//
-
+	// Handler alerts
 	const handleClick = () => {
 		setOpen(true);
 	};
@@ -134,6 +103,11 @@ function Login() {
 		setOpen(false);
 	};
 	//
+
+
+	// Styles
+	const classes = useStyles();
+
 
 	const button = (
 		<Fragment>
@@ -225,6 +199,7 @@ function Login() {
 		</Fragment>
 	);
 
+	
 	return (
 		<Fragment>
 			{user.loggedIn ? (

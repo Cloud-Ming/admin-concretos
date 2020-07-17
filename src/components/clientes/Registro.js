@@ -12,7 +12,23 @@ import {
 
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import BusinessIcon from "@material-ui/icons/Business";
 
+// Styles
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			margin: theme.spacing(1),
+			width: "30ch",
+		},
+	},
+	grid: {
+		minHeight: "100vh",
+		backgroundColor: "rgba(202, 202, 202, 0.18)",
+	},
+}));
+
+// Component
 function RegistroClientes() {
 	const [datos, setDatos] = useState({
 		nombre: "",
@@ -25,17 +41,7 @@ function RegistroClientes() {
 	const [open, setOpen] = useState(false);
 	const [errorLogin, setErrorLogin] = useState("A ocurrido un error");
 
-	const useStyles = makeStyles((theme) => ({
-		root: {
-			"& > *": {
-				margin: theme.spacing(1),
-				width: "30ch",
-			},
-		},
-	}));
-
-	const classes = useStyles();
-
+	// Handler form
 	const handleChange = (event) => {
 		console.log(event.target.name, event.target.value);
 
@@ -87,9 +93,16 @@ function RegistroClientes() {
 					return;
 				}
 
-				// console.log("'Exito'", res);
+				// Reset form
+				setDatos({
+					nombre: "",
+					email: "",
+					celular: "",
+					cedula: "",
+					ciudad: "",
+				});
 
-				setErrorLogin("Se ha creado un nuevo cliente");
+				setErrorLogin("Cliente registrado existosamente");
 				handleClick();
 			})
 			.catch((err) => {
@@ -99,9 +112,10 @@ function RegistroClientes() {
 			});
 
 		// Cancel the request if it takes more than 5 seconds
-		setTimeout(() => abortController.abort(), 5000);
+		setTimeout(() => abortController.abort(), 1000);
 	};
 
+	// Alertas
 	const handleClick = () => {
 		setOpen(true);
 	};
@@ -114,6 +128,9 @@ function RegistroClientes() {
 		setOpen(false);
 	};
 
+	// Styles
+	const classes = useStyles();
+
 	return (
 		<Fragment>
 			<Grid
@@ -122,9 +139,8 @@ function RegistroClientes() {
 				direction="column"
 				alignItems="center"
 				justify="center"
-				style={{ minHeight: "100vh" }}
+				className={classes.grid}
 			>
-				{/*<Grid>*/}
 				<Typography variant="h4" component="h4">
 					Registrar cliente
 				</Typography>
@@ -133,7 +149,7 @@ function RegistroClientes() {
 					onSubmit={handleonSubmit}
 					className={classes.root}
 					noValidate
-					autoComplete="off"
+					autoComplete="on"
 				>
 					<TextField
 						id="nombre_input"
@@ -141,6 +157,7 @@ function RegistroClientes() {
 						variant="outlined"
 						name="nombre"
 						onChange={handleChange}
+						value={datos.nombre}
 					/>
 
 					<br />
@@ -152,6 +169,7 @@ function RegistroClientes() {
 						name="email"
 						type="email"
 						onChange={handleChange}
+						value={datos.email}
 					/>
 
 					<br />
@@ -162,6 +180,7 @@ function RegistroClientes() {
 						name="celular"
 						type="tel"
 						onChange={handleChange}
+						value={datos.celular}
 					/>
 
 					<br />
@@ -171,8 +190,9 @@ function RegistroClientes() {
 						label="Cedula ó NIT"
 						variant="outlined"
 						name="cedula"
-						type="number"
+						type="text"
 						onChange={handleChange}
+						value={datos.cedula}
 					/>
 
 					<br />
@@ -184,16 +204,21 @@ function RegistroClientes() {
 						name="ciudad"
 						type="text"
 						onChange={handleChange}
+						value={datos.ciudad}
 					/>
 
 					<br />
 
-					<Button type="submit" variant="contained" color="primary">
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						startIcon={<BusinessIcon />}
+						className={classes.sendButton}
+					>
 						Registrar
 					</Button>
 				</form>
-
-				{/*<Button onClick={handleClick}>A ocurrido un error</Button>*/}
 
 				<Snackbar
 					anchorOrigin={{
@@ -206,16 +231,15 @@ function RegistroClientes() {
 					message={errorLogin}
 					action={
 						<Fragment>
-							
 							<Button
 								color="secondary"
 								size="small"
 								component={Link}
 								to="/clientes"
 							>
-								Volver
+								VER
 							</Button>
-							
+
 							<IconButton
 								size="small"
 								aria-label="close"
@@ -227,10 +251,6 @@ function RegistroClientes() {
 						</Fragment>
 					}
 				/>
-
-				{/*	</Grid>*/}
-				{/*<h3>{datos.email}</h3>*/}
-				{/*<h3>{datos.contrasena}</h3>*/}
 			</Grid>
 		</Fragment>
 	);

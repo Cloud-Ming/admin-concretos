@@ -1,7 +1,25 @@
 import React, { Fragment } from "react";
-import { Grid, CircularProgress } from "@material-ui/core";
+import { Grid, CircularProgress, makeStyles,} from "@material-ui/core";
+
+
+// Styles
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			margin: theme.spacing(1),
+			width: "30ch",
+		},
+	},
+	grid: {
+		minHeight: "100vh",
+	},
+}));
 
 export default function Loading() {
+	
+	// Styles
+	const classes = useStyles();
+
 	return (
 		<Fragment>
 			<Grid
@@ -10,7 +28,7 @@ export default function Loading() {
 				direction="column"
 				alignItems="center"
 				justify="center"
-				style={{ minHeight: "100vh" }}
+				className={classes.grid}
 			>	
 				<CircularProgress color="secondary" />
 			</Grid>

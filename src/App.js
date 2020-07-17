@@ -95,7 +95,7 @@ function App() {
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-proyectos/:id/:data"
+								path="/ver-proyectos/:id/:cliente"
 								meta={{ auth: true }}
 							>
 								<AdminProyectosId />
@@ -180,7 +180,7 @@ function App() {
 
 							{/*Estado de cuenta*/}
 							<GuardedRoute
-								path="/estado-cuenta/:id"
+								path="/estado-cuenta/:id/:cliente"
 								meta={{ auth: true }}
 							>
 								<EstadoCuenta />

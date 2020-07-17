@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 
-import Loading from "../../../../../loading/Loading";
-import ErrorRes from "../../../../../erroRes/ErroRes";
-import Cotizacion from "./Cotizacion";
+import ErroRes from "../../../erroRes/ErroRes";
+import Loading from "../../../loading/Loading";
+//import NohayEstadosDeCuenta from "./NohayEstadosDeCuenta";
 
-class AdminCotizaciones extends Component {
+import Pagos from "./Pagos";
+
+class EstadoCuenta extends Component {
 	constructor(props) {
 		super(props);
 
@@ -13,28 +15,26 @@ class AdminCotizaciones extends Component {
 			loading: true,
 			data: null,
 			error: null,
-			id_cliente: null,
-			nombre_proyecto: "",
+			idCliente: null,
 		};
-		// nombre_proyecto: "",
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
 
 		const id = match.params.id;
-		const proyecto = match.params.data;
-		
+
 		this.setState({
-			nombre_proyecto: atob(proyecto),
-			id_cliente: id,
+			idCliente: id,
 		});
+
+		// console.log(id);
 
 		this.abortController = new AbortController();
 
 		try {
 			const response = await fetch(
-				`http://botanicainternacionalamazonas.com/backend/vista/pdf/cargarCotizacionId.php?id=${id}`,
+				`https://botanicainternacionalamazonas.com/backend/vista/estados-cuenta/cargarPagos.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}
@@ -45,6 +45,7 @@ class AdminCotizaciones extends Component {
 			const data = await response.json();
 
 			this.setState({ loading: false, data });
+
 		} catch (e) {
 			if (e.name !== "AbortError") this.setState({ error: e.message });
 		}
@@ -55,18 +56,12 @@ class AdminCotizaciones extends Component {
 	}
 
 	render() {
-		const {
-			error,
-			loading,
-			data,
-			id_cliente,
-			nombre_proyecto,
-		} = this.state;
+		const { error, loading, idCliente, data } = this.state;
 
-		if (!!error)
+		if (error)
 			return (
 				<Fragment>
-					<ErrorRes />
+					<ErroRes />
 				</Fragment>
 			);
 
@@ -77,18 +72,20 @@ class AdminCotizaciones extends Component {
 				</Fragment>
 			);
 
+		// Si no hay proyectos ...
+		// if (data === null)
+		// 	return (
+		// 		<Fragment>
+		// 			<NohayEstadosDeCuenta cliente={cliente} />
+		// 		</Fragment>
+		// 	);
+
 		return (
 			<Fragment>
-				<Cotizacion
-					nombre_proyecto={nombre_proyecto}
-					id_inventario={id_cliente}
-					data={data}
-					inventario={this.props.data[0].inventario}
-
-				/>
+				<Pagos idCliente={idCliente} pagos={data} />
 			</Fragment>
 		);
 	}
 }
 
-export default withRouter(AdminCotizaciones);
+export default withRouter(EstadoCuenta);

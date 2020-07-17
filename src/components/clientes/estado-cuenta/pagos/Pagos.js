@@ -11,7 +11,6 @@ import {
 } from "@material-ui/core";
 
 // Icons
-
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import DescriptionIcon from "@material-ui/icons/Description";
@@ -34,13 +33,12 @@ const useStyles = makeStyles({
 	},
 });
 
-function Cotizaciones(props) {
-	const { data, inventario, id_inventario } = props;
+function Pagos(props) {
+	const { idCliente, pagos } = props;
 
-	const [dataPreformas, setDataPreformas] = useState(data ? data : []);
-	const [inputs, setInputs] = useState([
-		{ id_unico: null, titulo: "", descripcion: "", url: "" },
-	]);
+	const [dataPagos, setDataPagos] = useState(pagos ? pagos : []);
+
+	const [inputs, setInputs] = useState({ monto: 0 });
 
 	// Alertas
 	const [open, setOpen] = useState(false);
@@ -48,6 +46,7 @@ function Cotizaciones(props) {
 
 	// Forms handler
 	const onChange = (event) => {
+		console.log(event.target.name, event.target.value);
 		setInputs({
 			...inputs,
 			[event.target.name]: event.target.value,
@@ -57,16 +56,11 @@ function Cotizaciones(props) {
 	// Generador IDs únicos
 	const uniqueId = uniqid();
 
-	const crearPreforma = (event) => {
+	const crearPago = (event) => {
 		event.preventDefault();
 
 		//send to backend
-		sendData(
-			uniqueId,
-			new Date().toLocaleString(),
-			inputs.titulo,
-			inputs.descripcion
-		);
+		sendData(uniqueId, new Date().toLocaleString(), inputs.monto);
 	};
 
 	// Alertas
@@ -82,7 +76,14 @@ function Cotizaciones(props) {
 		setOpen(false);
 	};
 
-	const eliminarCotizacion = (id) => {
+	const eliminarPago = (id) => {
+		let conf = window.confirm("Esta seguro de eliminar este pago?");
+
+		if (conf === false) {
+			console.log("Se cancelo la eliminación");
+			return;
+		}
+
 		// controller
 		const abortController = new AbortController();
 
@@ -91,7 +92,7 @@ function Cotizaciones(props) {
 		formData.append("id_unico", id);
 
 		fetch(
-			"https://botanicainternacionalamazonas.com/backend/vista/pdf/eliminarCotizacion.php",
+			"https://botanicainternacionalamazonas.com/backend/vista/estados-cuenta/eliminarPagos.php",
 			{
 				method: "POST",
 				mode: "cors",
@@ -105,10 +106,10 @@ function Cotizaciones(props) {
 				handleClick();
 
 				// Eliminar
-				const newList = dataPreformas.filter(
+				const newList = dataPagos.filter(
 					(item) => item.id_unico !== id
 				);
-				setDataPreformas(newList);
+				setDataPagos(newList);
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
@@ -122,20 +123,19 @@ function Cotizaciones(props) {
 	};
 
 	// Controler send
-	const sendData = (id_unico, fecha, titulo, descripcion) => {
+	const sendData = (id_unico, fecha, monto) => {
 		// controller
 		const abortController = new AbortController();
 
 		var formData = new FormData();
+		formData.append("id_cliente", idCliente);
+		formData.append("id_inventario", idCliente);
 		formData.append("id_unico", id_unico);
-		formData.append("id_inventario", id_inventario);
-		formData.append("inventario", inventario);
-		formData.append("fecha_creacion", fecha);
-		formData.append("titulo", titulo);
-		formData.append("descripcion", descripcion);
+		formData.append("fecha", fecha);
+		formData.append("monto", monto);
 
 		fetch(
-			"https://botanicainternacionalamazonas.com/backend/vista/pdf/crearCotizacion.php",
+			"https://botanicainternacionalamazonas.com/backend/vista/estados-cuenta/crearPago.php",
 			{
 				method: "POST",
 				mode: "cors",
@@ -146,37 +146,32 @@ function Cotizaciones(props) {
 			.then((res) => res.text())
 			.then((res) => {
 				if (res === 401) {
-				  setError("A ocurrido un error");
-				  handleClick();
+					setError("A ocurrido un error");
+					handleClick();
 					return;
 				}
 
 				// Reset form
 				setInputs({
-					id_unico: null,
-					titulo: "",
-					descripcion: "",
-					url: "",
+					monto: 0,
 				});
 
-				setError("Cotización creada con éxito");
+				setError("Pago creado con éxito");
 				handleClick();
 
 				// Agregar
-				setDataPreformas((newList) => [
+				setDataPagos((newList) => [
 					...newList,
 					{
 						id_unico: id_unico,
 						fecha: fecha,
-						titulo: titulo,
-						descripcion: descripcion,
-						url: `https://botanicainternacionalamazonas.com/backend/archivos/cotizaciones/${titulo}.pdf`,
+						monto: monto,
 					},
 				]);
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
-				setError("No se pudo agregar");
+				setError("A ocurrido un error");
 				handleClick();
 			});
 
@@ -197,13 +192,13 @@ function Cotizaciones(props) {
 						color="textSecondary"
 						gutterBottom
 					>
-						Cotizaciones
+						Pagos
 					</Typography>
 
 					<div style={{ display: "flex", flexWrap: "wrap" }}>
-						{dataPreformas === null || dataPreformas.length === 0
-							? "No hay cotizaciones."
-							: dataPreformas.map((preforma, index) => (
+						{dataPagos === null || dataPagos.length === 0
+							? "No hay pagos registrados."
+							: dataPagos.map((pago, index) => (
 									<div
 										key={index}
 										style={{
@@ -213,31 +208,17 @@ function Cotizaciones(props) {
 											marginLeft: 20,
 										}}
 									>
-										<DescriptionIcon
-											style={{ fontSize: "50px" }}
-										/>
+										<p>
+											<b>Fecha:</b> {pago.fecha}
+										</p>
+										<p>
+											<b>Monto:</b> ${pago.monto}
+										</p>
 
-										<br />
-										<small>Fecha: {preforma.fecha}</small>
-										<br />
-										<small>{preforma.titulo}</small>
-										<br />
-										<small>{preforma.descripcion}</small>
-										<br />
 										<div style={{ display: "flex" }}>
-											<a
-												href={preforma.url}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												Ver
-											</a>
-											&nbsp;&nbsp;
 											<button
 												onClick={() =>
-													eliminarCotizacion(
-														preforma.id_unico
-													)
+													eliminarPago(pago.id_unico)
 												}
 											>
 												Eliminar
@@ -252,26 +233,17 @@ function Cotizaciones(props) {
 						color="textSecondary"
 						gutterBottom
 					>
-						Generar cotización
+						Crear pago
 					</Typography>
 
-					<form onSubmit={(event) => crearPreforma(event)}>
+					<form onSubmit={(event) => crearPago(event)}>
 						<TextField
+							type="number"
 							id="outlined-basic"
-							label="Titulo"
+							label="Monto"
 							variant="outlined"
-							value={inputs.titulo}
-							name="titulo"
-							onChange={(event) => onChange(event)}
-						/>
-						<br />
-						<br />
-						<TextField
-							id="outlined-basic"
-							label="Descripción"
-							variant="outlined"
-							value={inputs.descripcion}
-							name="descripcion"
+							value={inputs.monto}
+							name="monto"
 							onChange={(event) => onChange(event)}
 						/>
 						<br />
@@ -283,23 +255,24 @@ function Cotizaciones(props) {
 								color="primary"
 								startIcon={<DescriptionIcon />}
 							>
-								Generar cotización
+								Crea pago
 							</Button>
 						</div>
 					</form>
-
-					<Snackbar
-						anchorOrigin={{
-							vertical: "bottom",
-							horizontal: "center",
-						}}
-						open={open}
-						autoHideDuration={6000}
-						onClose={handleClose}
-						message={error}
-						action={
-							<Fragment>
-								{/*
+				</CardContent>
+			</Card>
+			<Snackbar
+				anchorOrigin={{
+					vertical: "bottom",
+					horizontal: "center",
+				}}
+				open={open}
+				autoHideDuration={6000}
+				onClose={handleClose}
+				message={error}
+				action={
+					<Fragment>
+						{/*
 							<Button
 								color="secondary"
 								size="small"
@@ -308,21 +281,19 @@ function Cotizaciones(props) {
 								UNDO
 							</Button>
 							*/}
-								<IconButton
-									size="small"
-									aria-label="close"
-									color="inherit"
-									onClick={handleClose}
-								>
-									<CloseIcon fontSize="small" />
-								</IconButton>
-							</Fragment>
-						}
-					/>
-				</CardContent>
-			</Card>
+						<IconButton
+							size="small"
+							aria-label="close"
+							color="inherit"
+							onClick={handleClose}
+						>
+							<CloseIcon fontSize="small" />
+						</IconButton>
+					</Fragment>
+				}
+			/>
 		</Fragment>
 	);
 }
 
-export default Cotizaciones;
+export default Pagos;

@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 
 import Loading from "../../../../../loading/Loading";
 import ErrorRes from "../../../../../erroRes/ErroRes";
-import Cotizacion from "./Cotizacion";
+import Facturas from "./Facturas";
 
 class AdminCotizaciones extends Component {
 	constructor(props) {
@@ -13,8 +13,7 @@ class AdminCotizaciones extends Component {
 			loading: true,
 			data: null,
 			error: null,
-			id_cliente: null,
-			nombre_proyecto: "",
+			idCliente: null,
 		};
 		// nombre_proyecto: "",
 	}
@@ -23,18 +22,17 @@ class AdminCotizaciones extends Component {
 		const { match } = this.props;
 
 		const id = match.params.id;
-		const proyecto = match.params.data;
-		
+
 		this.setState({
-			nombre_proyecto: atob(proyecto),
-			id_cliente: id,
+			idCliente: id,
 		});
 
+		// controller
 		this.abortController = new AbortController();
 
 		try {
 			const response = await fetch(
-				`http://botanicainternacionalamazonas.com/backend/vista/pdf/cargarCotizacionId.php?id=${id}`,
+				`https://botanicainternacionalamazonas.com/backend/vista/pdf/cargarFacturaId.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}
@@ -55,13 +53,7 @@ class AdminCotizaciones extends Component {
 	}
 
 	render() {
-		const {
-			error,
-			loading,
-			data,
-			id_cliente,
-			nombre_proyecto,
-		} = this.state;
+		const { error, idCliente, data, loading } = this.state;
 
 		if (!!error)
 			return (
@@ -79,13 +71,8 @@ class AdminCotizaciones extends Component {
 
 		return (
 			<Fragment>
-				<Cotizacion
-					nombre_proyecto={nombre_proyecto}
-					id_inventario={id_cliente}
-					data={data}
-					inventario={this.props.data[0].inventario}
-
-				/>
+				<Facturas idCliente={idCliente} data={data} />
+				{/*<h1>Facturas</h1>*/}
 			</Fragment>
 		);
 	}

@@ -3,7 +3,7 @@ import { withRouter } from "react-router-dom";
 
 import Loading from "../../../../../loading/Loading";
 import ErrorRes from "../../../../../erroRes/ErroRes";
-import Cotizacion from "./Cotizacion";
+import Preformas from "./Preformas";
 
 class AdminCotizaciones extends Component {
 	constructor(props) {
@@ -13,8 +13,8 @@ class AdminCotizaciones extends Component {
 			loading: true,
 			data: null,
 			error: null,
-			id_cliente: null,
-			nombre_proyecto: "",
+			idCliente: null,
+			nombreProyecto: "",
 		};
 		// nombre_proyecto: "",
 	}
@@ -24,17 +24,17 @@ class AdminCotizaciones extends Component {
 
 		const id = match.params.id;
 		const proyecto = match.params.data;
-		
+
 		this.setState({
-			nombre_proyecto: atob(proyecto),
-			id_cliente: id,
+			idCliente: id,
+			nombreProyecto: atob(proyecto),
 		});
 
 		this.abortController = new AbortController();
 
 		try {
 			const response = await fetch(
-				`http://botanicainternacionalamazonas.com/backend/vista/pdf/cargarCotizacionId.php?id=${id}`,
+				`http://botanicainternacionalamazonas.com/backend/vista/pdf/cargarPreformaId.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}
@@ -57,10 +57,10 @@ class AdminCotizaciones extends Component {
 	render() {
 		const {
 			error,
-			loading,
 			data,
-			id_cliente,
-			nombre_proyecto,
+			idCliente,
+			nombreProyecto,
+			loading,
 		} = this.state;
 
 		if (!!error)
@@ -79,13 +79,7 @@ class AdminCotizaciones extends Component {
 
 		return (
 			<Fragment>
-				<Cotizacion
-					nombre_proyecto={nombre_proyecto}
-					id_inventario={id_cliente}
-					data={data}
-					inventario={this.props.data[0].inventario}
-
-				/>
+				<Preformas idInventario={idCliente} nombreProyecto={nombreProyecto} inventario={this.props.data[0].inventario} data={data} />
 			</Fragment>
 		);
 	}
