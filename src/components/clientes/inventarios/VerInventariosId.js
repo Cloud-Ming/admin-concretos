@@ -43,7 +43,7 @@ const useStyles = makeStyles({
 
 function VerInventariosId(props) {
 	// Props data
-	const { id_cliente, nombre_cliente, nombre_proyecto } = props;
+	const { nombre_cliente, nombre_proyecto } = props;
 	const [inventarios, setInventarios] = useState(props.data);
 
 	const [open, setOpen] = useState(false);
@@ -150,26 +150,7 @@ function VerInventariosId(props) {
 					marginRight: 10,
 				}}
 			>
-				<br />
-				<br />
-				<Typography variant="h3" component="h3">
-					{`Inventarios (${inventarios.length})`}
-				</Typography>
-
-				<p>
-					Inventario: <b>{nombre_proyecto}</b>
-				</p>
-
-				<p>
-					Administra los inventarios relacionados a este proyecto{" "}
-					<b>({nombre_proyecto})</b>
-				</p>
-				<br />
-				{/*<h1>{`Proyecto: ${nombre_proyecto}`}</h1>*/}
-				{/*<h2>Proyecto</h2>*/}
-
-				<br />
-				<br />
+				
 
 				{inventarios.map((inventario, key) => (
 					<div key={key}>
@@ -237,18 +218,7 @@ function VerInventariosId(props) {
 					</div>
 				))}
 
-				<br />
-				<Button
-					component={Link}
-					to={`/crear-inventario/${id_cliente}/${btoa(
-						nombre_proyecto
-					)}/${btoa(nombre_cliente)}`}
-					variant="contained"
-					color="primary"
-					startIcon={<Assignment />}
-				>
-					Crear nuevo inventario
-				</Button>
+				
 				<Snackbar
 					anchorOrigin={{
 						vertical: "bottom",
@@ -280,13 +250,7 @@ function VerInventariosId(props) {
 						</Fragment>
 					}
 				/>
-				{/*<Link
-					to={`/ver-proyectos/${id_cliente}/${btoa(nombre_cliente)}`}
-				>
-					<ArrowBackIcon />
-					Proyectos
-				</Link>*/}
-				{/*<Link to={`/ver-proyectos/${id_cliente}/${btoa(nombre_cliente)}`}>Proyectos</Link>*/}
+				
 			</div>
 		</Fragment>
 	);

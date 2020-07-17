@@ -269,7 +269,7 @@ function Nav({ history }) {
 
         <Divider />
 
-       {/* <ListItem button component={Link} to="/papelera">
+   {/*    <ListItem button component={Link} to="/papelera">
           <ListItemIcon>
             <Delete />
           </ListItemIcon>

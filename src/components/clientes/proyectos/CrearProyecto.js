@@ -8,7 +8,7 @@ import {
 	TextField,
 	Button,
 	Snackbar,
-	Typography,
+	// Typography,
 } from "@material-ui/core";
 
 // Icons
@@ -25,8 +25,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	grid: {
-		minHeight: "100vh",
-		backgroundColor: "rgba(202, 202, 202, 0.18)",
+		marginTop:"25px",
+		marginBottom:"25px",
 	},
 }));
 
@@ -134,9 +134,9 @@ function CrearProyecto() {
 				justify="center"
 				className={classes.grid}
 			>
-				<Typography variant="h4" component="h4">
+			{/*	<Typography variant="h4" component="h4">
 					Crear proyecto ({atob(cliente)})
-				</Typography>
+				</Typography>*/}
 
 				<form
 					onSubmit={handleonSubmit}

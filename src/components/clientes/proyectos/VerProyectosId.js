@@ -5,8 +5,6 @@ import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
-import Button from "@material-ui/core/Button";
-
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -15,7 +13,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableFooter from "@material-ui/core/TableFooter";
 import TablePagination from "@material-ui/core/TablePagination";
 
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
@@ -27,7 +25,7 @@ import LastPageIcon from "@material-ui/icons/LastPage";
 
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import VisibilityIcon from "@material-ui/icons/Visibility";
-import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
+
 
 // import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
@@ -153,12 +151,8 @@ function VerProyecto(props) {
 	return (
 		<Fragment>
 			<div style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
-				{/*<Titulo
-					text={`Cliente: ${nombre_cliente}`}
-				/>*/}
-				<br />
-				<br />
-				<Typography variant="h3" component="h3">
+				
+				{/*<Typography variant="h3" component="h3">
 					{`Proyectos(${proyectos.length})`}
 				</Typography>
 
@@ -171,16 +165,14 @@ function VerProyecto(props) {
 					Administra los proyectos de cada cliente, añade nuevos
 					inventarios.
 				</p>
-				<br />
+				<br />*/}
 
 				{/*<Link
 					to={`/crear-proyecto/${id_cliente}/${btoa(proyectos[0].nombre_proyecto)}/${btoa(nombre_cliente)}`}
 				>
 					Crea nuevo proyecto
 				</Link>*/}
-				<br />
-				<br />
-				<br />
+			
 				<TableContainer component={Paper}>
 					<Table
 						className={classes.table}
@@ -284,22 +276,6 @@ function VerProyecto(props) {
 						</TableFooter>
 					</Table>
 				</TableContainer>
-				<br />
-
-				<Button
-					component={Link}
-					to={`/crear-proyecto/${id_cliente}/${btoa(proyectos[0].nombre_proyecto)}/${btoa(nombre_cliente)}`}
-					variant="contained"
-					color="primary"
-					startIcon={<BusinessCenterIcon />}
-				>
-					Crear nuevo proyecto
-				</Button>
-
-{/*				<Link to={`/clientes`}>
-					<ArrowBackIcon />
-					Clientes
-				</Link>*/}
 			</div>
 		</Fragment>
 	);

@@ -19,7 +19,7 @@ import {
 // Icons
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import Assignment from "@material-ui/icons/Assignment"
+import Assignment from "@material-ui/icons/Assignment";
 
 // Styles
 const useStyles = makeStyles((theme) => ({
@@ -30,8 +30,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	grid: {
-		minHeight: "100vh",
-		backgroundColor: "rgba(202, 202, 202, 0.18)",
+		marginTop: "25px",
+		marginBottom: "25px",
 	},
 }));
 
@@ -280,8 +280,8 @@ function CrearInventario() {
 				justify="center"
 				className={classes.grid}
 			>
-				<h1>Crear inventario: ({atob(proyecto)})</h1>
-				<h2 style={{ marginTop: "0" }}>({atob(cliente)})</h2>
+			{/*	<h1>Crear inventario: ({atob(proyecto)})</h1>
+				<h2 style={{ marginTop: "0" }}>({atob(cliente)})</h2>*/}
 				<form
 					onSubmit={handleonSubmit}
 					className={classes.root}
@@ -439,8 +439,12 @@ function CrearInventario() {
 
 					<br />
 
-					<Button type="submit" variant="contained" color="primary"
-					startIcon={<Assignment />}>
+					<Button
+						type="submit"
+						variant="contained"
+						color="primary"
+						startIcon={<Assignment />}
+					>
 						Crear inventario
 					</Button>
 				</form>
@@ -456,8 +460,7 @@ function CrearInventario() {
 					message={errorLogin}
 					action={
 						<Fragment>
-
-					{/*id, proyecto, cliente*/}
+							{/*id, proyecto, cliente*/}
 							<Button
 								component={Link}
 								to={`/ver-inventarios/${id}/${proyecto}/${cliente}`}

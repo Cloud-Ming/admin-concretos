@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import {
 	makeStyles,
 	Grid,
-	Typography,
+	// Typography,
 	TextField,
 	Button,
 	Snackbar,
@@ -23,8 +23,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	grid: {
-		minHeight: "100vh",
-		backgroundColor: "rgba(202, 202, 202, 0.18)",
+		marginTop:"25px",
+		margintBottom:"25px",
 	},
 }));
 
@@ -125,9 +125,9 @@ function RegistroClientes() {
 				className={classes.grid}
 			>
 				{/*<Grid>*/}
-				<Typography variant="h4" component="h4">
+				{/*<Typography variant="h4" component="h4">
 					Registrar comisionista
-				</Typography>
+				</Typography>*/}
 
 				<form
 					onSubmit={handleonSubmit}

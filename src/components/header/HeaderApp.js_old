@@ -1,0 +1,108 @@
+// import React, { Fragment } from "react";
+// import { Link, useLocation } from "react-router-dom";
+
+// import Card from "@material-ui/core/Card";
+// import CardContent from "@material-ui/core/CardContent";
+// import Typography from "@material-ui/core/Typography";
+// import Button from "@material-ui/core/Button";
+
+// import GroupAddIcon from "@material-ui/icons/GroupAdd";
+
+// function HeaderApp() {
+// 	let location = useLocation();
+// 	// let { ...params } = useParams();
+// 	// console.log(location.pathname);
+
+// 	let direccion = "A ocurrido un error";
+// 	let desc = "...";
+// 	let btn = "...";
+// 	let link = "...";
+
+// 	switch (location.pathname) {
+// 		case "/clientes":
+// 			direccion = "Clientes";
+// 			desc = "Crear un nuevo cliente";
+// 			btn = "Crear cliente";
+// 			link = "/crear-cliente";
+// 			break;
+// 		case "/crear-cliente":
+// 			direccion = "Registrar cliente";
+// 			desc = "Registrar nuevo cliente";
+// 			btn = "Crear cliente";
+// 			link = "/crear-cliente";
+// 			break;
+
+// 		case "/comisionistas":
+// 			direccion = "Comisionistas";
+// 			desc = "Registrar nuevo comisionista";
+// 			btn = "Registrar comisinista";
+// 			link = "/crear-comisionista";
+// 			break;
+
+// 		case "/crear-comisionista":
+// 			direccion = "Registrar comisionista";
+// 			desc = "Registrar nuevo comisionista";
+// 			btn = "Registrar comisinista";
+// 			link = "/crear-comisionista";
+// 			break;
+
+// 		case "/proveedores":
+// 			direccion = "Proveedores";
+// 			desc = "Registrar nuevo proveedor";
+// 			btn = "Registrar proveedor";
+// 			link = "/crear-proveedor";
+// 			break;
+
+// 		case "/crear-proveedor":
+// 			direccion = "Registrar proveedor";
+// 			desc = "Registrar nuevo proveedor";
+// 			btn = "Registrar proveedor";
+// 			link = "/crear-proveedor";
+// 			break;
+
+// 		case `${location.pathname}`:
+// 			console.log(location.pathname.split("/"));
+// 			direccion = `${location.pathname.split("/")[1]}`;
+// 			desc = atob(location.pathname.split("/")[3]);
+// 			btn = "...";
+// 			link = "...";
+// 			break;
+
+// 		default:
+// 			break;
+// 	}
+
+// 	return (
+// 		<Fragment>
+// 			<div style={{ padding: "10px" }}>
+// 				<Card>
+// 					<CardContent>
+// 						<Typography variant="h4" component="h3">
+// 							{direccion}
+// 						</Typography>
+// 						<p>{desc}</p>
+// 						<p>
+// 							{location.pathname.split("/")[4] ? (
+// 								atob(location.pathname.split("/")[4])
+// 							) : (
+// 								<br />
+// 							)}
+// 						</p>
+
+// 						<Button
+// 							component={Link}
+// 							to={link}
+// 							variant="contained"
+// 							color="primary"
+// 							startIcon={<GroupAddIcon />}
+// 						>
+// 							{btn}
+// 						</Button>
+// 					</CardContent>
+// 				</Card>
+// 			</div>
+// 		</Fragment>
+// 	);
+// }
+
+// export default HeaderApp;

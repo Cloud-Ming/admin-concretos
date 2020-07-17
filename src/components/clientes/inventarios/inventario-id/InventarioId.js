@@ -39,7 +39,7 @@ const useStyles = makeStyles({
 });
 
 function InventarioId(props) {
-	const { id_cliente, nombre_proyecto, nombre_cliente, data } = props;
+	const { id_cliente, data } = props;
 
 	// Inhability
 	// id_cliente
@@ -71,15 +71,6 @@ function InventarioId(props) {
 				}}
 			>
 				<div>
-					<br />
-					<Typography variant="h3" component="h3">
-						{`Inventario (${data.length})`}
-					</Typography>
-
-					<p>Proyecto({nombre_proyecto})</p>
-					<p>Cliente({atob(nombre_cliente)})</p>
-
-					<br />
 					{data.map((item, key) => (
 						<Card key={key} className={classes.root}>
 							<CardContent>

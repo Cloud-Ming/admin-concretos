@@ -48,22 +48,22 @@ import NotFound from "./components/notFound/NotFound";
 import Loading from "./components/loading/Loading";
 
 // icons
-import GroupAddIcon from "@material-ui/icons/GroupAdd";
 
+// Login
 const requireLogin = (to, from, next) => {
-	if (to.meta.auth) {
-		if (getIsLoggedIn()) {
-			next().redirect("/clientes");
-		}
-		next.redirect("/");
-	} else {
-		next();
-	}
+    if (to.meta.auth) {
+        if (getIsLoggedIn()) {
+            next().redirect("/clientes");
+        }
+        next.redirect("/");
+    } else {
+        next();
+    }
 };
 
 function App() {
-	return (
-		<Fragment>
+    return (
+        <Fragment>
 			<Router>
 				<GuardProvider
 					guards={[requireLogin]}
@@ -72,15 +72,9 @@ function App() {
 				>
 					<UserProvider>
 						<Nav />
-					<div style={{margin:"10px"}}>
-					<HeaderApp
-					titulo={`Permanente`}
-					subtitulo="Este mensaje es permanente"
-					link="/..."
-					textButton="..."
-					icon={<GroupAddIcon />}
-					/>
-					</div>
+
+						<HeaderApp />
+					
 						<Switch>
 							<GuardedRoute path="/" exact meta={{ auth: true }}>
 								<Login />
@@ -220,7 +214,7 @@ function App() {
 				</GuardProvider>
 			</Router>
 		</Fragment>
-	);
+    );
 }
 
 export default App;

@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import {
 	makeStyles,
 	Grid,
-	Typography,
+	// Typography,
 	TextField,
 	InputLabel,
 	FormControl,
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
 		},
 	},
 	grid: {
-		minHeight: "100vh",
-		backgroundColor: "rgba(202, 202, 202, 0.18)",
+		marginTop: "25px",
+		marginBottom: "25px",
 	},
 }));
 
@@ -150,9 +150,9 @@ function CrearProveedores() {
 				justify="center"
 				className={classes.grid}
 			>
-				<Typography variant="h4" component="h4">
+				{/*<Typography variant="h4" component="h4">
 					Registrar proveedor
-				</Typography>
+				</Typography>*/}
 				{/*<p>Registrar nueva empresa proveedora</p>*/}
 
 				<form

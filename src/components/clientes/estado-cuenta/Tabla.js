@@ -27,7 +27,7 @@ import CardContent from "@material-ui/core/CardContent";
 // });
 
 export default function Tabla(props) {
-	const { cliente, data } = props;
+	const { data } = props;
 	console.log(data);
 
 	// Inhability
@@ -40,12 +40,10 @@ export default function Tabla(props) {
 		<Fragment>
 			<div style={{ padding: 10 }}>
 				{/*<VerProyectosId data={data} />*/}
-				<br />
-				<br />
-				<Typography variant="h4" component="h4">
+				
+				{/*<Typography variant="h4" component="h4">
 					Estados de cuenta - {atob(cliente)}({data.length})
-				</Typography>
-				<p>Visualiza las cuentas de cada cliente</p>
+				</Typography>*/}
 				<br />
 				{data.map((inventario, index) => (
 					<div key={index}>

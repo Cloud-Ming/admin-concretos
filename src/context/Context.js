@@ -10,6 +10,7 @@ function UserProvider({ children }) {
         loggedIn: window.localStorage.getItem("loggedIn") || false,
     });
 
+
     function login(name) {
         window.localStorage.setItem("nombre", name);
         window.localStorage.setItem("loggedIn", true);
@@ -33,7 +34,11 @@ function UserProvider({ children }) {
         console.log("cerrando sesion");
     }
 
-    return <Provider value={{ user, login, logout }}>{children}</Provider>;
+     return (
+        <Provider value={{ user, login, logout }}>
+            {children}
+        </Provider>
+    );
 }
 
 export { UserProvider, Consumer as UserConsumer, Usercontext };
