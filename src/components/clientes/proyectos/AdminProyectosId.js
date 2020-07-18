@@ -5,8 +5,10 @@ import Loading from "../../loading/Loading";
 
 import ErroRes from "../../erroRes/ErroRes";
 
-import NoHayProyectos from "./NoHayProyectos";
+import SinDatos from "../../sinDatos/SinDatos";
 import VerProyectosId from "./VerProyectosId";
+
+import BusinessCenter from "@material-ui/icons/BusinessCenter";
 
 class AdminProyectosId extends Component {
 	constructor(props) {
@@ -26,7 +28,7 @@ class AdminProyectosId extends Component {
 
 		const id = match.params.id;
 		const cliente = match.params.cliente;
-		
+
 		this.setState({
 			idCliente: id,
 			nombreCliente: atob(cliente),
@@ -79,13 +81,24 @@ class AdminProyectosId extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<NoHayProyectos nombre_cliente={nombreCliente} data={data} id_cliente={idCliente} />
+					<SinDatos
+						mensaje="No hay proyectos registrados"
+						icon={<BusinessCenter />}
+						btn="Registrar proyecto"
+						link={`/crear-proyecto/${idCliente}/${btoa(
+							nombreCliente
+						)}`}
+					/>
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-				<VerProyectosId nombre_cliente={nombreCliente} data={data} id_cliente={idCliente} />
+				<VerProyectosId
+					nombre_cliente={nombreCliente}
+					data={data}
+					id_cliente={idCliente}
+				/>
 			</Fragment>
 		);
 	}

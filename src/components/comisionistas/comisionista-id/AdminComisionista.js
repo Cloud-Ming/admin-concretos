@@ -2,7 +2,12 @@ import React, { Component, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 
 import Loading from "../../loading/Loading";
+import ErroRes from "../../erroRes/ErroRes";
+import SinDatos from "../../sinDatos/SinDatos";
+
 import ComisionistaId from "./ComisionistaId";
+
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
 
 class AdminComisionistas extends Component {
 	constructor(props) {
@@ -13,7 +18,7 @@ class AdminComisionistas extends Component {
 			data: null,
 			error: null,
 			id_cliente: null,
-			comisionista:null,
+			comisionista: null,
 		};
 	}
 
@@ -60,8 +65,7 @@ class AdminComisionistas extends Component {
 		if (!!error)
 			return (
 				<Fragment>
-					<h2>{error}</h2>
-					<p>A ocurrido un error</p>
+					<ErroRes />
 				</Fragment>
 			);
 
@@ -76,16 +80,22 @@ class AdminComisionistas extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<h1> No hay datos sobre este comisionista </h1>
-					{/*<Link to={`/crear-inventario/${this.state.id_cliente}`}>
-						Crear inventario
-					</Link>*/}
+					<SinDatos
+						mensaje="No hay comisiones registradas"
+						icon={<GroupAddIcon />}
+						btn="Ver comisionistas"
+						link="/comisionistas"
+					/>
 				</Fragment>
 			);
 
 		return (
 			<Fragment>
-				<ComisionistaId id_cliente={id_cliente} comisionista={comisionista} data={data} />
+				<ComisionistaId
+					id_cliente={id_cliente}
+					comisionista={comisionista}
+					data={data}
+				/>
 			</Fragment>
 		);
 	}

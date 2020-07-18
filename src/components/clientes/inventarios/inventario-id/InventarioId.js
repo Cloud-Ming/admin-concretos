@@ -7,6 +7,12 @@ import {
 	makeStyles,
 } from "@material-ui/core";
 
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+
 // import Titulo from "../../../titulo/Titulo";
 
 // Formulario de añadir gastos
@@ -44,6 +50,12 @@ function InventarioId(props) {
 	// Inhability
 	// id_cliente
 
+	const [expanded, setExpanded] = React.useState(false);
+
+	const handleChange = (panel) => (event, isExpanded) => {
+		setExpanded(isExpanded ? panel : false);
+	};
+
 	const operacionTotal = (data, key) => {
 		let json = JSON.parse(data);
 		let result = [];
@@ -65,77 +77,84 @@ function InventarioId(props) {
 		<Fragment>
 			<div
 				style={{
-					marginTop: 20,
+					marginTop: 10,
 					marginLeft: 10,
 					marginRight: 10,
 				}}
 			>
-				<div>
-					{data.map((item, key) => (
-						<Card key={key} className={classes.root}>
-							<CardContent>
-								<Typography
-									className={classes.title}
-									color="textSecondary"
-									gutterBottom
-								>
-									Inventario
-								</Typography>
-								{/*<Typography variant="h6" component="p">
+				{data.map((item, key) => (
+					<Card key={key} className={classes.root}>
+						<CardContent>
+							<Typography
+								className={classes.title}
+								color="textSecondary"
+								gutterBottom
+							>
+								Inventario
+							</Typography>
+							{/*<Typography variant="h6" component="p">
 									Descripción:
 								</Typography>*/}
-								<p style={{ marginTop: "0" }}>
-									{item.descripcion}
-								</p>
-								<Typography variant="body2" component="p">
-									<b>Fecha</b> {item.fecha}
-								</Typography>
-								<br />
-								<Divider />
-								<br />
-								<b>Lista servicios</b>
-								{JSON.parse(item.inventario).map((data, i) => (
-									<div key={i} className={classes.list}>
-										<div>
-											<b>Servicio:</b> {data.service}
-										</div>
-										<div>
-											<b>Precio:</b> {data.price}
-										</div>
-										<div>
-											<b>Cantidad:</b> {data.count}
-										</div>
-									</div>
-								))}
-								<br />
-								<Divider />
-								<br />
-								{/*<Typography variant="h5" component="h6">*/}
-								Total: ${operacionTotal(item.inventario, key)}
-								{/*</Typography>*/}
-								{/*<p>{item.inventario}</p>*/}
-							</CardContent>
-						</Card>
-					))}
-				</div>
-				<br />
-				<br />
-				<div>
-					<GastosForm id_cliente={id_cliente} gastos={data} />
-				</div>
-				<div>
-					<FormComisionistas />
-				</div>
-				<div>
-					<AdminCotizaciones data={data} />
-				</div>
+							<p style={{ marginTop: "0" }}>{item.descripcion}</p>
+							<Typography variant="body2" component="p">
+								<b>Fecha</b> {item.fecha}
+							</Typography>
+							<br />
+							<Divider />
+							<br />
+							<ExpansionPanel
+								expanded={expanded === "panel1"}
+								onChange={handleChange("panel1")}
+							>
+								<ExpansionPanelSummary
+									expandIcon={<ExpandMoreIcon />}
+									aria-controls="panel1bh-content"
+									id="panel1bh-header"
+								>
+									<Typography className={classes.heading}>
+										Lista servicios
+									</Typography>
+								</ExpansionPanelSummary>
+								<ExpansionPanelDetails>
+									{JSON.parse(item.inventario).map(
+										(data, i) => (
+											<div
+												key={i}
+												className={classes.list}
+											>
+												<div>
+													<b>Servicio:</b>{" "}
+													{data.service}
+												</div>
+												<div>
+													<b>Precio:</b> {data.price}
+												</div>
+												<div>
+													<b>Cantidad:</b>{" "}
+													{data.count}
+												</div>
+											</div>
+										)
+									)}
+								</ExpansionPanelDetails>
+							</ExpansionPanel>
+							<br />
+							<Divider />
+							<br />
+							Total: ${operacionTotal(item.inventario, key)}
+						</CardContent>
+					</Card>
+				))}
 
-				<div>
-					<Preformas data={data} />
-				</div>
-				<div>
-					<Facturas />
-				</div>
+				<GastosForm id_cliente={id_cliente} gastos={data} />
+
+				<FormComisionistas />
+
+				<AdminCotizaciones data={data} />
+
+				<Preformas data={data} />
+
+				<Facturas />
 			</div>
 		</Fragment>
 	);

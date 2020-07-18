@@ -4,9 +4,11 @@ import { withRouter } from "react-router-dom";
 import Loading from "../../loading/Loading";
 import ErroRes from "../../erroRes/ErroRes";
 
-import NoHayInventarios from "./NoHayInventarios";
+import SinDatos from "../../sinDatos/SinDatos";
 
 import VerInventariosId from "./VerInventariosId";
+
+import Assignment from "@material-ui/icons/Assignment";
 
 class AdminInventarios extends Component {
 	constructor(props) {
@@ -16,9 +18,9 @@ class AdminInventarios extends Component {
 			loading: true,
 			data: null,
 			error: null,
-			nombre_cliente: null,
-			id_cliente: null,
-			nombre_proyecto: "",
+			nombreCliente: null,
+			idCliente: null,
+			nombreProyecto: "",
 		};
 	}
 
@@ -31,9 +33,9 @@ class AdminInventarios extends Component {
 		const cliente = match.params.cliente;
 
 		this.setState({
-			nombre_proyecto: atob(data),
-			nombre_cliente: atob(cliente),
-			id_cliente: id,
+			nombreProyecto: atob(data),
+			nombreCliente: atob(cliente),
+			idCliente: id,
 		});
 
 		// DATA SIMULADA
@@ -73,9 +75,9 @@ class AdminInventarios extends Component {
 			error,
 			loading,
 			data,
-			id_cliente,
-			nombre_cliente,
-			nombre_proyecto,
+			idCliente,
+			nombreCliente,
+			nombreProyecto,
 		} = this.state;
 
 		if (!!error)
@@ -96,10 +98,13 @@ class AdminInventarios extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<NoHayInventarios
-						id_cliente={id_cliente}
-						nombre_cliente={nombre_cliente}
-						nombre_proyecto={nombre_proyecto}
+					<SinDatos
+						mensaje="No hay inventarios registrados"
+						icon={<Assignment />}
+						btn="Registrar inventario"
+						link={`/crear-inventario/${idCliente}/${btoa(
+							nombreProyecto
+						)}/${btoa(nombreCliente)}`}
 					/>
 				</Fragment>
 			);
@@ -107,9 +112,9 @@ class AdminInventarios extends Component {
 		return (
 			<Fragment>
 				<VerInventariosId
-					id_cliente={id_cliente}
-					nombre_cliente={nombre_cliente}
-					nombre_proyecto={nombre_proyecto}
+					id_cliente={idCliente}
+					nombre_cliente={nombreCliente}
+					nombre_proyecto={nombreProyecto}
 					data={data}
 				/>
 			</Fragment>

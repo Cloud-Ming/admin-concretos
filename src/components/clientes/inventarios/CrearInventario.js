@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
-// import { Usercontext } from "../../context/Context";
+
 import { useParams } from "react-router-dom";
 import {
 	makeStyles,
@@ -171,19 +171,6 @@ function CrearInventario() {
 	const handleonSubmit = async (event) => {
 		event.preventDefault();
 
-		// setDatosForm({
-		// 	id: 1,
-		// 	client: "",
-		// 	typeService: "0",
-		// 	service: "Concreto psi",
-		// 	price: 0,
-		// 	count: 0,
-		// 	iva: 0,
-		// 	retencion: 0,
-		// 	id_service: 0,
-		// 	natural: false,
-		// });
-
 		if (
 			datos.id_proyecto.length === 0 ||
 			servicesState.length === 0 ||
@@ -280,8 +267,6 @@ function CrearInventario() {
 				justify="center"
 				className={classes.grid}
 			>
-			{/*	<h1>Crear inventario: ({atob(proyecto)})</h1>
-				<h2 style={{ marginTop: "0" }}>({atob(cliente)})</h2>*/}
 				<form
 					onSubmit={handleonSubmit}
 					className={classes.root}
@@ -290,9 +275,9 @@ function CrearInventario() {
 				>
 					<Divider />
 
-					{servicesState.map((el) => (
+					{servicesState.map((el, index) => (
 						<div
-							key={el.id}
+							key={index}
 							className="itemSevice"
 							style={{
 								border: "1px solid #ddd",

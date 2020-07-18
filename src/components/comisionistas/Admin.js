@@ -3,8 +3,10 @@ import React, { Component, Fragment } from "react";
 
 import ErroRes from "../erroRes/ErroRes";
 import Loading from "../loading/Loading";
-import NoHayComisionistas from "./NoHayComisionistas"
+import SinDatos from "../sinDatos/SinDatos";
 import TablaComisionistas from "./TablaComisionistas";
+
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
 
 class AdminClientes extends Component {
 	constructor(props) {
@@ -20,7 +22,6 @@ class AdminClientes extends Component {
 	}
 
 	async componentDidMount() {
-		
 		this.abortController = new AbortController();
 
 		try {
@@ -69,7 +70,12 @@ class AdminClientes extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<NoHayComisionistas />
+					<SinDatos
+						mensaje="No hay comisionistas registrados"
+						icon={<GroupAddIcon />}
+						btn="Registrar comisionista"
+						link="/crear-comisionista"
+					/>
 				</Fragment>
 			);
 

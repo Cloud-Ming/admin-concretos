@@ -197,7 +197,7 @@ function Preformas(props) {
 						color="textSecondary"
 						gutterBottom
 					>
-						Preformas
+						Proformas
 					</Typography>
 
 					<div style={{ display: "flex", flexWrap: "wrap" }}>
@@ -252,7 +252,7 @@ function Preformas(props) {
 						color="textSecondary"
 						gutterBottom
 					>
-						Generar preforma
+						Generar proforma
 					</Typography>
 
 					<form onSubmit={(event) => crearPreforma(event)}>

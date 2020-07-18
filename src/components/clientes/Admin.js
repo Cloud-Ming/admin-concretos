@@ -2,8 +2,11 @@ import React, { Component, Fragment } from "react";
 
 import Loading from "../loading/Loading";
 import ErroRes from "../erroRes/ErroRes";
-import NoHayClientes from "./NoHayClientes";
+import SinDatos from "../sinDatos/SinDatos";
+
 import TablaClientes from "./TablaClientes";
+
+import BusinessIcon from "@material-ui/icons/Business";
 
 class AdminClientes extends Component {
 	constructor(props) {
@@ -74,7 +77,13 @@ class AdminClientes extends Component {
 		if (data === null)
 			return (
 				<Fragment>
-					<NoHayClientes />
+					<SinDatos
+						mensaje="No hay clientes registrados"
+						icon={<BusinessIcon />}
+						btn="Crear cliente"
+						link="/crear-cliente"
+					/>
+					;
 				</Fragment>
 			);
 		return (

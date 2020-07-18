@@ -2,8 +2,10 @@ import React, { Component, Fragment } from "react";
 import ErroRes from "../erroRes/ErroRes";
 
 import Loading from "../loading/Loading";
-import NoHayProveedores from "./NoHayProveedores";
+import SinDatos from "../sinDatos/SinDatos";
 import Proveedores from "./Proveedores";
+
+import GroupAddIcon from "@material-ui/icons/GroupAdd";
 
 class AdminProveedores extends Component {
 	constructor(props) {
@@ -17,36 +19,6 @@ class AdminProveedores extends Component {
 
 		this.marcarComoImportante = this.marcarComoImportante.bind(this);
 	}
-	// async componentDidMount() {
-		// Data : Null or [data]
-
-	// 	this.setState({
-	// 		loading: false,
-	// 		// data: null,
-	// 		data: [
-	// 			{
-	// 				id: "1",
-	// 				proveedor: "Pruebas sas",
-	// 				email: "sas@gmail.com",
-	// 				celular: "320108288",
-	// 				id_servicio: "0",
-	// 				producto: "Cemento",
-	// 				monto: "100000",
-	// 				fecha_creacion: "13/7/2020 9:14:59",
-	// 			},
-	// 			{
-	// 				id: "2",
-	// 				proveedor: "Otra prueba",
-	// 				email: "otraPruebaSas@gmail.com",
-	// 				celular: "320108288",
-	// 				id_servicio: "0",
-	// 				producto: "Cemento",
-	// 				monto: "100000",
-	// 				fecha_creacion: "13/7/2020 9:14:59",
-	// 			},
-	// 		],
-	// 	});
-	// }
 
 	async componentDidMount() {
 		this.abortController = new AbortController();
@@ -94,14 +66,17 @@ class AdminProveedores extends Component {
 				</Fragment>
 			);
 
-		if (data === null) return <NoHayProveedores />;
+		if (data === null)
+			return (
+				<SinDatos
+					mensaje="No hay proveedores registrados"
+					icon={<GroupAddIcon />}
+					btn="Registrar proveedor"
+					link="/crear-proveedor"
+				/>
+			);
 
-		return (
-			<Fragment>
-				{/*<h1>Admin Proveedores</h1>*/}
-				{<Proveedores data={data} />}
-			</Fragment>
-		);
+		return <Fragment>{<Proveedores data={data} />}</Fragment>;
 	}
 }
 
