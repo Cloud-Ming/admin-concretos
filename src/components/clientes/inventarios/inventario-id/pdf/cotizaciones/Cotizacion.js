@@ -83,6 +83,12 @@ function Cotizaciones(props) {
 	};
 
 	const eliminarCotizacion = (id) => {
+		let conf = window.confirm("Desea eliminar esta cotización");
+
+		if (conf === false) {
+			return;
+		}
+
 		// controller
 		const abortController = new AbortController();
 
@@ -146,8 +152,8 @@ function Cotizaciones(props) {
 			.then((res) => res.text())
 			.then((res) => {
 				if (res === 401) {
-				  setError("A ocurrido un error");
-				  handleClick();
+					setError("A ocurrido un error");
+					handleClick();
 					return;
 				}
 
@@ -170,7 +176,7 @@ function Cotizaciones(props) {
 						fecha: fecha,
 						titulo: titulo,
 						descripcion: descripcion,
-						url: `https://botanicainternacionalamazonas.com/backend/archivos/cotizaciones/${titulo}.pdf`,
+						url: `https://botanicainternacionalamazonas.com/backend/archivos/preformas/${titulo}.pdf`,
 					},
 				]);
 			})

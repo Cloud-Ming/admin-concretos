@@ -16,7 +16,6 @@ class AdminCotizaciones extends Component {
 			idCliente: null,
 			nombreProyecto: "",
 		};
-		// nombre_proyecto: "",
 	}
 
 	async componentDidMount() {
@@ -55,14 +54,8 @@ class AdminCotizaciones extends Component {
 	}
 
 	render() {
-		const {
-			error,
-			data,
-			idCliente,
-			nombreProyecto,
-			loading,
-		} = this.state;
-
+		const { error, data, idCliente, nombreProyecto, loading } = this.state;
+		
 		if (!!error)
 			return (
 				<Fragment>
@@ -79,7 +72,12 @@ class AdminCotizaciones extends Component {
 
 		return (
 			<Fragment>
-				<Preformas idInventario={idCliente} nombreProyecto={nombreProyecto} inventario={this.props.data[0].inventario} data={data} />
+				<Preformas
+					idInventario={idCliente}
+					nombreProyecto={nombreProyecto}
+					inventario={this.props.data[0].inventario}
+					data={data}
+				/>
 			</Fragment>
 		);
 	}

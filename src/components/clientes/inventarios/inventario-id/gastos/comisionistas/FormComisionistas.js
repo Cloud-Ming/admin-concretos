@@ -1,5 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import uniqid from "uniqid";
+import CardApp from "../../../../../cardsApp/CardApp";
+
 import {
 	Card,
 	CardContent,
@@ -111,6 +113,12 @@ function FormComisionistas(props) {
 	};
 
 	const eliminarComisionista = (id) => {
+		let conf = window.confirm("Esta seguro de eliminar esta comisión?");
+
+		if (conf === false) {
+			return;
+		}
+
 		eliminarComision(id);
 	};
 
@@ -261,31 +269,16 @@ function FormComisionistas(props) {
 					{comisiones === null || comisiones.length === 0
 						? "No hay comisiones."
 						: comisiones.map((item, i) => (
-								<Card key={item.id} className={classes.root}>
-									<CardContent>
-										<br />
-										{item.id}
-										<br />
-										<small>
-											Comisionista: {item.comisionista}
-										</small>
-										<br />
-										<small>Fecha: {item.fecha}</small>
-										<br />
-										<small>Monto: ${item.monto}</small>
-										<br />
-										<br />
-										<button
-											onClick={() =>
-												eliminarComisionista(
-													item.id_unico
-												)
-											}
-										>
-											Eliminar
-										</button>
-									</CardContent>
-								</Card>
+								<div key={i}>
+									<CardApp
+										id={item.id_unico}
+										fecha={`${item.fecha}`}
+										descripcion={item.comisionista}
+										monto={item.monto}
+										funcion={eliminarComisionista}
+									/>
+									<br />
+								</div>
 						  ))}
 
 					{/*INHABILITY*/}

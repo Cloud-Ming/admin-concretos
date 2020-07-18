@@ -16,15 +16,15 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // import Titulo from "../../../titulo/Titulo";
 
 // Formulario de añadir gastos
-import GastosForm from "./gastos/gastos/GastosForm";
+// import GastosForm from "./gastos/gastos/GastosForm";
 
 // Formulario añadir comisionistas
-import FormComisionistas from "./gastos/comisionistas/Admin";
+// import FormComisionistas from "./gastos/comisionistas/Admin";
 
 import AdminCotizaciones from "./pdf/cotizaciones/Admin";
 
 import Preformas from "./pdf/preformas/Admin";
-import Facturas from "./pdf/facturas/Admin";
+// import Facturas from "./pdf/facturas/Admin";
 
 // Styles
 const useStyles = makeStyles({
@@ -45,7 +45,7 @@ const useStyles = makeStyles({
 });
 
 function InventarioId(props) {
-	const { id_cliente, data } = props;
+	const { data } = props;
 
 	// Inhability
 	// id_cliente
@@ -146,15 +146,15 @@ function InventarioId(props) {
 					</Card>
 				))}
 
-				<GastosForm id_cliente={id_cliente} gastos={data} />
+				{/*<GastosForm id_cliente={id_cliente} gastos={data} />*/}
 
-				<FormComisionistas />
+				{/*<FormComisionistas />*/}
 
 				<AdminCotizaciones data={data} />
 
 				<Preformas data={data} />
 
-				<Facturas />
+				{/*<Facturas />*/}
 			</div>
 		</Fragment>
 	);

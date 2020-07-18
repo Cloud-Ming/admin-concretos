@@ -23,34 +23,29 @@ const useStyles = makeStyles({
   },
 });
 
-export default function SimpleCard() {
-  const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+export default function SimpleCard(props) {
+  const { id, fecha, descripcion, monto, funcion } = props;
 
+  // Styles
+  const classes = useStyles();
+  
   return (
-    <Card className={classes.root}>
+    <Card className={classes.root} style={{ backgroundColor: "#ffd90a2e",maxWidth:"100px" }}>
       <CardContent>
-        <Typography
-          className={classes.title}
-          color="textSecondary"
-          gutterBottom
-        >
-          Word of the Day
-        </Typography>
-        <Typography variant="h5" component="h2">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography className={classes.pos} color="textSecondary">
-          adjective
+        <Typography variant="body2" component="p">
+          {fecha}
         </Typography>
         <Typography variant="body2" component="p">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
+          {descripcion}
+        </Typography>
+        <Typography variant="body2" component="p">
+          {monto}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Eliminar</Button>
+        <Button size="small" onClick={() => funcion(id)}>
+          Eliminar
+        </Button>
       </CardActions>
     </Card>
   );

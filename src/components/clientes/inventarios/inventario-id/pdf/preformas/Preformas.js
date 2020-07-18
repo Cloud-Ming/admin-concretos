@@ -34,8 +34,7 @@ const useStyles = makeStyles({
 });
 
 function Preformas(props) {
-	const { data, inventario, idInventario, nombreProyecto } = props;
-	console.log(nombreProyecto);
+	const { data, inventario, idInventario } = props;
 
 	const [dataPreformas, setDataPreformas] = useState(data ? data : []);
 	const [inputs, setInputs] = useState([
@@ -82,7 +81,12 @@ function Preformas(props) {
 		setOpen(false);
 	};
 
-	const eliminarCotizacion = (id) => {
+	const eliminarPreforma = (id) => {
+		const conf = window.confirm("Esta seguro de eliminar esta preforma?");
+		
+		if (conf === false) {
+			return;
+		}
 		// controller
 		const abortController = new AbortController();
 
@@ -135,7 +139,7 @@ function Preformas(props) {
 		formData.append("descripcion", descripcion);
 
 		fetch(
-			"https://botanicainternacionalamazonas.com/backend/vista/pdf/crearPreforma.php",
+			"https://botanicainternacionalamazonas.com/backend/controlador/creador-pdf/prueba.php",
 			{
 				method: "POST",
 				mode: "cors",
@@ -235,7 +239,7 @@ function Preformas(props) {
 											&nbsp;&nbsp;
 											<button
 												onClick={() =>
-													eliminarCotizacion(
+													eliminarPreforma(
 														preforma.id_unico
 													)
 												}

@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import uniqid from "uniqid";
 
-
+import CardApp from "../../../../../cardsApp/CardApp";
 
 import {
 	Card,
@@ -92,21 +92,20 @@ function GastosForm(props) {
 					return;
 				}
 
-				if(update === "succes"){
+				if (update === "succes") {
 					handleClick();
 					setError("Gasto agregado con éxito");
-				}else if(update === "delete"){
+				} else if (update === "delete") {
 					handleClick();
 					setError("Gasto eliminado con éxito");
 				}
 				return;
-
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
-				if(update === "succes"){
-				 handleClick();
-				 setError("A ocurrido un error");
+				if (update === "succes") {
+					handleClick();
+					setError("A ocurrido un error");
 				}
 			});
 
@@ -128,19 +127,26 @@ function GastosForm(props) {
 		});
 
 		setData((newList) => [
-	...newList,
-	{
-		id: uniqueId,
-		monto: formData.monto,
-		descripcion: formData.descripcion,
-		fecha: new Date().toLocaleString(),
-	},
-]);
+			...newList,
+			{
+				id: uniqueId,
+				monto: formData.monto,
+				descripcion: formData.descripcion,
+				fecha: new Date().toLocaleString(),
+			},
+		]);
 
 		setUpdate("succes");
 	};
 
 	const eliminarData = (id) => {
+		let conf = window.confirm("Esta seguro de eliminar este gasto");
+
+		if (conf === false) {
+			console.log("Cancel");
+			return;
+		}
+
 		const newList = data.filter((item) => item.id !== id);
 		setData(newList);
 		console.log(id);
@@ -169,21 +175,17 @@ function GastosForm(props) {
 						>
 							Gastos adicionales
 						</Typography>
-						{data === null || data.length === 0 ? "No hay gastos adicionales."
+						{data === null || data.length === 0
+							? "No hay gastos adicionales."
 							: data.map((item, i) => (
 									<div key={i}>
-										Descripcion: {item.descripcion}
-										<br />
-										Monto {item.monto}
-										<br />
-										<button
-											onClick={() =>
-												eliminarData(item.id)
-											}
-										>
-											Eliminar
-										</button>
-										<br />
+										<CardApp
+											id={item.id}
+											fecha={`${item.fecha}`}
+											descripcion={item.descripcion}
+											monto={item.monto}
+											funcion={eliminarData}
+										/>
 										<br />
 									</div>
 							  ))}
