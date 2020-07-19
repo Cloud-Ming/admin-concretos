@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 import {
 	Grid,
+	makeStyles,
 	// Typography,
 	TextField,
 	InputLabel,
@@ -18,6 +19,18 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import GroupIcon from "@material-ui/icons/Group";
 
+const useStyles = makeStyles((theme) => ({
+	root: {
+		"& > *": {
+			margin: theme.spacing(1),
+			width: "30ch",
+		},
+	},
+	grid: {
+		marginTop:"25px",
+		margintBottom:"25px",
+	},
+}));
 
 
 function CrearProveedores() {
@@ -124,7 +137,8 @@ function CrearProveedores() {
 		setOpen(false);
 	};
 
-
+// Styles
+	const classes = useStyles();
 	return (
 		<Fragment>
 			<Grid
@@ -143,6 +157,7 @@ function CrearProveedores() {
 					onSubmit={handleonSubmit}
 					noValidate
 					autoComplete="on"
+					className={classes.root}
 				>
 					<TextField
 						id="nombre_input"
