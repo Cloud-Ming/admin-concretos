@@ -139,7 +139,7 @@ function Preformas(props) {
 		formData.append("descripcion", descripcion);
 
 		fetch(
-			"https://botanicainternacionalamazonas.com/backend/controlador/creador-pdf/prueba.php",
+			"https://botanicainternacionalamazonas.com/backend/vista/pdf/crearPreforma.php",
 			{
 				method: "POST",
 				mode: "cors",

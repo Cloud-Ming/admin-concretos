@@ -3,7 +3,6 @@ import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
 import {
-	makeStyles,
 	Grid,
 	// Typography,
 	TextField,
@@ -19,19 +18,7 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import GroupIcon from "@material-ui/icons/Group";
 
-// Styles
-const useStyles = makeStyles((theme) => ({
-	root: {
-		"& > *": {
-			margin: theme.spacing(1),
-			width: "30ch",
-		},
-	},
-	grid: {
-		marginTop: "25px",
-		marginBottom: "25px",
-	},
-}));
+
 
 function CrearProveedores() {
 	const [datos, setDatos] = useState({
@@ -137,8 +124,6 @@ function CrearProveedores() {
 		setOpen(false);
 	};
 
-	// Styles
-	const classes = useStyles();
 
 	return (
 		<Fragment>
@@ -148,7 +133,6 @@ function CrearProveedores() {
 				direction="column"
 				alignItems="center"
 				justify="center"
-				className={classes.grid}
 			>
 				{/*<Typography variant="h4" component="h4">
 					Registrar proveedor
@@ -157,7 +141,6 @@ function CrearProveedores() {
 
 				<form
 					onSubmit={handleonSubmit}
-					className={classes.root}
 					noValidate
 					autoComplete="on"
 				>
@@ -197,7 +180,6 @@ function CrearProveedores() {
 
 					<FormControl
 						variant="filled"
-						className={classes.formControl}
 					>
 						<InputLabel htmlFor="filled-age-native-simple">
 							Comisionistas
@@ -234,7 +216,6 @@ function CrearProveedores() {
 						variant="contained"
 						color="primary"
 						startIcon={<GroupIcon />}
-						className={classes.sendButton}
 					>
 						Registrar
 					</Button>

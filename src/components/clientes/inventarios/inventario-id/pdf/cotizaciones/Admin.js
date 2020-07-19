@@ -34,7 +34,7 @@ class AdminCotizaciones extends Component {
 
 		try {
 			const response = await fetch(
-				`http://botanicainternacionalamazonas.com/backend/vista/pdf/cargarCotizacionId.php?id=${id}`,
+				`https://botanicainternacionalamazonas.com/backend/vista/pdf/cargarCotizacionId.php?id=${id}`,
 				{
 					signal: this.abortController.signal,
 				}

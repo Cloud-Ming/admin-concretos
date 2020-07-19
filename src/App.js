@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import { BrowserRouter as Router, Switch } from "react-router-dom";
 
-import HeaderApp from "./components/header/HeaderApp"
+import HeaderApp from "./components/header/HeaderApp";
 
 //Configuracion login
 import { UserProvider } from "./context/Context";
@@ -51,19 +51,19 @@ import Loading from "./components/loading/Loading";
 
 // Login
 const requireLogin = (to, from, next) => {
-    if (to.meta.auth) {
-        if (getIsLoggedIn()) {
-            next().redirect("/clientes");
-        }
-        next.redirect("/");
-    } else {
-        next();
-    }
+	if (to.meta.auth) {
+		if (getIsLoggedIn()) {
+			next().redirect("/clientes");
+		}
+		next.redirect("/");
+	} else {
+		next();
+	}
 };
 
 function App() {
-    return (
-        <Fragment>
+	return (
+		<Fragment>
 			<Router>
 				<GuardProvider
 					guards={[requireLogin]}
@@ -74,7 +74,7 @@ function App() {
 						<Nav />
 
 						<HeaderApp />
-					
+
 						<Switch>
 							<GuardedRoute path="/" exact meta={{ auth: true }}>
 								<Login />
@@ -146,7 +146,7 @@ function App() {
 								meta={{ auth: true }}
 							>
 								<h1>Inventarios</h1>
-							</GuardedRoute>							
+							</GuardedRoute>
 							{/*Inventarios*/}
 
 							{/*Comisionistas*/}
@@ -214,7 +214,7 @@ function App() {
 				</GuardProvider>
 			</Router>
 		</Fragment>
-    );
+	);
 }
 
 export default App;

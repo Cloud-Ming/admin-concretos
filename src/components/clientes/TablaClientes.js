@@ -155,7 +155,7 @@ function TablaClientes(props) {
 	const classes = useStyles2();
 
 	return (
-		<Fragment style={{ backgroundColor: "rgba(202, 202, 202, 0.18)" }}>
+		<Fragment>
 			<div style={{ marginTop: 20, marginLeft: 10, marginRight: 10 }}>
 		
 				<TableContainer component={Paper}>
