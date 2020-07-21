@@ -8,6 +8,7 @@ import { UserProvider } from "./context/Context";
 import { GuardProvider, GuardedRoute } from "react-router-guards";
 import getIsLoggedIn from "./components/utils/getIsLoggedIn";
 
+
 import Nav from "./components/nav/Nav";
 import Login from "./components/login/Login";
 
@@ -62,6 +63,7 @@ const requireLogin = (to, from, next) => {
 };
 
 function App() {
+
 	return (
 		<Fragment>
 			<Router>

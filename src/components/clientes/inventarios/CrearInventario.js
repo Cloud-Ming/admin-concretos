@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CrearInventario() {
+	
 	const { id, proyecto, cliente } = useParams();
 
 	const [datos, setDatos] = useState({
@@ -77,51 +78,51 @@ function CrearInventario() {
 	};
 
 	const addService = () => {
+	
 		let iva = "0%",
 			retencion = "0%",
 			service = "Concreto",
 			id_service = "0";
 
-		const typeService = datosForm.typeService;
-		const iFnatural = state.natural;
+		const typeService = datosForm.typeService,
+			iFnatural = state.natural;
 
 		if (typeService === "0") {
 			if (iFnatural) {
 				console.log("retención 0% e iva 19%");
-				iva = "19%";
+				iva = "0.19%";
 				retencion = "0%";
 			} else {
 				console.log("retención 2.5% e iva 19%");
-				iva = "19%";
-				retencion = "2.5%";
+				iva = "0.19%";
+				retencion = "0.0.25%";
 			}
 
 			id_service = "2";
 		} else if (typeService === "1") {
 			if (iFnatural) {
 				console.log("retencion 0% iva 19%");
-				iva = "19%";
+				iva = "0.19%";
 				retencion = "0%";
 			} else {
 				console.log("retencion 4% iva 19%");
-				iva = "19%";
-				retencion = "4%";
+				iva = "0.19%";
+				retencion = "0.0.4%";
 			}
 		} else if (typeService === "2") {
 			if (iFnatural) {
-				console.log("retencion 0% iva 19%");
-				iva = "19%";
+				console.log("retencion 0% iva 0.19%");
+				iva = "0.19%";
 				retencion = "0%";
 			} else {
 				console.log("retencion 1% iva 0%");
 				iva = "0%";
-				retencion = "1%";
+				retencion = "0.1%";
 			}
 		}
 
 		if (datosForm.service === "0") {
 			console.log("Concreto PSI 351");
-
 			service = "Concreto PSI 351";
 			id_service = "0";
 		} else if (datosForm.service === "1") {

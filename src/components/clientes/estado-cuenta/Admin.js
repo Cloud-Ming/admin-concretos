@@ -104,7 +104,7 @@ class EstadoCuenta extends Component {
 	render() {
 		const { error, loading, idCliente, cliente, data } = this.state;
 
-		if (error)
+		if (!!error)
 			return (
 				<Fragment>
 					<ErroRes />

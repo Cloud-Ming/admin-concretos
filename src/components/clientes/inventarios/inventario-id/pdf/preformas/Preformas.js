@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import uniqid from "uniqid";
+import CardWidthCloseButton from "../../../../../cardsApp/CardWidthCloseButton";
 import {
 	Card,
 	CardContent,
@@ -37,8 +38,9 @@ function Preformas(props) {
 	const { data, inventario, idInventario } = props;
 
 	const [dataPreformas, setDataPreformas] = useState(data ? data : []);
+
 	const [inputs, setInputs] = useState([
-		{ id_unico: null, titulo: "", descripcion: "", url: "" },
+		{ id_unico: null, titulo: "", descripcion: "", url: "", code:"",},
 	]);
 
 	// Alertas
@@ -82,6 +84,7 @@ function Preformas(props) {
 	};
 
 	const eliminarPreforma = (id) => {
+
 		const conf = window.confirm("Esta seguro de eliminar esta preforma?");
 		
 		if (conf === false) {
@@ -135,7 +138,7 @@ function Preformas(props) {
 		formData.append("id_inventario", idInventario);
 		formData.append("inventario", inventario);
 		formData.append("fecha_creacion", fecha);
-		formData.append("titulo", titulo);
+		formData.append("titulo", id_unico);
 		formData.append("descripcion", descripcion);
 
 		fetch(
@@ -163,7 +166,7 @@ function Preformas(props) {
 					url: "",
 				});
 
-				setError("Preforma creada con éxito");
+				setError("Proforma creada con éxito");
 				handleClick();
 
 				// Agregar
@@ -174,7 +177,7 @@ function Preformas(props) {
 						fecha: fecha,
 						titulo: titulo,
 						descripcion: descripcion,
-						url: `https://botanicainternacionalamazonas.com/backend/archivos/preformas/${titulo}.pdf`,
+						url: `https://botanicainternacionalamazonas.com/backend/archivos/preformas/${id_unico}.pdf`,
 					},
 				]);
 			})
@@ -217,7 +220,17 @@ function Preformas(props) {
 											marginLeft: 20,
 										}}
 									>
-										<DescriptionIcon
+										<CardWidthCloseButton 
+										idUnico={preforma.id_unico}
+										fecha={preforma.fecha}
+										titulo={preforma.titulo}
+										descripcion={preforma.descripcion}
+										url={preforma.url}
+										codigo="100000"
+										funcion={eliminarPreforma}
+										button="Eliminar"
+										/>
+										{/*<DescriptionIcon
 											style={{ fontSize: "50px" }}
 										/>
 
@@ -246,7 +259,7 @@ function Preformas(props) {
 											>
 												Eliminar
 											</button>
-										</div>
+										</div>*/}
 									</div>
 							  ))}
 					</div>
@@ -287,7 +300,7 @@ function Preformas(props) {
 								color="primary"
 								startIcon={<DescriptionIcon />}
 							>
-								Generar preforma
+								Generar proforma
 							</Button>
 						</div>
 					</form>

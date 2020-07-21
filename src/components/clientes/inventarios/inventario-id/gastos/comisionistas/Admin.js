@@ -82,7 +82,7 @@ class AdminCotizaciones extends Component {
 
 		Promise.all([
 			fetch(
-				"http://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php",
+				"https://botanicainternacionalamazonas.com/backend/vista/comisionistas/cargarComisionistas.php",
 			),
 			fetch(
 				`https://botanicainternacionalamazonas.com/backend/vista/comisionistas/comisionistaId.php?id=${id}`,
