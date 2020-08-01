@@ -8,41 +8,34 @@ import { UserProvider } from "./context/Context";
 import { GuardProvider, GuardedRoute } from "react-router-guards";
 import getIsLoggedIn from "./components/utils/getIsLoggedIn";
 
-
 import Nav from "./components/nav/Nav";
 import Login from "./components/login/Login";
 
 // Clientes
 import AdminClientes from "./components/clientes/Admin";
 import RegistroClientes from "./components/clientes/Registro";
-// Clientes
 
 // Proyectos
 import CrearProyecto from "./components/clientes/proyectos/CrearProyecto";
 import AdminProyectosId from "./components/clientes/proyectos/AdminProyectosId";
 import Proyectos from "./components/clientes/proyectos/Proyectos";
-// Proyectos
 
 // Inventarios
 import CrearInventario from "./components/clientes/inventarios/CrearInventario";
 import AdminInventariosId from "./components/clientes/inventarios/AdminInventariosId";
 import AdminInventarioId from "./components/clientes/inventarios/inventario-id/AdminInventarioId";
-// Inventarios
 
 // Comisionistas
 import AdminComisionistas from "./components/comisionistas/Admin";
 import AdminComisionistaId from "./components/comisionistas/comisionista-id/AdminComisionista";
 import CrearComisionista from "./components/comisionistas/Registro";
-// Comisionistas
 
 // Proveedores
 import AdminProveedores from "./components/proveedores/Admin";
 import CrearProveedores from "./components/proveedores/CrearProveedores";
-// Proveedores
 
 // Estado de cuenta
 import EstadoCuenta from "./components/clientes/estado-cuenta/Admin";
-// Estado de cuenta
 
 import Papelera from "./components/papelera/Papelera";
 import NotFound from "./components/notFound/NotFound";
@@ -63,7 +56,6 @@ const requireLogin = (to, from, next) => {
 };
 
 function App() {
-
 	return (
 		<Fragment>
 			<Router>

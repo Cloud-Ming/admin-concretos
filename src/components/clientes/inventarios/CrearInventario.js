@@ -1,5 +1,6 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
+import uniqid from "uniqid";
 
 import { useParams } from "react-router-dom";
 import {
@@ -36,7 +37,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function CrearInventario() {
-	
 	const { id, proyecto, cliente } = useParams();
 
 	const [datos, setDatos] = useState({
@@ -65,12 +65,17 @@ function CrearInventario() {
 		natural: false,
 	});
 
+	const [open, setOpen] = useState(false);
+	const [errorLogin, setErrorLogin] = useState("A ocurrido un error");
+
 	// CREACION SERVICIOS
 	const checkIva = (event) => {
 		setState({ ...state, [event.target.name]: event.target.checked });
 	};
 
 	const handleChangeServices = (event) => {
+		console.log(event);
+
 		setDatosForm({
 			...datosForm,
 			[event.target.name]: event.target.value,
@@ -78,67 +83,60 @@ function CrearInventario() {
 	};
 
 	const addService = () => {
-	
-		let iva = "0%",
-			retencion = "0%",
-			service = "Concreto",
+		let iva = "0",
+			retencion = "0",
+			service = "Concreto PSI 351",
 			id_service = "0";
+
+		let idGenerated = uniqid();
 
 		const typeService = datosForm.typeService,
 			iFnatural = state.natural;
 
 		if (typeService === "0") {
 			if (iFnatural) {
-				console.log("retención 0% e iva 19%");
-				iva = "0.19%";
-				retencion = "0%";
+				iva = "0.19";
+				retencion = "0";
 			} else {
-				console.log("retención 2.5% e iva 19%");
-				iva = "0.19%";
-				retencion = "0.0.25%";
+				iva = "0.19";
+				retencion = "0.25";
 			}
 
 			id_service = "2";
 		} else if (typeService === "1") {
 			if (iFnatural) {
-				console.log("retencion 0% iva 19%");
-				iva = "0.19%";
-				retencion = "0%";
+				iva = "0.19";
+				retencion = "0";
 			} else {
-				console.log("retencion 4% iva 19%");
-				iva = "0.19%";
-				retencion = "0.0.4%";
+				iva = "0.19";
+				retencion = "0.4";
 			}
 		} else if (typeService === "2") {
 			if (iFnatural) {
-				console.log("retencion 0% iva 0.19%");
-				iva = "0.19%";
-				retencion = "0%";
+				iva = "0.19";
+				retencion = "0";
 			} else {
-				console.log("retencion 1% iva 0%");
-				iva = "0%";
-				retencion = "0.1%";
+				iva = "0";
+				retencion = "0.1";
 			}
 		}
 
+		// Añade más servicios al select
 		if (datosForm.service === "0") {
-			console.log("Concreto PSI 351");
 			service = "Concreto PSI 351";
 			id_service = "0";
 		} else if (datosForm.service === "1") {
-			console.log("Bomba estacionaria");
 			service = "Bomba estacionaria";
-			id_service = "";
+			id_service = "0";
 		} else if (datosForm.service === "2") {
-			console.log("Autobomba");
 			service = "Autobomba";
-			id_service = "";
+			id_service = "1";
 		}
 
 		setServicesState((newList) => [
 			...newList,
 			{
-				id: datosForm.id++,
+				id: idGenerated,
 				typeService: datosForm.typeService,
 				service: service,
 				price: datosForm.price,
@@ -151,14 +149,15 @@ function CrearInventario() {
 	};
 
 	const removeService = (id) => {
-		console.log(id);
+		let conf = window.confirm("Desea remover este servicio de la lista");
+
+		if (conf === false) {
+			return;
+		}
+
 		const newList = servicesState.filter((item) => item.id !== id);
 		setServicesState(newList);
 	};
-	// CREACION SERVICIOS
-
-	const [open, setOpen] = useState(false);
-	const [errorLogin, setErrorLogin] = useState("A ocurrido un error");
 
 	const handleChange = (event) => {
 		console.log(event);
@@ -219,11 +218,11 @@ function CrearInventario() {
 					client: "",
 					typeService: "0",
 					service: "Concreto psi",
-					price: 0,
-					count: 0,
-					iva: 0,
-					retencion: 0,
-					id_service: 0,
+					price: "0",
+					count: "0",
+					iva: "0",
+					retencion: "0",
+					id_service: "0",
 					natural: false,
 				});
 
@@ -306,7 +305,10 @@ function CrearInventario() {
 								<b>Retencion: </b>
 								{el.retencion}{" "}
 							</p>
-							<button onClick={() => removeService(el.id)}>
+							<button
+								type="button"
+								onClick={() => removeService(el.id)}
+							>
 								Eliminar
 							</button>
 						</div>
@@ -373,8 +375,8 @@ function CrearInventario() {
 						variant="outlined"
 						type="number"
 						name="price"
-						onChange={handleChangeServices}
 						value={datosForm.price}
+						onChange={handleChangeServices}
 					/>
 					<br />
 					<TextField
@@ -383,8 +385,8 @@ function CrearInventario() {
 						variant="outlined"
 						type="number"
 						name="count"
-						onChange={handleChangeServices}
 						value={datosForm.count}
+						onChange={handleChangeServices}
 					/>
 					<br />
 					<div>
@@ -419,8 +421,8 @@ function CrearInventario() {
 						variant="outlined"
 						name="descripcion"
 						type="text"
-						onChange={handleChange}
 						value={datos.descripcion}
+						onChange={handleChange}
 					/>
 
 					<br />

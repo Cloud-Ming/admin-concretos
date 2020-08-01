@@ -19,31 +19,23 @@ class AdminInventarios extends Component {
 			data: null,
 			error: null,
 			nombreCliente: null,
-			idCliente: null,
 			nombreProyecto: "",
+			idInventario: null,
 		};
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
+		const cliente = match.params.cliente;
+		const data = match.params.data;
 		const id = match.params.id;
 
-		const data = match.params.data;
-
-		const cliente = match.params.cliente;
-
 		this.setState({
-			nombreProyecto: atob(data),
 			nombreCliente: atob(cliente),
-			idCliente: id,
+			nombreProyecto: atob(data),
+			idInventario: id,
 		});
-
-		// DATA SIMULADA
-		/*this.setState({
-		loading: false,
-		data: []
-		});*/
-
+		
 		// Inhability
 
 		this.abortController = new AbortController();
@@ -75,7 +67,7 @@ class AdminInventarios extends Component {
 			error,
 			loading,
 			data,
-			idCliente,
+			idInventario,
 			nombreCliente,
 			nombreProyecto,
 		} = this.state;
@@ -102,7 +94,7 @@ class AdminInventarios extends Component {
 						mensaje="No hay inventarios registrados"
 						icon={<Assignment />}
 						btn="Registrar inventario"
-						link={`/crear-inventario/${idCliente}/${btoa(
+						link={`/crear-inventario/${idInventario}/${btoa(
 							nombreProyecto
 						)}/${btoa(nombreCliente)}`}
 					/>
@@ -112,7 +104,7 @@ class AdminInventarios extends Component {
 		return (
 			<Fragment>
 				<VerInventariosId
-					id_cliente={idCliente}
+					idInventario={idInventario}
 					nombre_cliente={nombreCliente}
 					nombre_proyecto={nombreProyecto}
 					data={data}

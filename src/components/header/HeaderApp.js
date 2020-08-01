@@ -6,10 +6,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // import Paper from "@material-ui/core/Paper";
 import Grid from "@material-ui/core/Grid";
+// import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-
+import CircularProgress from '@material-ui/core/CircularProgress';
 // import Button from "@material-ui/core/Button";
 
 // import Group from "@material-ui/icons/Group";
@@ -35,6 +36,16 @@ function HeaderApp() {
 		<Fragment>
 			<div style={{ padding: "10px" }} className={classes.root}>
 				<Card>
+					{/*<CardHeader
+						title={
+							location.pathname.split("/")[1]
+								? location.pathname.split("/")[1]
+								: location.pathname
+						}
+						subheader={`${location.pathname.split("/")[4] ? atob(location.pathname.split("/")[4]) : ""}
+						> 
+						${location.pathname.split("/")[3] ? atob(location.pathname.split("/")[3]) : "" }`}
+					/>*/}
 					<CardContent>
 						<Grid container spacing={3}>
 							<Grid item xs={12} sm={6}>
@@ -53,16 +64,18 @@ function HeaderApp() {
 										: ""}
 								</p>
 							</Grid>
+							
 							<Grid item xs={12} sm={6}>
+							
 								<Chart
 									width={"300px"}
 									height={"200px"}
 									chartType="Bar"
 									style={{ float: "right" }}
-									loader={<div>Cargando</div>}
+									loader={<CircularProgress color="secondary" />}
 									data={[
 										[
-											"Year",
+											"Año",
 											"Ventas",
 											"Gastos",
 											"Ganacias",

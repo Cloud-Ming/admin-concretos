@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from "react";
 import uniqid from "uniqid";
-import CardWidthCloseButton from "../../../../../cardsApp/CardWidthCloseButton";
+
 import {
 	Card,
 	CardContent,
@@ -10,6 +10,8 @@ import {
 	Button,
 	makeStyles,
 } from "@material-ui/core";
+
+import CardWidthCloseButton from "../../../../../cardsApp/CardWidthCloseButton";
 
 // Icons
 import IconButton from "@material-ui/core/IconButton";
@@ -32,6 +34,10 @@ const useStyles = makeStyles({
 		margin: 0,
 		padding: 10,
 	},
+	containerProformas: {
+		display: "flex",
+		flexWrap: "wrap",
+	},
 });
 
 function Preformas(props) {
@@ -39,9 +45,13 @@ function Preformas(props) {
 
 	const [dataPreformas, setDataPreformas] = useState(data ? data : []);
 
-	const [inputs, setInputs] = useState([
-		{ id_unico: null, titulo: "", descripcion: "", url: "", code:"",},
-	]);
+	const [inputs, setInputs] = useState({
+		id_unico: null,
+		titulo: "",
+		descripcion: "",
+		url: "",
+		code: "",
+	});
 
 	// Alertas
 	const [open, setOpen] = useState(false);
@@ -84,9 +94,8 @@ function Preformas(props) {
 	};
 
 	const eliminarPreforma = (id) => {
-
 		const conf = window.confirm("Esta seguro de eliminar esta preforma?");
-		
+
 		if (conf === false) {
 			return;
 		}
@@ -130,6 +139,18 @@ function Preformas(props) {
 
 	// Controler send
 	const sendData = (id_unico, fecha, titulo, descripcion) => {
+		if (titulo.length === 0) {
+			setError("Agrega un titulo");
+			handleClick();
+			return;
+		}
+
+		if (descripcion.length === 0) {
+			setError("Agrega una descripción");
+			handleClick();
+			return;
+		}
+
 		// controller
 		const abortController = new AbortController();
 
@@ -137,8 +158,8 @@ function Preformas(props) {
 		formData.append("id_unico", id_unico);
 		formData.append("id_inventario", idInventario);
 		formData.append("inventario", inventario);
-		formData.append("fecha_creacion", fecha);
-		formData.append("titulo", id_unico);
+		formData.append("fecha", fecha);
+		formData.append("titulo", titulo);
 		formData.append("descripcion", descripcion);
 
 		fetch(
@@ -178,6 +199,7 @@ function Preformas(props) {
 						titulo: titulo,
 						descripcion: descripcion,
 						url: `https://botanicainternacionalamazonas.com/backend/archivos/preformas/${id_unico}.pdf`,
+						consecutivo: res,
 					},
 				]);
 			})
@@ -204,64 +226,33 @@ function Preformas(props) {
 						color="textSecondary"
 						gutterBottom
 					>
-						Proformas
+						Proformas creadas
 					</Typography>
 
-					<div style={{ display: "flex", flexWrap: "wrap" }}>
-						{dataPreformas === null || dataPreformas.length === 0
-							? "No hay preformas."
-							: dataPreformas.map((preforma, index) => (
-									<div
-										key={index}
-										style={{
-											border: "1px solid #ddd",
-											padding: 10,
-											marginBottom: 10,
-											marginLeft: 20,
-										}}
-									>
-										<CardWidthCloseButton 
-										idUnico={preforma.id_unico}
-										fecha={preforma.fecha}
-										titulo={preforma.titulo}
-										descripcion={preforma.descripcion}
-										url={preforma.url}
-										codigo="100000"
-										funcion={eliminarPreforma}
-										button="Eliminar"
-										/>
-										{/*<DescriptionIcon
-											style={{ fontSize: "50px" }}
-										/>
-
-										<br />
-										<small>Fecha: {preforma.fecha}</small>
-										<br />
-										<small>{preforma.titulo}</small>
-										<br />
-										<small>{preforma.descripcion}</small>
-										<br />
-										<div style={{ display: "flex" }}>
-											<a
-												href={preforma.url}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												Ver
-											</a>
-											&nbsp;&nbsp;
-											<button
-												onClick={() =>
-													eliminarPreforma(
-														preforma.id_unico
-													)
-												}
-											>
-												Eliminar
-											</button>
-										</div>*/}
-									</div>
-							  ))}
+					<div className={classes.containerProformas}>
+						{dataPreformas === null ||
+						dataPreformas.length === 0 ? (
+							<Fragment>
+								<p>No hay preformas(0).</p>
+							</Fragment>
+						) : (
+							dataPreformas.map((preforma, index) => (
+								<CardWidthCloseButton
+									key={index}
+									idUnico={preforma.id_unico}
+									fecha={preforma.fecha}
+									consecutivo={preforma.consecutivo}
+									titulo={preforma.titulo}
+									descripcion={preforma.descripcion}
+									url={preforma.url}
+									codigo="100000"
+									funcion={eliminarPreforma}
+									button="Eliminar"
+									link="Info"
+									icon={<DescriptionIcon />}
+								/>
+							))
+						)}
 					</div>
 					<br />
 					<Typography
@@ -326,8 +317,7 @@ function Preformas(props) {
 								UNDO
 							</Button>
 							*/}
-						<IconButton
-							size="small"
+						<IconButton							size="small"
 							aria-label="close"
 							color="inherit"
 							onClick={handleClose}

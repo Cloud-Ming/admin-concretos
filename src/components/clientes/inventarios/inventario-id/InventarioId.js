@@ -1,30 +1,28 @@
 import React, { Fragment } from "react";
-import {
-	Card,
-	CardContent,
-	Typography,
-	Divider,
-	makeStyles,
-} from "@material-ui/core";
+import { Card, CardContent, Typography, makeStyles } from "@material-ui/core";
+import CardHeader from "@material-ui/core/CardHeader";
 
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 
+import Avatar from "@material-ui/core/Avatar";
+import Assignment from "@material-ui/icons/Assignment";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 // import Titulo from "../../../titulo/Titulo";
 
 // Formulario de añadir gastos
-// import GastosForm from "./gastos/gastos/GastosForm";
+import GastosForm from "./gastos/gastos/GastosForm";
 
 // Formulario añadir comisionistas
-// import FormComisionistas from "./gastos/comisionistas/Admin";
+import FormComisionistas from "./gastos/comisionistas/Admin";
 
-// import AdminCotizaciones from "./pdf/cotizaciones/Admin";
+import AdminCotizaciones from "./pdf/cotizaciones/Admin";
 
 import Preformas from "./pdf/preformas/Admin";
-// import Facturas from "./pdf/facturas/Admin";
+
+import Facturas from "./pdf/facturas/Admin";
 
 // Styles
 const useStyles = makeStyles({
@@ -39,13 +37,17 @@ const useStyles = makeStyles({
 		fontSize: 22,
 	},
 	list: {
-		margin: 0,
+		marginRight: 15,
 		padding: 10,
+	},
+	containerFlexInventario: {
+		display: "flex",
+		flexDirection: "row",
 	},
 });
 
 function InventarioId(props) {
-	const { data } = props;
+	const { idInventario, data } = props;
 
 	// Inhability
 	// id_cliente
@@ -56,19 +58,19 @@ function InventarioId(props) {
 		setExpanded(isExpanded ? panel : false);
 	};
 
-	const operacionTotal = (data, key) => {
-		let json = JSON.parse(data);
-		let result = [];
-		// console.log(json);
-		for (var i = 0; i < json.length; i++) {
-			result.push(parseInt(json[i].price * json[i].count));
-			// console.log(key, json[i]);
-		}
+	// const operacionTotal = (data, key) => {
+	// 	let json = JSON.parse(data);
+	// 	let result = [];
+	// 	// console.log(json);
+	// 	for (var i = 0; i < json.length; i++) {
+	// 		result.push(parseInt(json[i].price * json[i].count));
+	// 		// console.log(key, json[i]);
+	// 	}
 
-		const reducer = (accumulator, currentValue) =>
-			accumulator + currentValue;
-		return result.reduce(reducer);
-	};
+	// 	const reducer = (accumulator, currentValue) =>
+	// 		accumulator + currentValue;
+	// 	return result.reduce(reducer);
+	// };
 
 	// Styles
 	const classes = useStyles();
@@ -84,24 +86,12 @@ function InventarioId(props) {
 			>
 				{data.map((item, key) => (
 					<Card key={key} className={classes.root}>
+						<CardHeader
+							title={item.descripcion}
+							subheader={item.fecha}
+						/>
+
 						<CardContent>
-							<Typography
-								className={classes.title}
-								color="textSecondary"
-								gutterBottom
-							>
-								Inventario
-							</Typography>
-							{/*<Typography variant="h6" component="p">
-									Descripción:
-								</Typography>*/}
-							<p style={{ marginTop: "0" }}>{item.descripcion}</p>
-							<Typography variant="body2" component="p">
-								<b>Fecha</b> {item.fecha}
-							</Typography>
-							<br />
-							<Divider />
-							<br />
 							<ExpansionPanel
 								expanded={expanded === "panel1"}
 								onChange={handleChange("panel1")}
@@ -112,49 +102,60 @@ function InventarioId(props) {
 									id="panel1bh-header"
 								>
 									<Typography className={classes.heading}>
-										Lista servicios
+										Inventario:
 									</Typography>
 								</ExpansionPanelSummary>
 								<ExpansionPanelDetails>
-									{JSON.parse(item.inventario).map(
-										(data, i) => (
-											<div
-												key={i}
-												className={classes.list}
-											>
-												<div>
-													<b>Servicio:</b>{" "}
-													{data.service}
-												</div>
-												<div>
-													<b>Precio:</b> {data.price}
-												</div>
-												<div>
-													<b>Cantidad:</b>{" "}
-													{data.count}
-												</div>
-											</div>
-										)
-									)}
+									<div
+										className={
+											classes.containerFlexInventario
+										}
+									>
+										{JSON.parse(item.inventario).map(
+											(data, i) => (
+												<Card
+													key={i}
+													className={classes.list}
+												>
+													<CardHeader
+														key={i}
+														avatar={
+															<Avatar
+																aria-label="recipe"
+																className={
+																	classes.avatar
+																}
+															>
+																<Assignment />
+															</Avatar>
+														}
+														title={data.service}
+														subheader={`Cantidad: ${data.count}, Precio unitario: $${data.price}`}
+													/>
+													{/*
+													<CardContent></CardContent>
+												*/}
+												</Card>
+											)
+										)}
+									</div>
 								</ExpansionPanelDetails>
 							</ExpansionPanel>
-							<br />
-							<Divider />
-							<br />
-							Total: ${operacionTotal(item.inventario, key)}
+
+							{/*Total: ${operacionTotal(item.inventario, key)}*/}
 						</CardContent>
 					</Card>
 				))}
 
-				{/*<GastosForm id_cliente={id_cliente} gastos={data} />*/}
+				<GastosForm id_cliente={idInventario} gastos={data} />
 
-				{/*<FormComisionistas />*/}
+				<FormComisionistas />
 
-				{/*<AdminCotizaciones data={data} />*/}
+				<AdminCotizaciones data={data} />
 
 				<Preformas data={data} />
 
-				{/*<Facturas />*/}
+				<Facturas />
 			</div>
 		</Fragment>
 	);

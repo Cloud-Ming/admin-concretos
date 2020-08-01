@@ -13,45 +13,23 @@ class AdminInventarios extends Component {
 			loading: true,
 			data: null,
 			error: null,
-			id_cliente: null,
-			nombre_cliente: null,
-			nombre_proyecto: "",
+			idInventario: null,
+			nombreCliente: null,
+			nombreProyecto: null,
 		};
-		// nombre_proyecto: "",
 	}
 
 	async componentDidMount() {
 		const { match } = this.props;
-		const id = match.params.id;
 		const data = match.params.data;
-
-		const nombre_cliente = match.params.cliente;
+		const nombreCliente = match.params.cliente;
+		const id = match.params.id;
 
 		this.setState({
-			nombre_proyecto: atob(data),
-			id_cliente: id,
-			nombre_cliente: nombre_cliente,
+			nombreProyecto: atob(data),
+			nombreCliente: nombreCliente,
+			idInventario: id,
 		});
-
-		// Data simulada
-		// this.setState({
-		// 	loading: false,
-		// 	// data:null,
-		// 	data: [
-		// 		{
-		// 			id: "17",
-		// 			id_proyecto: "15",
-		// 			fecha: "13/7/2020 12:08",
-		// 			inventario:
-		// 				'[{"id":1,"typeService":"1","service":"Bomba estacionaria","price":"987656","count":"1","iva":"19%","retencion":"0%","id_service":""}]',
-		// 			gastos: "[]",
-		// 			descripcion: "ihbujklmlk",
-		// 			exito: "",
-		// 		},
-		// 	],
-		// });
-
-		// console.log(id);
 
 		this.abortController = new AbortController();
 
@@ -81,9 +59,9 @@ class AdminInventarios extends Component {
 		const {
 			error,
 			loading,
-			nombre_proyecto,
-			id_cliente,
-			nombre_cliente,
+			nombreProyecto,
+			idInventario,
+			nombreCliente,
 			data,
 		} = this.state;
 
@@ -106,7 +84,7 @@ class AdminInventarios extends Component {
 			return (
 				<Fragment>
 					<h1> No existe inventario </h1>
-					<Link to={`/crear-inventario/${this.state.id_cliente}`}>
+					<Link to={`/crear-inventario/${this.state.idInventario}`}>
 						Crear inventario
 					</Link>
 				</Fragment>
@@ -115,9 +93,9 @@ class AdminInventarios extends Component {
 		return (
 			<Fragment>
 				<InventarioId
-					id_cliente={id_cliente}
-					nombre_cliente={nombre_cliente}
-					nombre_proyecto={nombre_proyecto}
+					nombreCliente={nombreCliente}
+					nombreProyecto={nombreProyecto}
+					idInventario={idInventario}
 					data={data}
 				/>
 			</Fragment>

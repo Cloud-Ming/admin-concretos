@@ -16,6 +16,7 @@ import {
 // Icons
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import MoneyOffIcon from '@material-ui/icons/MoneyOff';
 
 // Styles
 const useStyles = makeStyles({
@@ -93,19 +94,19 @@ function GastosForm(props) {
 				}
 
 				if (update === "succes") {
-					handleClick();
 					setError("Gasto agregado con éxito");
-				} else if (update === "delete") {
 					handleClick();
+				} else if (update === "delete") {
 					setError("Gasto eliminado con éxito");
+					handleClick();
 				}
 				return;
 			})
 			.catch((err) => {
 				console.error("Request failed", err);
 				if (update === "succes") {
-					handleClick();
 					setError("A ocurrido un error");
+					handleClick();
 				}
 			});
 
@@ -116,7 +117,7 @@ function GastosForm(props) {
 	}, [update, data, id_cliente]);
 
 	// Generador de ID unico
-	const uniqueId = uniqid();
+	let uniqueId = uniqid();
 
 	const ingresarData = (e) => {
 		e.preventDefault();
@@ -181,10 +182,11 @@ function GastosForm(props) {
 									<div key={i}>
 										<CardApp
 											id={item.id}
-											fecha={`${item.fecha}`}
+											fecha={item.fecha}
 											descripcion={item.descripcion}
 											monto={item.monto}
 											funcion={eliminarData}
+											icon={<MoneyOffIcon />}
 										/>
 										<br />
 									</div>

@@ -10,6 +10,8 @@ import {
 	makeStyles,
 } from "@material-ui/core";
 
+import CardWidthCloseButton from "../../../../../cardsApp/CardWidthCloseButton";
+
 // Icons
 
 import IconButton from "@material-ui/core/IconButton";
@@ -38,9 +40,12 @@ function Cotizaciones(props) {
 	const { data, inventario, id_inventario } = props;
 
 	const [dataPreformas, setDataPreformas] = useState(data ? data : []);
-	const [inputs, setInputs] = useState([
-		{ id_unico: null, titulo: "", descripcion: "", url: "" },
-	]);
+	const [inputs, setInputs] = useState({
+		id_unico: null,
+		titulo: "",
+		descripcion: "",
+		url: "",
+	});
 
 	// Alertas
 	const [open, setOpen] = useState(false);
@@ -129,6 +134,15 @@ function Cotizaciones(props) {
 
 	// Controler send
 	const sendData = (id_unico, fecha, titulo, descripcion) => {
+		if (
+			fecha.length === 0 ||
+			titulo.length === 0 ||
+			descripcion.length === 0
+		) {
+			setError("Completa todos los campos en tu cotización");
+			handleClick();
+			return;
+		}
 		// controller
 		const abortController = new AbortController();
 
@@ -176,7 +190,7 @@ function Cotizaciones(props) {
 						fecha: fecha,
 						titulo: titulo,
 						descripcion: descripcion,
-						url: `https://botanicainternacionalamazonas.com/backend/archivos/preformas/${titulo}.pdf`,
+						url: `https://botanicainternacionalamazonas.com/backend/archivos/cotizaciones/${titulo}.pdf`,
 					},
 				]);
 			})
@@ -210,46 +224,20 @@ function Cotizaciones(props) {
 						{dataPreformas === null || dataPreformas.length === 0
 							? "No hay cotizaciones."
 							: dataPreformas.map((preforma, index) => (
-									<div
+									<CardWidthCloseButton
 										key={index}
-										style={{
-											border: "1px solid #ddd",
-											padding: 10,
-											marginBottom: 10,
-											marginLeft: 20,
-										}}
-									>
-										<DescriptionIcon
-											style={{ fontSize: "50px" }}
-										/>
-
-										<br />
-										<small>Fecha: {preforma.fecha}</small>
-										<br />
-										<small>{preforma.titulo}</small>
-										<br />
-										<small>{preforma.descripcion}</small>
-										<br />
-										<div style={{ display: "flex" }}>
-											<a
-												href={preforma.url}
-												target="_blank"
-												rel="noopener noreferrer"
-											>
-												Ver
-											</a>
-											&nbsp;&nbsp;
-											<button
-												onClick={() =>
-													eliminarCotizacion(
-														preforma.id_unico
-													)
-												}
-											>
-												Eliminar
-											</button>
-										</div>
-									</div>
+										idUnico={preforma.id_unico}
+										fecha={preforma.fecha}
+										consecutivo={preforma.consecutivo}
+										titulo={preforma.titulo}
+										descripcion={preforma.descripcion}
+										url={preforma.url}
+										codigo="100000"
+										funcion={eliminarCotizacion}
+										button="Eliminar"
+										link="Info"
+										icon={<DescriptionIcon />}
+									/>
 							  ))}
 					</div>
 					<br />

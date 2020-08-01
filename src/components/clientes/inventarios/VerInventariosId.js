@@ -6,12 +6,17 @@ import {
 	Card,
 	CardContent,
 	CardActions,
-	Divider,
 	Snackbar,
 	Typography,
 	Button,
 	makeStyles,
 } from "@material-ui/core";
+import CardHeader from "@material-ui/core/CardHeader";
+import Avatar from "@material-ui/core/Avatar";
+
+import ExpansionPanel from "@material-ui/core/ExpansionPanel";
+import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 
 // import BusinessCenterIcon from "@material-ui/icons/BusinessCenter";
 
@@ -20,6 +25,8 @@ import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import DeleteIcon from "@material-ui/icons/Delete";
 import Assignment from "@material-ui/icons/Assignment";
+
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 // import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 
 // Styles
@@ -30,7 +37,6 @@ const useStyles = makeStyles({
 	root: {
 		minWidth: 275,
 		marginBottom: 20,
-		backgroundColor: "#f4f4f4",
 	},
 	title: {
 		fontSize: 22,
@@ -43,11 +49,18 @@ const useStyles = makeStyles({
 
 function VerInventariosId(props) {
 	// Props data
-	const { nombre_cliente, nombre_proyecto } = props;
+	const { idInventario, nombre_cliente, nombre_proyecto } = props;
+	
 	const [inventarios, setInventarios] = useState(props.data);
 
 	const [open, setOpen] = useState(false);
 	const [error, setError] = useState("A ocurrido un error");
+
+	const [expanded, setExpanded] = useState(false);
+
+	const handleChange = (panel) => (event, isExpanded) => {
+		setExpanded(isExpanded ? panel : false);
+	};
 
 	// Alertas
 	const handleClick = () => {
@@ -64,8 +77,8 @@ function VerInventariosId(props) {
 
 	const eliminarInventario = (id) => {
 		let conf = window.confirm("Esta seguro de eliminarlo?");
-		
-		if(conf === false){	
+
+		if (conf === false) {
 			console.log(id, "Ya no se elimina");
 			return;
 		}
@@ -92,10 +105,10 @@ function VerInventariosId(props) {
 					setError("Error al crear comision");
 					return;
 				}
-				
+
 				const newList = inventarios.filter((item) => item.id !== id);
 				setInventarios(newList);
-				
+
 				handleClick();
 				setError("Inventario eliminado con éxito");
 			})
@@ -150,44 +163,54 @@ function VerInventariosId(props) {
 					marginRight: 10,
 				}}
 			>
-				
-
 				{inventarios.map((inventario, key) => (
 					<div key={key}>
 						<Card className={classes.root}>
+							<CardHeader
+								title={inventario.descripcion}
+								subheader={inventario.fecha}
+							/>
 							<CardContent>
-								<Typography variant="h6" component="p">
-									Descripción:
-								</Typography>
-								<p style={{ marginTop: "0" }}>
-									{inventario.descripcion}
-								</p>
-								<Typography variant="body2" component="p">
-									<b>Fecha</b> {inventario.fecha}
-								</Typography>
-								<br />
-								<Divider />
-								<br />
-								<b>Lista servicios: </b>
-								{JSON.parse(inventario.inventario).map(
-									(data, i) => (
-										<div key={i} className={classes.list}>
-											<div>
-												<b>{i + 1}.</b> {data.service}
-											</div>
-											{/*<li>
-										<b>Precio:</b> {data.price}
-									</li>
-									<li>
-										<b>Cantidad:</b> {data.count}
-									</li>}*/}
-										</div>
-									)
-								)}
+								<ExpansionPanel
+									expanded={expanded === "panel1"}
+									onChange={handleChange("panel1")}
+								>
+									<ExpansionPanelSummary
+										expandIcon={<ExpandMoreIcon />}
+										aria-controls="panel1bh-content"
+										id="panel1bh-header"
+									>
+										<Typography className={classes.heading}>
+											Inventario
+										</Typography>
+									</ExpansionPanelSummary>
+									<ExpansionPanelDetails>
+										{JSON.parse(inventario.inventario).map(
+											(data, i) => (
+												<div
+													key={i}
+													className={classes.list}
+												>
+													<CardHeader
+														avatar={
+															<Avatar>
+																<Assignment />
+															</Avatar>
+														}
+														title={data.service}
+														subheader={`Cantidad: ${data.count}, Precio unitario: $${data.price}`}
+													/>
+													{/*<b>{i + 1}.</b>{" "}*/}
+												</div>
+											)
+										)}
+									</ExpansionPanelDetails>
+								</ExpansionPanel>
 
 								{/*	<h3>
 									Total: ${suma(inventario.inventario, key)}
 								</h3>*/}
+								<br />
 								<CardActions>
 									<Button
 										component={Link}
@@ -195,7 +218,7 @@ function VerInventariosId(props) {
 											inventario.id
 										}/${btoa(nombre_proyecto)}/${btoa(
 											nombre_cliente
-										)}`}
+										)}/${idInventario}`}
 										size="small"
 										startIcon={<Assignment />}
 									>
@@ -212,13 +235,11 @@ function VerInventariosId(props) {
 										Eliminar inventario
 									</Button>
 								</CardActions>
-								{/*<Link to={"/ver-inventario/"}>Ver inventario</Link>*/}
 							</CardContent>
 						</Card>
 					</div>
 				))}
 
-				
 				<Snackbar
 					anchorOrigin={{
 						vertical: "bottom",
@@ -250,7 +271,6 @@ function VerInventariosId(props) {
 						</Fragment>
 					}
 				/>
-				
 			</div>
 		</Fragment>
 	);

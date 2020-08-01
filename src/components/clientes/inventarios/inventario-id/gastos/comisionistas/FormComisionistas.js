@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect } from "react";
 import uniqid from "uniqid";
 import CardApp from "../../../../../cardsApp/CardApp";
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
 
 import {
 	Card,
@@ -142,6 +143,10 @@ function FormComisionistas(props) {
 		// 	},
 		// ]);
 
+		if(id_inventario.length === 0 || inventario.length === 0){
+			return;
+		}
+
 		//Controler
 		const abortController = new AbortController();
 
@@ -276,6 +281,7 @@ function FormComisionistas(props) {
 										descripcion={item.comisionista}
 										monto={item.monto}
 										funcion={eliminarComisionista}
+										icon={<PersonAddIcon />}
 									/>
 									<br />
 								</div>

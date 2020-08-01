@@ -39,17 +39,17 @@ function Facturas(props) {
 
 	const [files, setFiles] = useState(data ? data : []);
 
-	const [file, setFile] = useState([
+	const [file, setFile] = useState(
 		{
-			archivo: null,
-			nombreArchivo: null,
+			archivo: "",
+			nombreArchivo: "",
 		},
-	]);
+	);
 
 	const [datosForm, setDatosForm] = useState({
-		titulo: null,
-		descripcion: null,
-		url: null,
+		titulo: "",
+		descripcion: "",
+		url: "",
 	});
 
 	// Alertas
@@ -224,25 +224,25 @@ function Facturas(props) {
 
 					<form
 						onSubmit={(event) => handleSubmit(event)}
-						enctype="multipart/form-data"
+						encType="multipart/form-data"
 					>
 						<TextField
 							id="outlined-basic"
 							label="Titulo"
 							variant="outlined"
 							name="titulo"
-							onChange={(event) => onChange(event)}
 							value={datosForm.titulo}
+							onChange={(event) => onChange(event)}
 						/>
 						<br />
 						<br />
 						<TextField
-							id="outlined-basic"
+							id="outlined-basic2"
 							label="Descripción"
 							variant="outlined"
 							name="descripcion"
-							onChange={(event) => onChange(event)}
 							value={datosForm.descripcion}
+							onChange={(event) => onChange(event)}
 						/>
 						<br />
 						<br />
@@ -250,10 +250,11 @@ function Facturas(props) {
 						<TextField
 							type="file"
 							name="archivo"
-							id="outlined-basic"
+							id="outlined-basic3"
 							variant="outlined"
 							onChange={(event) => onChangeFile(event)}
-						></TextField>
+							
+						/>
 						<br />
 						<br />
 						<Button
