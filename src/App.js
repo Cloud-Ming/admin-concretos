@@ -129,7 +129,7 @@ function App() {
 							</GuardedRoute>
 
 							<GuardedRoute
-								path="/ver-inventario/:id/:data/:cliente"
+								path="/ver-inventario/:id/:data/:cliente/:id_i"
 								meta={{ auth: true }}
 							>
 								<AdminInventarioId />

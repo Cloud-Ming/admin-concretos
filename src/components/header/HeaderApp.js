@@ -72,7 +72,7 @@ function HeaderApp() {
 									height={"200px"}
 									chartType="Bar"
 									style={{ float: "right" }}
-									loader={<CircularProgress color="secondary" />}
+									loader={<CircularProgress />}
 									data={[
 										[
 											"Año",

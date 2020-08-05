@@ -129,6 +129,17 @@ function Pagos(props) {
 
 	// Controler send
 	const sendData = (id_unico, fecha, monto, descripcion) => {
+		if (monto.length === 0) {
+			setError("Agrega un monto mayor a 0");
+			handleClick();
+			return;
+		}
+
+		if (descripcion.length === 0) {
+			setError("Agrega una descripción");
+			handleClick();
+			return;
+		}
 		// controller
 		const abortController = new AbortController();
 
@@ -258,7 +269,8 @@ function Pagos(props) {
 							name="descripcion"
 							onChange={(event) => onChange(event)}
 						/>
-						<br /><br />
+						<br />
+						<br />
 						<TextField
 							type="number"
 							id="outlined-basic"

@@ -29,6 +29,7 @@ class AdminCotizaciones extends Component {
 			nombreProyecto: atob(proyecto),
 		});
 
+		console.log(id);
 		this.abortController = new AbortController();
 
 		try {

@@ -37,8 +37,8 @@ const useStyles = makeStyles({
 });
 
 function Cotizaciones(props) {
-	const { data, inventario, id_inventario } = props;
-
+	const { data, inventario, id_inventario, id_i } = props;
+	
 	const [dataPreformas, setDataPreformas] = useState(data ? data : []);
 	const [inputs, setInputs] = useState({
 		id_unico: null,
@@ -137,7 +137,8 @@ function Cotizaciones(props) {
 		if (
 			fecha.length === 0 ||
 			titulo.length === 0 ||
-			descripcion.length === 0
+			descripcion.length === 0 ||
+			id_i === undefined
 		) {
 			setError("Completa todos los campos en tu cotización");
 			handleClick();
@@ -149,6 +150,7 @@ function Cotizaciones(props) {
 		var formData = new FormData();
 		formData.append("id_unico", id_unico);
 		formData.append("id_inventario", id_inventario);
+		formData.append("id_cliente", id_i);
 		formData.append("inventario", inventario);
 		formData.append("fecha_creacion", fecha);
 		formData.append("titulo", titulo);
@@ -190,7 +192,7 @@ function Cotizaciones(props) {
 						fecha: fecha,
 						titulo: titulo,
 						descripcion: descripcion,
-						url: `https://botanicainternacionalamazonas.com/backend/archivos/cotizaciones/${titulo}.pdf`,
+						url: `https://botanicainternacionalamazonas.com/backend/archivos/cotizaciones/${id_unico}.pdf`,
 					},
 				]);
 			})

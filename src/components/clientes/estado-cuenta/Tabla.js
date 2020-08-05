@@ -4,7 +4,7 @@ import Pagos from "./pagos/Admin";
 // import { makeStyles } from "@material-ui/core/styles";
 import CardHeader from "@material-ui/core/CardHeader";
 import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
+// import Typography from "@material-ui/core/Typography";
 // import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 
@@ -36,19 +36,19 @@ export default function Tabla(props) {
 	// Styles
 	// const classes  useStyles();
 
-	const operacionTotal = (data, key) => {
-		let json = JSON.parse(data);
-		let result = [];
-		// console.log(json);
-		for (var i = 0; i < json.length; i++) {
-			result.push(parseInt(json[i].price * json[i].count));
-			// console.log(key, json[i]);
-		}
+	// const operacionTotal = (data, key) => {
+	// 	let json = JSON.parse(data);
+	// 	let result = [];
+	// 	// console.log(json);
+	// 	for (var i = 0; i < json.length; i++) {
+	// 		result.push(parseInt(json[i].price * json[i].count));
+	// 		// console.log(key, json[i]);
+	// 	}
 
-		const reducer = (accumulator, currentValue) =>
-			accumulator + currentValue;
-		return result.reduce(reducer);
-	};
+	// 	const reducer = (accumulator, currentValue) =>
+	// 		accumulator + currentValue;
+	// 	return result.reduce(reducer);
+	// };
 
 	return (
 		<Fragment>
@@ -98,6 +98,7 @@ export default function Tabla(props) {
 										<p>
 											<b>Cantidad: </b> {item.count}
 										</p>
+										<p>Valor total: {item.price * item.count}</p>
 									</div>
 								)
 							)}

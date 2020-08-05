@@ -14,6 +14,7 @@ class AdminCotizaciones extends Component {
 			data: null,
 			error: null,
 			id_cliente: null,
+			id_i: null,
 			nombre_proyecto: "",
 		};
 		// nombre_proyecto: "",
@@ -24,10 +25,12 @@ class AdminCotizaciones extends Component {
 
 		const id = match.params.id;
 		const proyecto = match.params.data;
-		
+		const id_i = match.params.id_i;
+
 		this.setState({
 			nombre_proyecto: atob(proyecto),
 			id_cliente: id,
+			id_i: id_i
 		});
 
 		this.abortController = new AbortController();
@@ -60,6 +63,7 @@ class AdminCotizaciones extends Component {
 			loading,
 			data,
 			id_cliente,
+			id_i,
 			nombre_proyecto,
 		} = this.state;
 
@@ -84,7 +88,7 @@ class AdminCotizaciones extends Component {
 					id_inventario={id_cliente}
 					data={data}
 					inventario={this.props.data[0].inventario}
-
+					id_i={id_i}
 				/>
 			</Fragment>
 		);
